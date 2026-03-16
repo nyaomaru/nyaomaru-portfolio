@@ -1,0 +1,38 @@
+import { GAME } from '@/shared/constants';
+
+// Re-export shared game constants so model hooks can import from a single module.
+export { GAME } from '@/shared/constants';
+
+// Jump input / motion settings.
+export const MAX_JUMP_COUNT = GAME.JUMP.MAX_COUNT;
+export const JUMP_VELOCITY = GAME.JUMP.VELOCITY;
+export const JUMP_UP_INTERVAL = GAME.JUMP.UP_INTERVAL;
+export const JUMP_DOWN_INTERVAL = GAME.JUMP.DOWN_INTERVAL;
+export const JUMP_LOCK_INTERVAL = GAME.JUMP.LOCK_INTERVAL;
+export const CLICK_INTERVAL = GAME.JUMP.CLICK_INTERVAL;
+
+// Obstacle spawning / movement settings.
+export const NORMAL_MODE_OBSTACLE_SPAWN_RATE = GAME.OBSTACLES.NORMAL_SPAWN_RATE;
+export const MOBILE_MODE_OBSTACLE_SPAWN_RATE = GAME.OBSTACLES.MOBILE_NORMAL_SPAWN_RATE;
+export const PC_OBSTACLE_SPAWN_INTERVAL = GAME.OBSTACLES.PC_SPAWN_INTERVAL;
+export const MOBILE_OBSTACLE_SPAWN_INTERVAL = GAME.OBSTACLES.MOBILE_SPAWN_INTERVAL;
+export const PC_OBSTACLE_SPEED = GAME.OBSTACLES.PC_SPEED;
+export const MOBILE_OBSTACLE_SPEED = GAME.OBSTACLES.MOBILE_SPEED;
+export const MOBILE_OBSTACLE_SPEED_MULTIPLIER = 1.7;
+export const OBSTACLES_DEADLINE = GAME.OBSTACLES.DEADLINE;
+
+// Match flow settings.
+export const BOSS_MODE_DURATION = GAME.SETTINGS.BOSS_MODE_DURATION;
+export const CLEAR_DURATION = GAME.SETTINGS.CLEAR_DURATION;
+
+// UI / player sizing.
+export const KEY_SPACE = GAME.KEYBOARD.SPACE;
+export const DEFAULT_MESSAGE = GAME.MESSAGES.DEFAULT;
+export const PLAYER_BASE_HEIGHT_RATIO = 0.14;
+export const PLAYER_MIN_HEIGHT_PX = 28;
+export const PLAYER_MAX_HEIGHT_PX = 64;
+export const PLAYER_EXPORT_BASE_HEIGHT = 344.64;
+
+// Boss attack parameters.
+export const BOSS_ARM = GAME.BOSS.ARM;
+export const ARM_APPEAR_DELAY_MS = GAME.BOSS.ARM.DELAY ?? 3000;
