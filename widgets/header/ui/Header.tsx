@@ -38,7 +38,6 @@ const Header = () => {
   const location = useLocation();
   const showSvg = equals('true')(searchParams.get('showSvg'));
   const [menuOpen, setMenuOpen] = useState(false);
-  const disableLogoUnderline = location.pathname === '/';
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
@@ -76,12 +75,6 @@ const Header = () => {
                     />
                   </>
                 )}
-                <span
-                  className={`absolute left-0 bottom-0 w-0 h-0.5 bg-current transition-all duration-300 block ${
-                    disableLogoUnderline ? '' : 'group-hover:w-full'
-                  }`}
-                  aria-hidden='true'
-                />
               </div>
             </Link>
             <NavigationLinks className='hidden sm:flex' />
