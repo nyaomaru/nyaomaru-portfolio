@@ -12,8 +12,8 @@ export const meta: MetaFunction = () => {
   const title = 'Nyaomaru Portfolio';
   const description =
     'Portfolio of Nyaomaru – A frontend engineer specializing in Vue, React, and TypeScript.';
-  const image = 'https://portfolio-nyaomaru.vercel.app/assets/nyaomaru_ogp.png';
-  const url = 'https://portfolio-nyaomaru.vercel.app';
+  const image = 'https://nyaomaru-portfolio.vercel.app/assets/nyaomaru_ogp.png';
+  const url = 'https://nyaomaru-portfolio.vercel.app';
 
   return [
     { title },
