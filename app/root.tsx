@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
   const title = 'Nyaomaru Portfolio';
   const description =
     'Portfolio of Nyaomaru – A frontend engineer specializing in Vue, React, and TypeScript.';
-  const image = 'https://portfolio-nyaomaru.vercel.app/assets/nyaomaru_logo2.svg';
+  const image = 'https://portfolio-nyaomaru.vercel.app/assets/nyaomaru_ogp.png';
   const url = 'https://portfolio-nyaomaru.vercel.app';
 
   return [
