@@ -1,0 +1,5 @@
+{
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "ignorePatterns": ["dist/**", "coverage/**", ".vscode/**"]
+}

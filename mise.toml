@@ -1,0 +1,43 @@
+[tools]
+node = "24.14.0"
+pnpm = "9"
+
+[tasks.dev]
+description = "Start the Remix dev server"
+run = "pnpm dev"
+
+[tasks.build]
+description = "Create a production build"
+run = "pnpm build"
+
+[tasks.start]
+description = "Start the production server"
+run = "pnpm start"
+
+[tasks.test]
+description = "Run the Vitest suite"
+run = "pnpm test"
+
+[tasks.test-run]
+description = "Run the Vitest suite once"
+run = "pnpm test:run"
+
+[tasks.test-coverage]
+description = "Run Vitest with coverage"
+run = "pnpm test:coverage"
+
+[tasks.lint]
+description = "Lint the project with ESLint"
+run = "pnpm lint"
+
+[tasks.typecheck]
+description = "Run the TypeScript compiler for type checking"
+run = "pnpm typecheck"
+
+[tasks.fmt]
+description = "Format code with oxfmt"
+run = "pnpm fmt"
+
+[tasks.fmt-check]
+description = "Check formatting with oxfmt"
+run = "pnpm fmt:check"
