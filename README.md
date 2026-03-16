@@ -6,7 +6,7 @@
 
 "Run Away From Work"
 
-You can play here: https://portfolio-nyaomaru.vercel.app/game
+You can play here: https://nyaomaru-portfolio.vercel.app/game
 
 A `Remix` + `React` + `TypeScript` portfolio built with Feature-Sliced Design.
 
