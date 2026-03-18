@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'I Built a “Run Away From Work” Browser Game with React and TypeScript',
+    summary:
+      'A browser game where you play as a character trying to escape from work, built using React and TypeScript.',
+    url: 'https://dev.to/nyaomaru/i-built-a-run-away-from-work-browser-game-with-react-and-typescript-44ol',
+  },
+  {
     title: 'Running a SPA inside ChatGPT using MCP Apps (Step-by-Step Guide)”',
     summary:
       'How to run a Single Page Application (SPA) inside ChatGPT using MCP Apps, with a step-by-step guide.',
@@ -29,7 +35,7 @@ export const articles = [
     url: 'https://dev.to/nyaomaru/understanding-variance-in-typescript-flow-covariant-contravariant-invariant-bivariant-4fbi',
   },
   {
-    title: 'Escaping the Forest of if Statements🌲',
+    title: 'Escaping the Forest of if Statements',
     summary: 'Building Logical Type Guards with is-kit',
     url: 'https://dev.to/nyaomaru/escaping-the-forest-of-if-statements-building-logical-type-guards-with-is-kit-2db3',
   },
