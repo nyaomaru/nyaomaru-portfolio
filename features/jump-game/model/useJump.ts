@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { isMobile } from '@/shared/lib/window';
+import { PLAYER_JUMP_SOUND_EFFECT } from './config/assets';
 import {
   BASELINE_JUMP_DELTA,
   BASELINE_JUMP_MAX_HEIGHT,
@@ -41,6 +42,7 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
   const risingRef = useRef(false);
   const onGroundRef = useRef(true);
   const jumpLockRef = useRef(false);
+  const jumpSoundRef = useRef<HTMLAudioElement | null>(null);
   const currentAnimRef = useRef<JumpAnimationHandles>({});
   const posRef = useRef(0);
   const jumpLockTimeoutRef = useRef<number | undefined>(undefined);
@@ -53,6 +55,7 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
 
     updateJumpCount();
     prepareJump();
+    playJumpSoundEffect();
 
     startUpAnimation();
   };
@@ -151,6 +154,19 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
     }
   };
 
+  const playJumpSoundEffect = () => {
+    const jumpSound = jumpSoundRef.current;
+    if (!jumpSound) return;
+
+    jumpSound.currentTime = 0;
+    const playbackAttempt = jumpSound.play();
+    if (!playbackAttempt) return;
+
+    void playbackAttempt.catch(() => {
+      // Ignore autoplay-blocked or interrupted playback. Jump behavior should continue unchanged.
+    });
+  };
+
   /**
    * Resets jump internals so retry/restart always begins from a clean grounded state.
    */
@@ -162,6 +178,20 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
     onGroundRef.current = true;
     jumpLockRef.current = false;
     posRef.current = 0;
+  }, []);
+
+  useEffect(() => {
+    if (typeof Audio === 'undefined') return;
+
+    const jumpSound = new Audio(PLAYER_JUMP_SOUND_EFFECT);
+    jumpSound.preload = 'auto';
+    jumpSoundRef.current = jumpSound;
+
+    return () => {
+      jumpSound.pause();
+      jumpSound.src = '';
+      jumpSoundRef.current = null;
+    };
   }, []);
 
   useEffect(
