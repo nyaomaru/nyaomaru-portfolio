@@ -6,6 +6,7 @@ import {
   BASELINE_JUMP_MAX_HEIGHT,
   FALLBACK_PLAYER_HEIGHT,
   FALL_SPEED_MULTIPLIER,
+  JUMP_APEX_HOLD_MS,
   MOBILE_FALL_SPEED_MULTIPLIER,
 } from './config/jump';
 import { BASELINE_GAME_HEIGHT, FALLBACK_GAME_HEIGHT } from './config/metrics';
@@ -26,6 +27,8 @@ import {
 type JumpAnimationHandles = {
   /** Interval id for ascent animation. */
   up?: number;
+  /** Timeout id for the brief apex hold before descent begins. */
+  apexHold?: number;
   /** Interval id for descent animation. */
   down?: number;
 };
@@ -66,7 +69,9 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
   const cleanupIntervals = () => {
     clearInterval(currentAnimRef.current.up);
     clearInterval(currentAnimRef.current.down);
+    clearTimeout(currentAnimRef.current.apexHold);
     currentAnimRef.current.up = undefined;
+    currentAnimRef.current.apexHold = undefined;
     currentAnimRef.current.down = undefined;
   };
 
@@ -114,7 +119,7 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
         currentAnimRef.current.up = undefined;
         risingRef.current = false;
 
-        startDownAnimation();
+        startApexHold();
       } else {
         posRef.current += JUMP_VELOCITY;
         applyPosition();
@@ -122,6 +127,13 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
     }, JUMP_UP_INTERVAL);
 
     currentAnimRef.current.up = up;
+  };
+
+  const startApexHold = () => {
+    currentAnimRef.current.apexHold = window.setTimeout(() => {
+      currentAnimRef.current.apexHold = undefined;
+      startDownAnimation();
+    }, JUMP_APEX_HOLD_MS);
   };
 
   const startDownAnimation = () => {

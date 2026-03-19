@@ -5,3 +5,4 @@ export const BASELINE_JUMP_MAX_HEIGHT = 160;
 export const FALLBACK_PLAYER_HEIGHT = 48;
 export const FALL_SPEED_MULTIPLIER = 1.45;
 export const MOBILE_FALL_SPEED_MULTIPLIER = 0.75;
+export const JUMP_APEX_HOLD_MS = 150;
