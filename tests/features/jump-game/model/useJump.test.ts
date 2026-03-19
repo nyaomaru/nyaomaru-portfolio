@@ -1,16 +1,27 @@
 import { renderHook, act } from '@testing-library/react';
 import { useJump } from '@/features/jump-game/model/useJump';
 
-vi.mock('./constants', () => ({
-  MAX_JUMP_COUNT: 2,
-  JUMP_VELOCITY: 10,
-  JUMP_UP_INTERVAL: 16,
-  JUMP_DOWN_INTERVAL: 16,
-  JUMP_LOCK_INTERVAL: 100,
-}));
+const audioPlayMock = vi.fn().mockResolvedValue(undefined);
+const audioPauseMock = vi.fn();
+const audioInstances: MockAudio[] = [];
+
+class MockAudio {
+  currentTime = 0;
+  preload = '';
+  src: string;
+
+  constructor(src: string) {
+    this.src = src;
+    audioInstances.push(this);
+  }
+
+  play = audioPlayMock;
+  pause = audioPauseMock;
+}
 
 describe('useJump', () => {
   let playerRef: React.RefObject<HTMLDivElement>;
+  const originalAudio = globalThis.Audio;
 
   beforeEach(() => {
     playerRef = {
@@ -18,9 +29,15 @@ describe('useJump', () => {
         style: { bottom: '0px' },
       } as HTMLDivElement,
     };
+
+    audioInstances.length = 0;
+    audioPlayMock.mockClear();
+    audioPauseMock.mockClear();
+    globalThis.Audio = MockAudio as unknown as typeof Audio;
   });
 
   afterEach(() => {
+    globalThis.Audio = originalAudio;
     vi.restoreAllMocks();
   });
 
@@ -41,6 +58,7 @@ describe('useJump', () => {
 
       expect(result.current.isOnGroundRef.current).toBe(false);
       expect(setIntervalSpy).toHaveBeenCalledTimes(1);
+      expect(audioPlayMock).toHaveBeenCalledTimes(1);
     });
 
     it('prevents jumping when locked', () => {
@@ -55,6 +73,21 @@ describe('useJump', () => {
       });
 
       expect(setIntervalSpy).toHaveBeenCalledTimes(1);
+      expect(audioPlayMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('resets jump sound playback before replaying it', () => {
+      const { result } = renderHook(() => useJump(playerRef));
+
+      expect(audioInstances).toHaveLength(1);
+      audioInstances[0]!.currentTime = 1.25;
+
+      act(() => {
+        result.current.jump();
+      });
+
+      expect(audioInstances[0]!.currentTime).toBe(0);
+      expect(audioPlayMock).toHaveBeenCalledTimes(1);
     });
   });
 });
