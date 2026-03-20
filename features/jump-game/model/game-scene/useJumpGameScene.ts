@@ -47,12 +47,12 @@ export function useJumpGameScene({
 }: JumpGameBindings): JumpGameSceneView {
   const isMobileViewport = isMobile();
   const isHappyClearPhase = oneOfValues('happy');
-  const playerRef = useRef<HTMLDivElement>(null);
-  const playerSpriteRef = useRef<HTMLImageElement>(null);
-  const gameRef = useRef<HTMLDivElement>(null);
-  const bossRef = useRef<HTMLDivElement>(null);
-  const bossSpriteRef = useRef<HTMLImageElement>(null);
-  const bossArmRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<HTMLDivElement | null>(null);
+  const playerSpriteRef = useRef<HTMLImageElement | null>(null);
+  const gameRef = useRef<HTMLDivElement | null>(null);
+  const bossRef = useRef<HTMLDivElement | null>(null);
+  const bossSpriteRef = useRef<HTMLImageElement | null>(null);
+  const bossArmRef = useRef<HTMLDivElement | null>(null);
 
   const [gameOver, setGameOver] = useState(false);
   const [showBoss, setShowBoss] = useState(false);
@@ -85,7 +85,7 @@ export function useJumpGameScene({
     ? MOBILE_OBSTACLE_SPAWN_INTERVAL
     : PC_OBSTACLE_SPAWN_INTERVAL;
 
-  const { jump, isOnGroundRef, resetJumpState } = useJump(playerRef);
+  const { jump, isOnGroundRef, resetJumpState, updateJumpFrame } = useJump(playerRef);
 
   const { obstaclesRef, spawnObstacle, spawnFish, clearObstacles } = useObstacles(gameRef);
 
@@ -131,6 +131,7 @@ export function useJumpGameScene({
     setTitle: (value: string) => setTitle(value),
     setShowBoss,
     setGameOverIcon,
+    updateJumpFrame,
   });
 
   const bossClearSequence = useBossClearSequence({

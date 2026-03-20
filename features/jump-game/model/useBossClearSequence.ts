@@ -67,17 +67,17 @@ type UseBossClearSequenceOptions = {
   /** Number of collected fish used to branch special clear sequence. */
   fishCount: number;
   /** Player element manipulated during clear sequence motion. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Player sprite image element used to play run loop during ending sequence. */
-  playerSpriteRef: RefObject<HTMLImageElement>;
+  playerSpriteRef: RefObject<HTMLImageElement | null>;
   /** Game viewport element used for position calculations. */
-  gameRef: RefObject<HTMLDivElement>;
+  gameRef: RefObject<HTMLDivElement | null>;
   /** Boss base element animated during exit phase. */
-  bossRef: RefObject<HTMLDivElement>;
+  bossRef: RefObject<HTMLDivElement | null>;
   /** Boss sprite image element whose `src` is controlled across clear sequence. */
-  bossSpriteRef: RefObject<HTMLImageElement>;
+  bossSpriteRef: RefObject<HTMLImageElement | null>;
   /** Boss arm element animated during exit phase. */
-  bossArmRef: RefObject<HTMLDivElement>;
+  bossArmRef: RefObject<HTMLDivElement | null>;
 };
 
 /**

@@ -25,7 +25,7 @@ type UpdateObstaclesFrameParams = {
   /** Mutable list of currently active obstacle/fish DOM nodes. */
   obstaclesRef: MutableRefObject<HTMLElement[]>;
   /** Player element ref used for collision checks. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Optional player bounds already measured for the current frame. */
   playerRect: DOMRect | null;
   /** Returns current game viewport width in pixels. */

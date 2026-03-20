@@ -126,7 +126,7 @@ type SpawnObstacleOptions = {
  * @param gameRef - Game viewport element used as parent for spawned obstacle/fish nodes.
  * @returns Spawn and cleanup helpers with the mutable active-entity list.
  */
-export function useObstacles(gameRef: React.RefObject<HTMLDivElement>) {
+export function useObstacles(gameRef: React.RefObject<HTMLDivElement | null>) {
   const obstaclesRef = useRef<HTMLElement[]>([]);
   const lastSpawnedObstacleIndexRef = useRef<ObstacleIconIndex | null>(null);
 

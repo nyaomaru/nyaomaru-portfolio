@@ -54,19 +54,19 @@ type UseGameLoopParams = {
   /** Halts loop updates when true. */
   gameOver: boolean;
   /** Boss base element reference. */
-  bossRef: RefObject<HTMLDivElement>;
+  bossRef: RefObject<HTMLDivElement | null>;
   /** Boss sprite image reference rendered inside the boss base container. */
-  bossSpriteRef: RefObject<HTMLImageElement>;
+  bossSpriteRef: RefObject<HTMLImageElement | null>;
   /** Player element reference used for collision checks. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Mutable list of active obstacle/fish nodes. */
   obstaclesRef: MutableRefObject<HTMLElement[]>;
   /** Match start timestamp used for elapsed-time flow transitions. */
   startTimeRef: MutableRefObject<number | null>;
   /** Game viewport element reference. */
-  gameRef: RefObject<HTMLDivElement>;
+  gameRef: RefObject<HTMLDivElement | null>;
   /** Boss arm element reference. */
-  bossArmRef: RefObject<HTMLDivElement>;
+  bossArmRef: RefObject<HTMLDivElement | null>;
   /** Current boss visibility flag from scene state. */
   showBoss: boolean;
   /** Emits whether special pattern-2 attack window is active. */
@@ -81,6 +81,8 @@ type UseGameLoopParams = {
   setShowBoss: (value: boolean) => void;
   /** Sets final overlay icon when run ends. */
   setGameOverIcon: (value: string | null) => void;
+  /** Advances jump motion using the same animation-frame timing as the rest of the scene. */
+  updateJumpFrame?: (params: { nowMs: number; deltaTimeMs: number }) => void;
 };
 
 /**
@@ -102,6 +104,7 @@ type UseGameLoopParams = {
  * @param params.setTitle - Setter for top-level game title text.
  * @param params.setShowBoss - Setter for boss visibility state.
  * @param params.setGameOverIcon - Setter for game-over icon source.
+ * @param params.updateJumpFrame - Optional per-frame jump updater driven by the shared loop.
  * @returns Nothing. Runs simulation as side-effect via animation frame and timers.
  */
 export function useGameLoop({
@@ -120,6 +123,7 @@ export function useGameLoop({
   setTitle,
   setShowBoss,
   setGameOverIcon,
+  updateJumpFrame,
 }: UseGameLoopParams) {
   const isArmAttackCollisionPhase = oneOfValues(ARM_PHASE.EXTENDING, ARM_PHASE.HOLD);
   const isIdleArmPhase = oneOfValues(ARM_PHASE.IDLE);
@@ -350,6 +354,7 @@ export function useGameLoop({
       const nowMs = performance.now();
       const timing = getFrameTiming(nowMs, lastFrameAtMsRef.current);
       lastFrameAtMsRef.current = timing.nowMs;
+      updateJumpFrame?.({ nowMs: timing.nowMs, deltaTimeMs: timing.deltaTimeMs });
 
       const elapsedTime = getElapsedTime(startTimeRef.current, Date.now());
       startTimeRef.current = elapsedTime.startTimeMs;

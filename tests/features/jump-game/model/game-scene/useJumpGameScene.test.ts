@@ -5,6 +5,7 @@ import { useJumpGameScene } from '@/features/jump-game/model/game-scene/useJumpG
 
 const jumpMock = vi.fn();
 const resetJumpStateMock = vi.fn();
+const updateJumpFrameMock = vi.fn();
 const spawnObstacleMock = vi.fn();
 const spawnFishMock = vi.fn();
 const clearObstaclesMock = vi.fn();
@@ -57,6 +58,7 @@ vi.mock('@/features/jump-game/model/useJump', () => ({
     jump: jumpMock,
     isOnGroundRef: { current: true },
     resetJumpState: resetJumpStateMock,
+    updateJumpFrame: updateJumpFrameMock,
   }),
 }));
 

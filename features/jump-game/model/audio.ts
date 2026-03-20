@@ -11,14 +11,30 @@ const SOUND_EFFECT_SOURCES = {
 } as const;
 
 type JumpGameSoundName = keyof typeof SOUND_EFFECT_SOURCES;
+const ESSENTIAL_SOUND_EFFECT_NAMES = ['jump'] as const;
+const AUXILIARY_SOUND_EFFECT_NAMES = ['fishCollect', 'playerFault'] as const;
+
+/**
+ * Unlock policy for jump-game sound effects.
+ */
+type UnlockJumpGameAudioOptions = {
+  /** Whether non-jump effects should also be primed during this user interaction. */
+  includeNonJumpEffects?: boolean;
+};
 
 const soundEffectCache = new Map<JumpGameSoundName, HTMLAudioElement>();
 let isJumpGameSoundEnabled = true;
-let unlockJumpGameAudioPromise: Promise<void> | null = null;
+let unlockEssentialJumpGameAudioPromise: Promise<void> | null = null;
+let unlockAuxiliaryJumpGameAudioPromise: Promise<void> | null = null;
 
 const applySoundEnabledState = (soundEffect: HTMLAudioElement) => {
   soundEffect.muted = !isJumpGameSoundEnabled;
 };
+
+const resolveSoundEffects = (names: readonly JumpGameSoundName[]) =>
+  names
+    .map((name) => getSoundEffect(name))
+    .filter((soundEffect): soundEffect is HTMLAudioElement => soundEffect !== null);
 
 const getSoundEffect = (name: JumpGameSoundName) => {
   if (typeof Audio === 'undefined') return null;
@@ -100,21 +116,38 @@ export function setJumpGameSoundEnabled(value: boolean) {
 
 /**
  * Attempts to unlock jump-game audio from the first trusted user interaction by
- * priming each shared sound effect through a muted play/pause cycle.
+ * priming shared sound effects through a muted play/pause cycle.
+ *
+ * @param options - Controls whether only the jump effect or every effect is
+ * primed during the current interaction.
+ * @param options.includeNonJumpEffects - When `true`, also primes fish/end
+ * effects. Defaults to `true`.
  */
-export function unlockJumpGameAudio() {
-  if (unlockJumpGameAudioPromise) return unlockJumpGameAudioPromise;
+export function unlockJumpGameAudio({
+  includeNonJumpEffects = true,
+}: UnlockJumpGameAudioOptions = {}) {
+  if (!unlockEssentialJumpGameAudioPromise) {
+    const essentialSoundEffects = resolveSoundEffects(ESSENTIAL_SOUND_EFFECT_NAMES);
+    unlockEssentialJumpGameAudioPromise = Promise.all(
+      essentialSoundEffects.map(primeSoundEffect),
+    ).then(() => undefined);
+  }
 
-  const soundEffects = [
-    getJumpSoundEffect(),
-    getFishCollectSoundEffect(),
-    getPlayerFaultSoundEffect(),
-  ].filter((soundEffect): soundEffect is HTMLAudioElement => soundEffect !== null);
+  if (!includeNonJumpEffects) {
+    return unlockEssentialJumpGameAudioPromise;
+  }
 
-  unlockJumpGameAudioPromise = Promise.all(soundEffects.map(primeSoundEffect)).then(
-    () => undefined,
-  );
-  return unlockJumpGameAudioPromise;
+  if (!unlockAuxiliaryJumpGameAudioPromise) {
+    const auxiliarySoundEffects = resolveSoundEffects(AUXILIARY_SOUND_EFFECT_NAMES);
+    unlockAuxiliaryJumpGameAudioPromise = Promise.all(
+      auxiliarySoundEffects.map(primeSoundEffect),
+    ).then(() => undefined);
+  }
+
+  return Promise.all([
+    unlockEssentialJumpGameAudioPromise,
+    unlockAuxiliaryJumpGameAudioPromise,
+  ]).then(() => undefined);
 }
 
 /**
@@ -128,5 +161,6 @@ export function resetJumpGameAudioForTesting() {
 
   soundEffectCache.clear();
   isJumpGameSoundEnabled = true;
-  unlockJumpGameAudioPromise = null;
+  unlockEssentialJumpGameAudioPromise = null;
+  unlockAuxiliaryJumpGameAudioPromise = null;
 }

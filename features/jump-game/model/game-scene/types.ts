@@ -19,17 +19,17 @@ export type JumpGameBindings = {
  */
 export type JumpGameSceneRefs = {
   /** Player element ref used by jump and clear animations. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Player sprite image ref updated by sprite animator. */
-  playerSpriteRef: RefObject<HTMLImageElement>;
+  playerSpriteRef: RefObject<HTMLImageElement | null>;
   /** Root game viewport element ref. */
-  gameRef: RefObject<HTMLDivElement>;
+  gameRef: RefObject<HTMLDivElement | null>;
   /** Boss base element ref. */
-  bossRef: RefObject<HTMLDivElement>;
+  bossRef: RefObject<HTMLDivElement | null>;
   /** Boss sprite image ref rendered inside boss base container. */
-  bossSpriteRef: RefObject<HTMLImageElement>;
+  bossSpriteRef: RefObject<HTMLImageElement | null>;
   /** Boss arm element ref. */
-  bossArmRef: RefObject<HTMLDivElement>;
+  bossArmRef: RefObject<HTMLDivElement | null>;
 };
 
 /**

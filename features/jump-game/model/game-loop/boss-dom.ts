@@ -18,9 +18,9 @@ const snapBossOffsetYPx = (value: number) => Math.round(value);
 
 type BossDomRefs = {
   /** Boss base container reference. */
-  bossRef: RefObject<HTMLDivElement>;
+  bossRef: RefObject<HTMLDivElement | null>;
   /** Boss arm element reference. */
-  bossArmRef: RefObject<HTMLDivElement>;
+  bossArmRef: RefObject<HTMLDivElement | null>;
 };
 
 type BossSpriteRefs = {
@@ -108,7 +108,7 @@ type BossArmCollisionParams = {
   /** Current game viewport bounds in viewport coordinates. */
   gameRect: DOMRect | null;
   /** Player DOM reference. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Optional player bounds already measured for the current frame. */
   playerRect: DOMRect | null;
   /** Whether clear flow already stopped collisions. */

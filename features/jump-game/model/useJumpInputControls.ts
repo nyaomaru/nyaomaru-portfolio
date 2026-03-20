@@ -6,7 +6,7 @@ import { CLICK_INTERVAL, KEY_SPACE } from './config/gameplay';
  */
 type UseJumpInputControlsOptions = {
   /** Playfield element that receives pointer-based jump input. */
-  gameRef: RefObject<HTMLDivElement>;
+  gameRef: RefObject<HTMLDivElement | null>;
   /** Callback invoked when a jump input is accepted. */
   onJump: () => void;
 };

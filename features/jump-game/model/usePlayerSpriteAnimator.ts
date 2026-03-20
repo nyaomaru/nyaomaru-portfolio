@@ -67,7 +67,7 @@ const ensureSpriteLoaded = (spritePath: string): Promise<void> => {
  */
 type UsePlayerSpriteAnimatorOptions = {
   /** Player sprite image node whose `src` is swapped per frame. */
-  playerSpriteRef: RefObject<HTMLImageElement>;
+  playerSpriteRef: RefObject<HTMLImageElement | null>;
   /** Stops animation updates when game is over. */
   gameOver: boolean;
   /** Ground state produced by jump controller. */

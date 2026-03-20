@@ -44,7 +44,7 @@ export type CreateSpecialTimelineStepsParams = {
   /** Computed approach move duration in milliseconds. */
   specialApproachMoveMs: number;
   /** Player element reference manipulated by timeline steps. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Phase setter for high-level clear sequence state. */
   setClearSequencePhase: SetClearSequencePhase;
   /** Phase setter for special clear internal state. */
@@ -86,7 +86,7 @@ export type CreateClearTimelineStepsParams = {
   /** Player fade-out delay in milliseconds. */
   clearPlayerFadeMs: number;
   /** Player element reference manipulated by timeline steps. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Phase setter for high-level clear sequence state. */
   setClearSequencePhase: SetClearSequencePhase;
   /** CSS transition expression for opacity updates. */
@@ -112,7 +112,7 @@ export type CreateClearTimelineStepsParams = {
  * @returns Run-loop controls for timeline integration.
  */
 export const createPlayerRunLoopController = (
-  playerSpriteRef: RefObject<HTMLImageElement>,
+  playerSpriteRef: RefObject<HTMLImageElement | null>,
 ): PlayerRunLoopController => {
   let playerRunFrameIndex = 0;
   let playerRunIntervalId: number | null = null;
