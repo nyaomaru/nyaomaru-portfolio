@@ -134,43 +134,49 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement | null>) {
     jumpMotionPhaseRef.current = 'ascending';
   };
 
-  const applyPosition = () => {
+  const applyPosition = useCallback(() => {
     if (playerRef.current) {
       playerRef.current.style.bottom = `${posRef.current}px`;
     }
-  };
+  }, [playerRef]);
 
-  const updateJumpFrame = useCallback(({ nowMs, deltaTimeMs }: UpdateJumpFrameParams) => {
-    if (jumpMotionPhaseRef.current === 'idle') return;
+  const updateJumpFrame = useCallback(
+    ({ nowMs, deltaTimeMs }: UpdateJumpFrameParams) => {
+      if (jumpMotionPhaseRef.current === 'idle') return;
 
-    if (jumpMotionPhaseRef.current === 'ascending') {
-      posRef.current = Math.min(
-        jumpMaxHeightRef.current,
-        posRef.current + ASCENT_VELOCITY_PX_PER_MS * deltaTimeMs,
+      if (jumpMotionPhaseRef.current === 'ascending') {
+        posRef.current = Math.min(
+          jumpMaxHeightRef.current,
+          posRef.current + ASCENT_VELOCITY_PX_PER_MS * deltaTimeMs,
+        );
+        applyPosition();
+        if (posRef.current >= jumpMaxHeightRef.current) {
+          risingRef.current = false;
+          jumpMotionPhaseRef.current = 'apexHold';
+          jumpApexHoldUntilMsRef.current = nowMs + JUMP_APEX_HOLD_MS;
+        }
+        return;
+      }
+
+      if (jumpMotionPhaseRef.current === 'apexHold') {
+        if (nowMs < jumpApexHoldUntilMsRef.current) return;
+        jumpMotionPhaseRef.current = 'descending';
+        return;
+      }
+
+      posRef.current = Math.max(
+        0,
+        posRef.current - descentVelocityPxPerMsRef.current * deltaTimeMs,
       );
       applyPosition();
-      if (posRef.current >= jumpMaxHeightRef.current) {
-        risingRef.current = false;
-        jumpMotionPhaseRef.current = 'apexHold';
-        jumpApexHoldUntilMsRef.current = nowMs + JUMP_APEX_HOLD_MS;
-      }
-      return;
-    }
+      if (posRef.current > 0) return;
 
-    if (jumpMotionPhaseRef.current === 'apexHold') {
-      if (nowMs < jumpApexHoldUntilMsRef.current) return;
-      jumpMotionPhaseRef.current = 'descending';
-      return;
-    }
-
-    posRef.current = Math.max(0, posRef.current - descentVelocityPxPerMsRef.current * deltaTimeMs);
-    applyPosition();
-    if (posRef.current > 0) return;
-
-    jumpMotionPhaseRef.current = 'idle';
-    jumpCountRef.current = 0;
-    onGroundRef.current = true;
-  }, []);
+      jumpMotionPhaseRef.current = 'idle';
+      jumpCountRef.current = 0;
+      onGroundRef.current = true;
+    },
+    [applyPosition],
+  );
 
   const triggerJumpSoundEffect = () => {
     playJumpSoundEffectAudio();
@@ -190,7 +196,7 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement | null>) {
     descentVelocityPxPerMsRef.current = 0;
     posRef.current = 0;
     applyPosition();
-  }, []);
+  }, [applyPosition]);
 
   return {
     jump,

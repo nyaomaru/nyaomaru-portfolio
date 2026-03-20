@@ -214,5 +214,36 @@ describe('useJump', () => {
       expect(parseFloat(playerRef.current!.style.bottom)).toBe(0);
       expect(result.current.isOnGroundRef.current).toBe(true);
     });
+
+    it('writes frame updates to the latest player ref object after rerender', () => {
+      const initialPlayerRef = playerRef;
+      const nextPlayerRef = {
+        current: {
+          style: { bottom: '0px' },
+          clientHeight: FALLBACK_PLAYER_HEIGHT,
+          parentElement: { clientHeight: BASELINE_GAME_HEIGHT },
+        } as HTMLDivElement,
+      } as React.RefObject<HTMLDivElement>;
+
+      const { result, rerender } = renderHook(({ currentPlayerRef }) => useJump(currentPlayerRef), {
+        initialProps: { currentPlayerRef: initialPlayerRef },
+      });
+
+      act(() => {
+        result.current.jump();
+      });
+
+      rerender({ currentPlayerRef: nextPlayerRef });
+
+      act(() => {
+        result.current.updateJumpFrame({
+          nowMs: 1,
+          deltaTimeMs: 1,
+        });
+      });
+
+      expect(nextPlayerRef.current?.style.bottom).not.toBe('0px');
+      expect(initialPlayerRef.current?.style.bottom).toBe('0px');
+    });
   });
 });
