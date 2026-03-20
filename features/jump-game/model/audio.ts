@@ -141,16 +141,19 @@ const decodeSoundEffect = async (name: JumpGameSoundName) => {
 };
 
 const preloadSoundEffects = async (names: readonly JumpGameSoundName[]) => {
-  await resumeAudioContext();
+  const audioContext = await resumeAudioContext();
   await Promise.all(names.map((name) => decodeSoundEffect(name)));
+  return audioContext;
 };
 
 const preloadSoundEffectsWithFallback = async (names: readonly JumpGameSoundName[]) => {
-  await preloadSoundEffects(names);
+  const audioContext = await preloadSoundEffects(names);
   const missingDecodedSoundEffect = names.some(
     (name) => getDecodedSoundEffectEntry(name).buffer === null,
   );
-  if (!missingDecodedSoundEffect) return;
+  const shouldPrimeFallback =
+    missingDecodedSoundEffect || !audioContext || audioContext.state !== 'running';
+  if (!shouldPrimeFallback) return;
 
   await Promise.all(names.map(primeFallbackSoundEffect));
 };
@@ -202,6 +205,9 @@ const playDecodedSoundEffect = (name: JumpGameSoundName) => {
 
   if (audioContext.state === 'suspended') {
     void audioContext.resume().catch(() => undefined);
+  }
+  if (audioContext.state !== 'running') {
+    return false;
   }
 
   const sourceNode = audioContext.createBufferSource();

@@ -2,6 +2,7 @@ import {
   getFishCollectSoundEffect,
   getJumpGameSoundEnabled,
   getJumpSoundEffect,
+  playJumpSoundEffect,
   getPlayerFaultSoundEffect,
   resetJumpGameAudioForTesting,
   setJumpGameSoundEnabled,
@@ -28,6 +29,10 @@ class MockAudio {
 
 describe('jump-game audio state', () => {
   const originalAudio = globalThis.Audio;
+  const originalFetch = globalThis.fetch;
+  const originalWindowAudioContext = window.AudioContext;
+  const originalWindowWebkitAudioContext = (window as Window & { webkitAudioContext?: unknown })
+    .webkitAudioContext;
 
   beforeEach(() => {
     audioInstances.length = 0;
@@ -37,6 +42,13 @@ describe('jump-game audio state', () => {
 
   afterEach(() => {
     globalThis.Audio = originalAudio;
+    globalThis.fetch = originalFetch;
+    window.AudioContext = originalWindowAudioContext;
+    (
+      window as Window & {
+        webkitAudioContext?: unknown;
+      }
+    ).webkitAudioContext = originalWindowWebkitAudioContext;
     vi.restoreAllMocks();
   });
 
@@ -75,5 +87,46 @@ describe('jump-game audio state', () => {
     expect(jumpSound?.play).toHaveBeenCalledTimes(1);
     expect(fishSound?.play).toHaveBeenCalledTimes(1);
     expect(faultSound?.play).toHaveBeenCalledTimes(1);
+  });
+
+  it('falls back to primed HTMLAudio playback when AudioContext does not reach running state', async () => {
+    const gainNode = {
+      gain: { value: 1 },
+      connect: vi.fn(),
+    };
+    const bufferSource = {
+      buffer: null as AudioBuffer | null,
+      connect: vi.fn(),
+      start: vi.fn(),
+    };
+    class MockAudioContext {
+      state: AudioContextState = 'suspended';
+      destination = {} as AudioDestinationNode;
+
+      createGain() {
+        return gainNode as unknown as GainNode;
+      }
+
+      createBufferSource() {
+        return bufferSource as unknown as AudioBufferSourceNode;
+      }
+
+      resume = vi.fn().mockResolvedValue(undefined);
+      decodeAudioData = vi.fn().mockResolvedValue({} as AudioBuffer);
+      close = vi.fn().mockResolvedValue(undefined);
+    }
+
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)),
+    } as unknown as Response);
+    window.AudioContext = MockAudioContext as unknown as typeof AudioContext;
+
+    await unlockJumpGameAudio({ includeNonJumpEffects: false });
+    playJumpSoundEffect();
+
+    const jumpSound = getJumpSoundEffect();
+    expect(jumpSound?.play).toHaveBeenCalledTimes(2);
+    expect(bufferSource.start).not.toHaveBeenCalled();
   });
 });
