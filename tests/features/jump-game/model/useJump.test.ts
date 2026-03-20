@@ -4,8 +4,13 @@ import {
   FALLBACK_PLAYER_HEIGHT,
   JUMP_APEX_HOLD_MS,
 } from '@/features/jump-game/model/config/jump';
-import { JUMP_UP_INTERVAL, JUMP_VELOCITY } from '@/features/jump-game/model/config/gameplay';
+import {
+  JUMP_LOCK_INTERVAL,
+  JUMP_UP_INTERVAL,
+  JUMP_VELOCITY,
+} from '@/features/jump-game/model/config/gameplay';
 import { BASELINE_GAME_HEIGHT } from '@/features/jump-game/model/config/metrics';
+import { resetJumpGameAudioForTesting } from '@/features/jump-game/model/audio';
 import { useJump } from '@/features/jump-game/model/useJump';
 
 const audioPlayMock = vi.fn().mockResolvedValue(undefined);
@@ -43,6 +48,7 @@ describe('useJump', () => {
     audioPlayMock.mockClear();
     audioPauseMock.mockClear();
     globalThis.Audio = MockAudio as unknown as typeof Audio;
+    resetJumpGameAudioForTesting();
   });
 
   afterEach(() => {
@@ -87,17 +93,23 @@ describe('useJump', () => {
     });
 
     it('resets jump sound playback before replaying it', () => {
+      vi.useFakeTimers();
       const { result } = renderHook(() => useJump(playerRef));
-
-      expect(audioInstances).toHaveLength(1);
-      audioInstances[0]!.currentTime = 1.25;
 
       act(() => {
         result.current.jump();
       });
 
+      expect(audioInstances).toHaveLength(1);
+      audioInstances[0]!.currentTime = 1.25;
+
+      act(() => {
+        vi.advanceTimersByTime(JUMP_LOCK_INTERVAL + 1);
+        result.current.jump();
+      });
+
       expect(audioInstances[0]!.currentTime).toBe(0);
-      expect(audioPlayMock).toHaveBeenCalledTimes(1);
+      expect(audioPlayMock).toHaveBeenCalledTimes(2);
     });
 
     it('holds briefly at the jump apex before starting descent', () => {
