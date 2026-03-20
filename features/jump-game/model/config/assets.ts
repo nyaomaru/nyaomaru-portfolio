@@ -58,7 +58,7 @@ export const OBSTACLE_GAME_OVER_ICON_SOURCES = [
 ] as const;
 export const FISH_ICON = '/assets/icons/nyaomaru_web_icon_sakana.svg';
 export const FISH_COUNTER_ICON = FISH_ICON;
-export const FISH_COLLECT_SOUND_EFFECT = '/assets/sound-effects/fish.wav';
+export const FISH_COLLECT_SOUND_EFFECT = '/assets/sound-effects/fish.ogg';
 export const PLAYER_FAULT_SOUND_EFFECT = '/assets/sound-effects/end.wav';
 
 // Special clear sequence assets.

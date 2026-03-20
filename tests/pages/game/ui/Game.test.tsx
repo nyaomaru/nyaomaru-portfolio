@@ -45,7 +45,7 @@ describe('Game start interactions', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Start' }));
 
-    expect(unlockJumpGameAudioMock).toHaveBeenCalledWith({ includeNonJumpEffects: false });
+    expect(unlockJumpGameAudioMock).toHaveBeenCalledTimes(1);
     expect(screen.getByTestId('jump-game')).toBeInTheDocument();
   });
 
@@ -54,7 +54,7 @@ describe('Game start interactions', () => {
 
     fireEvent.pointerDown(screen.getByLabelText('Game viewport'));
 
-    expect(unlockJumpGameAudioMock).toHaveBeenCalledWith({ includeNonJumpEffects: false });
+    expect(unlockJumpGameAudioMock).toHaveBeenCalledTimes(1);
     expect(screen.getByTestId('jump-game')).toBeInTheDocument();
   });
 

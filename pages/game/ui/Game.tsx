@@ -83,7 +83,7 @@ const Game = () => {
   const startAreaRef = useRef<HTMLElement | null>(null);
 
   const handleStart = useCallback(() => {
-    void unlockJumpGameAudio({ includeNonJumpEffects: false });
+    void unlockJumpGameAudio();
     setHasStarted(true);
     setIsGameOver(false);
     setIsRestartReady(false);

@@ -8,7 +8,7 @@ import {
   JUMP_APEX_HOLD_MS,
   MOBILE_FALL_SPEED_MULTIPLIER,
 } from './config/jump';
-import { getJumpSoundEffect } from './audio';
+import { playJumpSoundEffect as playJumpSoundEffectAudio } from './audio';
 import { BASELINE_GAME_HEIGHT, FALLBACK_GAME_HEIGHT } from './config/metrics';
 import {
   MAX_JUMP_COUNT,
@@ -63,7 +63,7 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement | null>) {
 
     updateJumpCount();
     prepareJump(nowMs);
-    playJumpSoundEffect();
+    triggerJumpSoundEffect();
   };
 
   const canJump = (nowMs: number) =>
@@ -136,17 +136,8 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement | null>) {
     onGroundRef.current = true;
   }, []);
 
-  const playJumpSoundEffect = () => {
-    const jumpSound = getJumpSoundEffect();
-    if (!jumpSound) return;
-
-    jumpSound.currentTime = 0;
-    const playbackAttempt = jumpSound.play();
-    if (!playbackAttempt) return;
-
-    void playbackAttempt.catch(() => {
-      // Ignore autoplay-blocked or interrupted playback. Jump behavior should continue unchanged.
-    });
+  const triggerJumpSoundEffect = () => {
+    playJumpSoundEffectAudio();
   };
 
   /**

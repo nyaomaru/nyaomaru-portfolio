@@ -136,7 +136,7 @@ describe('useJumpGameScene sound effects', () => {
     });
 
     expect(audioInstances).toHaveLength(1);
-    const fishSound = audioInstances.find((audio) => audio.src.endsWith('/fish.wav'));
+    const fishSound = audioInstances.find((audio) => audio.src.endsWith('/fish.ogg'));
     expect(fishSound?.play).toHaveBeenCalledTimes(1);
   });
 
