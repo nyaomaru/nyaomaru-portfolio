@@ -4,10 +4,15 @@ import {
   PLAYER_JUMP_SOUND_EFFECT,
 } from './config/assets';
 
+const createSoundEffectSourceCandidates = (preferredSource: string) =>
+  preferredSource.endsWith('.ogg')
+    ? ([preferredSource, preferredSource.replace(/\.ogg$/, '.wav')] as const)
+    : ([preferredSource] as const);
+
 const SOUND_EFFECT_SOURCES = {
-  jump: PLAYER_JUMP_SOUND_EFFECT,
-  fishCollect: FISH_COLLECT_SOUND_EFFECT,
-  playerFault: PLAYER_FAULT_SOUND_EFFECT,
+  jump: createSoundEffectSourceCandidates(PLAYER_JUMP_SOUND_EFFECT),
+  fishCollect: createSoundEffectSourceCandidates(FISH_COLLECT_SOUND_EFFECT),
+  playerFault: createSoundEffectSourceCandidates(PLAYER_FAULT_SOUND_EFFECT),
 } as const;
 
 type JumpGameSoundName = keyof typeof SOUND_EFFECT_SOURCES;
@@ -36,6 +41,7 @@ type DecodedSoundEffectEntry = {
 
 const decodedSoundEffectCache = new Map<JumpGameSoundName, DecodedSoundEffectEntry>();
 const fallbackSoundEffectCache = new Map<JumpGameSoundName, HTMLAudioElement>();
+const resolvedSoundEffectSourceCache = new Map<JumpGameSoundName, string>();
 let jumpGameAudioContext: AudioContext | null = null;
 let jumpGameAudioGainNode: GainNode | null = null;
 let isJumpGameSoundEnabled = true;
@@ -97,11 +103,42 @@ const getFallbackSoundEffect = (name: JumpGameSoundName) => {
   const cachedSoundEffect = fallbackSoundEffectCache.get(name);
   if (cachedSoundEffect) return cachedSoundEffect;
 
-  const soundEffect = new Audio(SOUND_EFFECT_SOURCES[name]);
+  const soundEffect = new Audio(resolveSoundEffectSource(name));
   soundEffect.preload = 'auto';
   applyFallbackSoundEnabledState(soundEffect);
   fallbackSoundEffectCache.set(name, soundEffect);
   return soundEffect;
+};
+
+const getSoundEffectMimeType = (source: string) => {
+  if (source.endsWith('.ogg')) return 'audio/ogg; codecs="vorbis"';
+  if (source.endsWith('.wav')) return 'audio/wav; codecs="1"';
+  return 'audio/*';
+};
+
+const getCandidateSoundEffectSources = (name: JumpGameSoundName) => SOUND_EFFECT_SOURCES[name];
+
+const resolveSoundEffectSource = (name: JumpGameSoundName) => {
+  const cachedSource = resolvedSoundEffectSourceCache.get(name);
+  if (cachedSource) return cachedSource;
+
+  const candidateSources = getCandidateSoundEffectSources(name);
+  if (typeof Audio === 'undefined') {
+    const fallbackSource = candidateSources[0];
+    resolvedSoundEffectSourceCache.set(name, fallbackSource);
+    return fallbackSource;
+  }
+
+  const audioProbe = new Audio();
+  const canPlayType =
+    typeof audioProbe.canPlayType === 'function' ? audioProbe.canPlayType.bind(audioProbe) : null;
+  const resolvedSource =
+    candidateSources.find((source) => {
+      if (!canPlayType) return false;
+      return canPlayType(getSoundEffectMimeType(source)).length > 0;
+    }) ?? candidateSources[0];
+  resolvedSoundEffectSourceCache.set(name, resolvedSource);
+  return resolvedSource;
 };
 
 const getDecodedSoundEffectEntry = (name: JumpGameSoundName): DecodedSoundEffectEntry => {
@@ -124,13 +161,29 @@ const decodeSoundEffect = async (name: JumpGameSoundName) => {
   if (entry.buffer) return entry.buffer;
   if (entry.decodePromise) return entry.decodePromise;
 
-  entry.decodePromise = fetch(SOUND_EFFECT_SOURCES[name])
-    .then(async (response) => {
-      if (!response.ok) return null;
-      const audioData = await response.arrayBuffer();
-      const decodedBuffer = await audioContext.decodeAudioData(audioData.slice(0));
-      entry.buffer = decodedBuffer;
-      return decodedBuffer;
+  const candidateSources = [
+    resolveSoundEffectSource(name),
+    ...getCandidateSoundEffectSources(name).filter(
+      (source) => source !== resolveSoundEffectSource(name),
+    ),
+  ];
+
+  entry.decodePromise = Promise.all(candidateSources)
+    .then(async (sources) => {
+      for (const source of sources) {
+        try {
+          const response = await fetch(source);
+          if (!response.ok) continue;
+          const audioData = await response.arrayBuffer();
+          const decodedBuffer = await audioContext.decodeAudioData(audioData.slice(0));
+          entry.buffer = decodedBuffer;
+          resolvedSoundEffectSourceCache.set(name, source);
+          return decodedBuffer;
+        } catch {
+          // Try the next candidate source.
+        }
+      }
+      return null;
     })
     .catch(() => null)
     .finally(() => {
@@ -141,21 +194,8 @@ const decodeSoundEffect = async (name: JumpGameSoundName) => {
 };
 
 const preloadSoundEffects = async (names: readonly JumpGameSoundName[]) => {
-  const audioContext = await resumeAudioContext();
+  await resumeAudioContext();
   await Promise.all(names.map((name) => decodeSoundEffect(name)));
-  return audioContext;
-};
-
-const preloadSoundEffectsWithFallback = async (names: readonly JumpGameSoundName[]) => {
-  const audioContext = await preloadSoundEffects(names);
-  const missingDecodedSoundEffect = names.some(
-    (name) => getDecodedSoundEffectEntry(name).buffer === null,
-  );
-  const shouldPrimeFallback =
-    missingDecodedSoundEffect || !audioContext || audioContext.state !== 'running';
-  if (!shouldPrimeFallback) return;
-
-  await Promise.all(names.map(primeFallbackSoundEffect));
 };
 
 const playFallbackSoundEffect = (name: JumpGameSoundName) => {
@@ -216,6 +256,9 @@ const playDecodedSoundEffect = (name: JumpGameSoundName) => {
   sourceNode.start(0);
   return true;
 };
+
+const primeFallbackSoundEffects = (names: readonly JumpGameSoundName[]) =>
+  Promise.all(names.map((name) => primeFallbackSoundEffect(name)));
 
 const playSoundEffect = (name: JumpGameSoundName) => {
   if (!isJumpGameSoundEnabled) return;
@@ -299,9 +342,10 @@ export function unlockJumpGameAudio({
   includeNonJumpEffects = true,
 }: UnlockJumpGameAudioOptions = {}) {
   if (!unlockEssentialJumpGameAudioPromise) {
-    unlockEssentialJumpGameAudioPromise = preloadSoundEffectsWithFallback(
-      ESSENTIAL_SOUND_EFFECT_NAMES,
-    ).then(() => undefined);
+    unlockEssentialJumpGameAudioPromise = Promise.all([
+      primeFallbackSoundEffects(ESSENTIAL_SOUND_EFFECT_NAMES),
+      preloadSoundEffects(ESSENTIAL_SOUND_EFFECT_NAMES),
+    ]).then(() => undefined);
   }
 
   if (!includeNonJumpEffects) {
@@ -309,9 +353,10 @@ export function unlockJumpGameAudio({
   }
 
   if (!unlockAuxiliaryJumpGameAudioPromise) {
-    unlockAuxiliaryJumpGameAudioPromise = preloadSoundEffectsWithFallback(
-      AUXILIARY_SOUND_EFFECT_NAMES,
-    ).then(() => undefined);
+    unlockAuxiliaryJumpGameAudioPromise = Promise.all([
+      primeFallbackSoundEffects(AUXILIARY_SOUND_EFFECT_NAMES),
+      preloadSoundEffects(AUXILIARY_SOUND_EFFECT_NAMES),
+    ]).then(() => undefined);
   }
 
   return Promise.all([
@@ -331,12 +376,16 @@ export function resetJumpGameAudioForTesting() {
 
   fallbackSoundEffectCache.clear();
   decodedSoundEffectCache.clear();
+  resolvedSoundEffectSourceCache.clear();
   isJumpGameSoundEnabled = true;
   unlockEssentialJumpGameAudioPromise = null;
   unlockAuxiliaryJumpGameAudioPromise = null;
   syncGainNodeEnabledState();
   if (jumpGameAudioContext) {
-    void jumpGameAudioContext.close().catch(() => undefined);
+    const closeResult = jumpGameAudioContext.close();
+    if (closeResult && typeof closeResult.catch === 'function') {
+      void closeResult.catch(() => undefined);
+    }
   }
   jumpGameAudioContext = null;
   jumpGameAudioGainNode = null;

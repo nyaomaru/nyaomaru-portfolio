@@ -44,9 +44,15 @@ class MockAudio {
   play = vi.fn().mockResolvedValue(undefined);
   pause = vi.fn();
 
-  constructor(src: string) {
+  constructor(src = '') {
     this.src = src;
-    audioInstances.push(this);
+    if (src.length > 0) {
+      audioInstances.push(this);
+    }
+  }
+
+  canPlayType() {
+    return '';
   }
 }
 

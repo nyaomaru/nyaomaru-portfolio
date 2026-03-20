@@ -27,11 +27,16 @@ class MockAudio {
   preload = '';
   src: string;
 
-  constructor(src: string) {
+  constructor(src = '') {
     this.src = src;
-    audioInstances.push(this);
+    if (src.length > 0) {
+      audioInstances.push(this);
+    }
   }
 
+  canPlayType() {
+    return '';
+  }
   play = audioPlayMock;
   pause = audioPauseMock;
 }

@@ -18,11 +18,16 @@ class MockAudio {
   src: string;
   volume = 1;
 
-  constructor(src: string) {
+  constructor(src = '') {
     this.src = src;
-    audioInstances.push(this);
+    if (src.length > 0) {
+      audioInstances.push(this);
+    }
   }
 
+  canPlayType() {
+    return '';
+  }
   pause = vi.fn();
   play = vi.fn().mockResolvedValue(undefined);
 }
@@ -128,5 +133,18 @@ describe('jump-game audio state', () => {
     const jumpSound = getJumpSoundEffect();
     expect(jumpSound?.play).toHaveBeenCalledTimes(2);
     expect(bufferSource.start).not.toHaveBeenCalled();
+  });
+
+  it('selects wav fallback sources when ogg playback is unsupported', async () => {
+    vi.spyOn(MockAudio.prototype, 'canPlayType').mockImplementation((...args: string[]) => {
+      const mimeType = args[0];
+      return mimeType?.includes('audio/wav') ? 'probably' : '';
+    });
+
+    await unlockJumpGameAudio();
+
+    expect(audioInstances.some((audio) => audio.src.endsWith('/jump.wav'))).toBe(true);
+    expect(audioInstances.some((audio) => audio.src.endsWith('/fish.wav'))).toBe(true);
+    expect(audioInstances.some((audio) => audio.src.endsWith('/end.wav'))).toBe(true);
   });
 });
