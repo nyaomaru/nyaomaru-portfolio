@@ -1,52 +1,53 @@
 import { updateObstaclesFrame } from '@/features/jump-game/model/game-loop/obstacles';
 
 describe('updateObstaclesFrame', () => {
-  it('uses cached obstacle layout metrics instead of reading obstacle DOM rects', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('does not read layout boxes when obstacles are far from the player', () => {
     const obstacle = document.createElement('img');
-    obstacle.style.left = '900px';
+    obstacle.style.left = '1400px';
     obstacle.dataset.entityWidthPx = '40';
-    obstacle.dataset.entityHeightPx = '50';
+    obstacle.dataset.entityHeightPx = '40';
     obstacle.dataset.entityBottomPx = '0';
-    obstacle.dataset.hitboxScale = '1';
+    obstacle.remove = vi.fn();
 
-    const obstacleRectSpy = vi.spyOn(obstacle, 'getBoundingClientRect');
-    const player = document.createElement('div');
-    const playerRectSpy = vi.spyOn(player, 'getBoundingClientRect').mockReturnValue({
-      left: 0,
-      right: 10,
-      top: 0,
-      bottom: 10,
-      width: 10,
-      height: 10,
-      x: 0,
-      y: 0,
-      toJSON: () => ({}),
-    } as DOMRect);
-
-    updateObstaclesFrame({
-      clearRequested: false,
-      obstacleSpeedPxPerSec: 180,
-      deltaTimeMs: 16.6667,
-      obstaclesRef: { current: [obstacle] },
-      playerRef: { current: player },
-      playerRect: null,
-      getGameWidth: () => 1000,
-      getGameRect: () =>
+    const playerElement = document.createElement('div');
+    const playerRectGetter = vi.fn(() => playerElement.getBoundingClientRect());
+    const gameRectGetter = vi.fn(
+      () =>
         ({
           left: 0,
-          right: 1000,
+          right: 1200,
           top: 0,
-          bottom: 400,
-          width: 1000,
-          height: 400,
+          bottom: 300,
+          width: 1200,
+          height: 300,
           x: 0,
           y: 0,
           toJSON: () => ({}),
         }) as DOMRect,
+    );
+
+    const result = updateObstaclesFrame({
+      clearRequested: false,
+      obstacleSpeedPxPerSec: 0,
+      deltaTimeMs: 16,
+      obstaclesRef: {
+        current: [obstacle],
+      } as React.MutableRefObject<HTMLElement[]>,
+      playerRef: {
+        current: playerElement,
+      } as React.RefObject<HTMLDivElement | null>,
+      getGameWidth: () => 1200,
+      getPlayerRect: playerRectGetter,
+      getGameRect: gameRectGetter,
       isBossVisible: false,
     });
 
-    expect(obstacleRectSpy).not.toHaveBeenCalled();
-    expect(playerRectSpy).toHaveBeenCalledOnce();
+    expect(result).toBeUndefined();
+    expect(playerRectGetter).not.toHaveBeenCalled();
+    expect(gameRectGetter).not.toHaveBeenCalled();
   });
 });

@@ -44,7 +44,7 @@ type UseObstacleSpawnSchedulerParams = {
  * @param params.lastObstacleSpawnAtMsRef - Mutable timestamp of last obstacle spawn.
  * @param params.lastFishSpawnAtMsRef - Mutable timestamp of last fish spawn.
  * @param params.spawnObstacle - Obstacle spawn callback used by scheduler ticks.
- * @returns Nothing. Registers and cleans up interval side effects.
+ * @returns Nothing. Registers and cleans up timeout side effects.
  */
 export const useObstacleSpawnScheduler = ({
   gameOver,
@@ -151,8 +151,16 @@ export const useFishSpawnScheduler = ({
   useEffect(() => {
     if (gameOver) return;
 
-    const spawnTickId = window.setInterval(() => {
-      if (!startTimeRef.current) return;
+    let spawnTimeoutId: number | null = null;
+    const scheduleNextTick = (delayMs: number) => {
+      spawnTimeoutId = window.setTimeout(runSpawnTick, Math.max(0, delayMs));
+    };
+
+    const runSpawnTick = () => {
+      if (!startTimeRef.current) {
+        scheduleNextTick(FISH_SPAWN_TICK_MS);
+        return;
+      }
       if (fishSpawnedRef.current >= fishSpawnTargetRef.current) return;
 
       const nowMs = Date.now();
@@ -164,10 +172,14 @@ export const useFishSpawnScheduler = ({
           FISH_FIRST_SPAWN_MIN_DELAY_MS +
           Math.random() * (FISH_FIRST_SPAWN_MAX_DELAY_MS - FISH_FIRST_SPAWN_MIN_DELAY_MS);
         nextFishSpawnAtMsRef.current = nowMs + initialDelay;
+        scheduleNextTick(initialDelay);
         return;
       }
 
-      if (nowMs < nextFishSpawnAtMsRef.current) return;
+      if (nowMs < nextFishSpawnAtMsRef.current) {
+        scheduleNextTick(nextFishSpawnAtMsRef.current - nowMs);
+        return;
+      }
 
       const elapsedSinceObstacleSpawnMs = nowMs - lastObstacleSpawnAtMsRef.current;
       if (elapsedSinceObstacleSpawnMs < CROSS_ENTITY_SPAWN_SEPARATION_MS) {
@@ -175,6 +187,7 @@ export const useFishSpawnScheduler = ({
           nextFishSpawnAtMsRef.current,
           lastObstacleSpawnAtMsRef.current + CROSS_ENTITY_SPAWN_SEPARATION_MS,
         );
+        scheduleNextTick(nextFishSpawnAtMsRef.current - nowMs);
         return;
       }
 
@@ -190,9 +203,20 @@ export const useFishSpawnScheduler = ({
       const jitter = baseGap * FISH_SPAWN_JITTER_RATIO;
       const nextGap = Math.max(FISH_SPAWN_MIN_GAP_MS, baseGap + (Math.random() * 2 - 1) * jitter);
       nextFishSpawnAtMsRef.current = nowMs + nextGap;
-    }, FISH_SPAWN_TICK_MS);
+      scheduleNextTick(nextGap);
+    };
 
-    return () => clearInterval(spawnTickId);
+    if (!startTimeRef.current) {
+      scheduleNextTick(FISH_SPAWN_TICK_MS);
+    } else {
+      runSpawnTick();
+    }
+
+    return () => {
+      if (spawnTimeoutId !== null) {
+        clearTimeout(spawnTimeoutId);
+      }
+    };
   }, [
     gameOver,
     spawnFish,
