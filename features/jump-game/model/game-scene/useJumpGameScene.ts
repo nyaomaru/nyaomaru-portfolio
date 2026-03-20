@@ -47,12 +47,12 @@ export function useJumpGameScene({
 }: JumpGameBindings): JumpGameSceneView {
   const isMobileViewport = isMobile();
   const isHappyClearPhase = oneOfValues('happy');
-  const playerRef = useRef<HTMLDivElement>(null!);
-  const playerSpriteRef = useRef<HTMLImageElement>(null!);
-  const gameRef = useRef<HTMLDivElement>(null!);
-  const bossRef = useRef<HTMLDivElement>(null!);
-  const bossSpriteRef = useRef<HTMLImageElement>(null!);
-  const bossArmRef = useRef<HTMLDivElement>(null!);
+  const playerRef = useRef<HTMLDivElement>(null);
+  const playerSpriteRef = useRef<HTMLImageElement>(null);
+  const gameRef = useRef<HTMLDivElement>(null);
+  const bossRef = useRef<HTMLDivElement>(null);
+  const bossSpriteRef = useRef<HTMLImageElement>(null);
+  const bossArmRef = useRef<HTMLDivElement>(null);
 
   const [gameOver, setGameOver] = useState(false);
   const [showBoss, setShowBoss] = useState(false);
