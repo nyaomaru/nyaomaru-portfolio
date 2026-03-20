@@ -47,6 +47,7 @@ let jumpGameAudioGainNode: GainNode | null = null;
 let isJumpGameSoundEnabled = true;
 let unlockEssentialJumpGameAudioPromise: Promise<void> | null = null;
 let unlockAuxiliaryJumpGameAudioPromise: Promise<void> | null = null;
+let preloadJumpGameAudioAssetsPromise: Promise<void> | null = null;
 
 const applyFallbackSoundEnabledState = (soundEffect: HTMLAudioElement) => {
   soundEffect.muted = !isJumpGameSoundEnabled;
@@ -260,6 +261,39 @@ const playDecodedSoundEffect = (name: JumpGameSoundName) => {
 const primeFallbackSoundEffects = (names: readonly JumpGameSoundName[]) =>
   Promise.all(names.map((name) => primeFallbackSoundEffect(name)));
 
+const preloadFallbackSoundEffect = async (name: JumpGameSoundName) => {
+  const soundEffect = getFallbackSoundEffect(name);
+  if (!soundEffect) return;
+
+  try {
+    soundEffect.load();
+  } catch {
+    // Ignore eager-load failures and let runtime playback retry through normal paths.
+  }
+};
+
+const fetchSoundEffectSource = async (source: string) => {
+  if (typeof fetch === 'undefined') return;
+
+  try {
+    const response = await fetch(source, { cache: 'force-cache' });
+    if (!response.ok) return;
+    await response.arrayBuffer();
+  } catch {
+    // Ignore preload failures and let unlock/runtime playback retry later.
+  }
+};
+
+const preloadResolvedSoundEffectAssets = async (names: readonly JumpGameSoundName[]) => {
+  await Promise.all(
+    names.map(async (name) => {
+      const source = resolveSoundEffectSource(name);
+      await preloadFallbackSoundEffect(name);
+      await fetchSoundEffectSource(source);
+    }),
+  );
+};
+
 const playSoundEffect = (name: JumpGameSoundName) => {
   if (!isJumpGameSoundEnabled) return;
 
@@ -309,6 +343,22 @@ export function playFishCollectSoundEffect() {
  */
 export function playPlayerFaultSoundEffect() {
   playSoundEffect('playerFault');
+}
+
+/**
+ * Preloads audio assets and fallback elements ahead of the first user interaction.
+ * This does not unlock playback; it only warms source selection and browser/network caches.
+ */
+export function preloadJumpGameAudioAssets() {
+  if (preloadJumpGameAudioAssetsPromise) {
+    return preloadJumpGameAudioAssetsPromise;
+  }
+
+  preloadJumpGameAudioAssetsPromise = preloadResolvedSoundEffectAssets([
+    ...ESSENTIAL_SOUND_EFFECT_NAMES,
+    ...AUXILIARY_SOUND_EFFECT_NAMES,
+  ]).then(() => undefined);
+  return preloadJumpGameAudioAssetsPromise;
 }
 
 /**
@@ -380,6 +430,7 @@ export function resetJumpGameAudioForTesting() {
   isJumpGameSoundEnabled = true;
   unlockEssentialJumpGameAudioPromise = null;
   unlockAuxiliaryJumpGameAudioPromise = null;
+  preloadJumpGameAudioAssetsPromise = null;
   syncGainNodeEnabledState();
   if (jumpGameAudioContext) {
     const closeResult = jumpGameAudioContext.close();

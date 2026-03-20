@@ -9,6 +9,7 @@ import {
 import {
   getJumpGameSoundEnabled,
   JumpGame,
+  preloadJumpGameAudioAssets,
   setJumpGameSoundEnabled,
   unlockJumpGameAudio,
 } from '@/features/jump-game';
@@ -154,6 +155,10 @@ const Game = () => {
 
   const handleRegisterReset = useCallback((resetFn: () => void) => {
     resetGameRef.current = resetFn;
+  }, []);
+
+  useEffect(() => {
+    void preloadJumpGameAudioAssets();
   }, []);
 
   return (

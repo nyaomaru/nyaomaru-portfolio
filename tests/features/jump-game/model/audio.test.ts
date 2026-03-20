@@ -2,6 +2,7 @@ import {
   getFishCollectSoundEffect,
   getJumpGameSoundEnabled,
   getJumpSoundEffect,
+  preloadJumpGameAudioAssets,
   playJumpSoundEffect,
   getPlayerFaultSoundEffect,
   resetJumpGameAudioForTesting,
@@ -30,6 +31,7 @@ class MockAudio {
   }
   pause = vi.fn();
   play = vi.fn().mockResolvedValue(undefined);
+  load = vi.fn();
 }
 
 describe('jump-game audio state', () => {
@@ -71,6 +73,19 @@ describe('jump-game audio state', () => {
     const fishSound = getFishCollectSoundEffect();
     expect(fishSound?.muted).toBe(true);
     expect(audioInstances).toHaveLength(2);
+  });
+
+  it('preloads audio assets without priming playback', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)),
+    } as unknown as Response);
+
+    await preloadJumpGameAudioAssets();
+
+    expect(audioInstances).toHaveLength(3);
+    expect(audioInstances.every((audio) => audio.load.mock.calls.length === 1)).toBe(true);
+    expect(audioInstances.every((audio) => audio.play.mock.calls.length === 0)).toBe(true);
   });
 
   it('can unlock only the jump sound effect during start interactions', async () => {

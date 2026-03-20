@@ -2,12 +2,17 @@ import type { MouseEventHandler, ReactNode } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Game } from '@/pages/game/ui/Game';
 
-const { getJumpGameSoundEnabledMock, setJumpGameSoundEnabledMock, unlockJumpGameAudioMock } =
-  vi.hoisted(() => ({
-    getJumpGameSoundEnabledMock: vi.fn(() => true),
-    setJumpGameSoundEnabledMock: vi.fn(),
-    unlockJumpGameAudioMock: vi.fn(),
-  }));
+const {
+  getJumpGameSoundEnabledMock,
+  preloadJumpGameAudioAssetsMock,
+  setJumpGameSoundEnabledMock,
+  unlockJumpGameAudioMock,
+} = vi.hoisted(() => ({
+  getJumpGameSoundEnabledMock: vi.fn(() => true),
+  preloadJumpGameAudioAssetsMock: vi.fn(),
+  setJumpGameSoundEnabledMock: vi.fn(),
+  unlockJumpGameAudioMock: vi.fn(),
+}));
 
 vi.mock('@/shared/ui', () => ({
   Button: ({
@@ -29,6 +34,7 @@ vi.mock('@/shared/ui', () => ({
 vi.mock('@/features/jump-game', () => ({
   JumpGame: () => <div data-testid='jump-game' />,
   getJumpGameSoundEnabled: getJumpGameSoundEnabledMock,
+  preloadJumpGameAudioAssets: preloadJumpGameAudioAssetsMock,
   setJumpGameSoundEnabled: setJumpGameSoundEnabledMock,
   unlockJumpGameAudio: unlockJumpGameAudioMock,
 }));
@@ -36,8 +42,15 @@ vi.mock('@/features/jump-game', () => ({
 describe('Game start interactions', () => {
   beforeEach(() => {
     getJumpGameSoundEnabledMock.mockReturnValue(true);
+    preloadJumpGameAudioAssetsMock.mockClear();
     setJumpGameSoundEnabledMock.mockClear();
     unlockJumpGameAudioMock.mockClear();
+  });
+
+  it('preloads jump-game audio assets on render', () => {
+    render(<Game />);
+
+    expect(preloadJumpGameAudioAssetsMock).toHaveBeenCalledTimes(1);
   });
 
   it('unlocks jump-game audio when the start button is clicked', () => {
