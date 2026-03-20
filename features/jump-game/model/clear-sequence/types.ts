@@ -39,18 +39,18 @@ export type FlyoutOrigin = {
 
 export type BossDomRefs = {
   /** Boss base element animated during exit phase. */
-  bossRef: RefObject<HTMLDivElement>;
+  bossRef: RefObject<HTMLDivElement | null>;
   /** Boss sprite image element whose `src` is controlled across clear sequence. */
-  bossSpriteRef: RefObject<HTMLImageElement>;
+  bossSpriteRef: RefObject<HTMLImageElement | null>;
   /** Boss arm element animated during exit phase. */
-  bossArmRef: RefObject<HTMLDivElement>;
+  bossArmRef: RefObject<HTMLDivElement | null>;
 };
 
 export type PlayerAndGameRefs = {
   /** Player element manipulated during clear sequence motion. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Game viewport element used for position calculations. */
-  gameRef: RefObject<HTMLDivElement>;
+  gameRef: RefObject<HTMLDivElement | null>;
 };
 
 export type RegisterTimeout = {
@@ -62,9 +62,9 @@ export type RegisterTimeout = {
 
 export type ApplyBossMotionParams = {
   /** Boss base element animated during exit phase. */
-  bossRef: RefObject<HTMLDivElement>;
+  bossRef: RefObject<HTMLDivElement | null>;
   /** Boss arm element animated during exit phase. */
-  bossArmRef: RefObject<HTMLDivElement>;
+  bossArmRef: RefObject<HTMLDivElement | null>;
   /** CSS transition expression applied to both boss nodes. */
   transition: string;
   /** CSS transform expression applied to both boss nodes. */
@@ -75,7 +75,7 @@ export type ApplyBossMotionParams = {
 
 export type ApplyPlayerMotionParams = {
   /** Player element manipulated during clear sequence motion. */
-  playerRef: RefObject<HTMLDivElement>;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Optional CSS transition expression applied to player element. */
   transition?: string;
   /** Optional CSS left expression applied to player element. */

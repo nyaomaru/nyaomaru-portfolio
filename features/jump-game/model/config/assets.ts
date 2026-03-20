@@ -7,7 +7,7 @@ export const PLAYER_RUN_SPRITES = [
 ] as const;
 export const PLAYER_STAND_SPRITE = '/assets/icons/nyaomaru_game_graphic_game_nyaomaru_icon.svg';
 export const PLAYER_JUMP_SPRITE = '/assets/icons/nyaomaru_game_graphic_game_nyaomaru_icon_jump.svg';
-export const PLAYER_JUMP_SOUND_EFFECT = '/assets/sound-effects/jump.wav';
+export const PLAYER_JUMP_SOUND_EFFECT = '/assets/sound-effects/jump.ogg';
 
 // Boss sprites and result overlays.
 export const BOSS_BASE_SPRITES = [
@@ -58,8 +58,8 @@ export const OBSTACLE_GAME_OVER_ICON_SOURCES = [
 ] as const;
 export const FISH_ICON = '/assets/icons/nyaomaru_web_icon_sakana.svg';
 export const FISH_COUNTER_ICON = FISH_ICON;
-export const FISH_COLLECT_SOUND_EFFECT = '/assets/sound-effects/fish.wav';
-export const PLAYER_FAULT_SOUND_EFFECT = '/assets/sound-effects/end.wav';
+export const FISH_COLLECT_SOUND_EFFECT = '/assets/sound-effects/fish.ogg';
+export const PLAYER_FAULT_SOUND_EFFECT = '/assets/sound-effects/end.ogg';
 
 // Special clear sequence assets.
 export const SPECIAL_ROCKET_ICON_1 = '/assets/icons/nyaomaru_game_graphic_rocket_icon1.svg';

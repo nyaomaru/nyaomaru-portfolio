@@ -34,7 +34,7 @@ export type GameViewportMetrics = {
  * @returns Callback set for width/height/scale and boss placement metrics.
  */
 export const createGameViewportMetrics = (
-  gameRef: RefObject<HTMLDivElement>,
+  gameRef: RefObject<HTMLDivElement | null>,
 ): GameViewportMetrics => {
   const getGameWidth = () => {
     const gameElement = gameRef.current;

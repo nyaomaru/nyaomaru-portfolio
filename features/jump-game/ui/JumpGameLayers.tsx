@@ -113,11 +113,11 @@ type BossLayerProps = {
   /** Whether boss base/arm nodes should be rendered. */
   shouldRenderBoss: boolean;
   /** Boss base container reference driven by game-loop transforms. */
-  bossRef: RefObject<HTMLDivElement>;
+  bossRef: RefObject<HTMLDivElement | null>;
   /** Boss sprite image reference whose `src` is swapped during animation. */
-  bossSpriteRef: RefObject<HTMLImageElement>;
+  bossSpriteRef: RefObject<HTMLImageElement | null>;
   /** Boss arm hitbox/pose element reference. */
-  bossArmRef: RefObject<HTMLDivElement>;
+  bossArmRef: RefObject<HTMLDivElement | null>;
   /** Static baseline style for boss container sizing/placement. */
   bossStyle: CSSProperties;
   /** Static baseline style for boss arm element. */

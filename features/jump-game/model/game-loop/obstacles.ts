@@ -25,11 +25,11 @@ type UpdateObstaclesFrameParams = {
   /** Mutable list of currently active obstacle/fish DOM nodes. */
   obstaclesRef: MutableRefObject<HTMLElement[]>;
   /** Player element ref used for collision checks. */
-  playerRef: RefObject<HTMLDivElement>;
-  /** Optional player bounds already measured for the current frame. */
-  playerRect: DOMRect | null;
+  playerRef: RefObject<HTMLDivElement | null>;
   /** Returns current game viewport width in pixels. */
   getGameWidth: () => number;
+  /** Returns current player bounds in viewport coordinates when needed. */
+  getPlayerRect: () => DOMRect | null;
   /** Returns current game viewport bounds in viewport coordinates when available. */
   getGameRect: () => DOMRect | null;
   /** Whether boss mode is active to select fail icon source. */
@@ -133,8 +133,8 @@ export const clearMovingEntities = (obstaclesRef: MutableRefObject<HTMLElement[]
  * @param params.deltaTimeMs - Elapsed frame time in milliseconds.
  * @param params.obstaclesRef - Mutable list of active obstacle/fish nodes.
  * @param params.playerRef - Player element ref used for collision checks.
- * @param params.playerRect - Optional player bounds already measured this frame.
  * @param params.getGameWidth - Callback resolving current game viewport width.
+ * @param params.getPlayerRect - Callback resolving current player bounds.
  * @param params.getGameRect - Callback resolving current game viewport bounds.
  * @param params.isBossVisible - Whether boss mode is active.
  * @param params.onFishCollected - Optional callback for fish pickup events.
@@ -146,8 +146,8 @@ export const updateObstaclesFrame = ({
   deltaTimeMs,
   obstaclesRef,
   playerRef,
-  playerRect,
   getGameWidth,
+  getPlayerRect,
   getGameRect,
   isBossVisible,
   onFishCollected,
@@ -155,8 +155,8 @@ export const updateObstaclesFrame = ({
   const isFishEntityType = oneOfValues('fish');
   const frameDistancePx = (obstacleSpeedPxPerSec * deltaTimeMs) / MS_PER_SECOND;
   const gameWidth = getGameWidth();
-  const gameRect = getGameRect();
-  let resolvedPlayerBox: DOMRect | null = playerRect;
+  let resolvedGameRect: DOMRect | null = null;
+  let resolvedPlayerBox: DOMRect | null = null;
 
   if (clearRequested) {
     clearMovingEntities(obstaclesRef);
@@ -174,11 +174,12 @@ export const updateObstaclesFrame = ({
     }
 
     if (currentLeftPx < gameWidth - OBSTACLE_PLAYER_PROXIMITY_CHECK_PX) {
-      resolvedPlayerBox ??= playerRef.current?.getBoundingClientRect() ?? null;
+      resolvedPlayerBox ??= getPlayerRect() ?? playerRef.current?.getBoundingClientRect() ?? null;
+      resolvedGameRect ??= getGameRect();
       const obstacleBox =
-        gameRect === null
+        resolvedGameRect === null
           ? obs.getBoundingClientRect()
-          : (getObstacleRectFromCachedLayout(obs, currentLeftPx, gameRect) ??
+          : (getObstacleRectFromCachedLayout(obs, currentLeftPx, resolvedGameRect) ??
             obs.getBoundingClientRect());
       const hitboxScale = Number(obs.dataset.hitboxScale ?? `${DEFAULT_OBSTACLE_HITBOX_SCALE}`);
       const obstacleHitbox = getScaledHitboxFromRectLike(obstacleBox, hitboxScale);

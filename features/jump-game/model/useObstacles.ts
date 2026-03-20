@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { oneOfValues } from 'is-kit';
 import { isMobile } from '@/shared/lib/window';
 import {
@@ -126,75 +126,84 @@ type SpawnObstacleOptions = {
  * @param gameRef - Game viewport element used as parent for spawned obstacle/fish nodes.
  * @returns Spawn and cleanup helpers with the mutable active-entity list.
  */
-export function useObstacles(gameRef: React.RefObject<HTMLDivElement>) {
+export function useObstacles(gameRef: React.RefObject<HTMLDivElement | null>) {
   const obstaclesRef = useRef<HTMLElement[]>([]);
   const lastSpawnedObstacleIndexRef = useRef<ObstacleIconIndex | null>(null);
 
-  const getGameWidth = () => gameRef.current?.clientWidth || window.innerWidth;
-  const getGameHeight = () => gameRef.current?.clientHeight || FALLBACK_GAME_HEIGHT;
-  const getSpawnLeft = () => getGameWidth() + SPAWN_OUTSIDE_OFFSET_PX;
-  const getPlayerHeightPx = () => {
+  const getGameWidth = useCallback(
+    () => gameRef.current?.clientWidth || window.innerWidth,
+    [gameRef],
+  );
+  const getGameHeight = useCallback(
+    () => gameRef.current?.clientHeight || FALLBACK_GAME_HEIGHT,
+    [gameRef],
+  );
+  const getSpawnLeft = useCallback(() => getGameWidth() + SPAWN_OUTSIDE_OFFSET_PX, [getGameWidth]);
+  const getPlayerHeightPx = useCallback(() => {
     const rawPlayerHeight = getGameHeight() * PLAYER_BASE_HEIGHT_RATIO;
     return Math.min(PLAYER_MAX_HEIGHT_PX, Math.max(PLAYER_MIN_HEIGHT_PX, rawPlayerHeight));
-  };
+  }, [getGameHeight]);
 
-  const spawnObstacle = ({ isBossMode = false, allowedIconIndices }: SpawnObstacleOptions = {}) => {
-    const isMobileViewport = isMobile();
-    const obs = document.createElement('img');
-    const candidateIndices =
-      allowedIconIndices && allowedIconIndices.length > 0
-        ? allowedIconIndices
-        : getAllObstacleIndices();
-    const spawnableIndices = getSpawnableObstacleIndices({
-      candidateIndices,
-      isBossMode,
-    });
-    if (spawnableIndices.length === 0) return;
-    const isPreviousObstacleHigh =
-      lastSpawnedObstacleIndexRef.current !== null &&
-      isHighObstacleIconIndex(lastSpawnedObstacleIndexRef.current);
-    const nonHighSpawnableIndices = spawnableIndices.filter(
-      (index) => !isHighObstacleIconIndex(index),
-    );
-    const iconIndex =
-      isMobileViewport && isPreviousObstacleHigh && nonHighSpawnableIndices.length > 0
-        ? pickWeightedObstacleIndex(nonHighSpawnableIndices)
-        : pickWeightedObstacleIndex(spawnableIndices);
-    lastSpawnedObstacleIndexRef.current = iconIndex;
-    const playerHeightPx = getPlayerHeightPx();
-    const iconFallbackSize = OBSTACLE_ICON_FALLBACK_EXPORT_SIZES[iconIndex];
-    const mobileVisualScale = isMobileViewport ? MOBILE_OBSTACLE_VISUAL_SCALE_MULTIPLIER : 1;
-    const applyObstacleSize = (exportWidth: number, exportHeight: number) => {
-      const obstacleHeightPx =
-        playerHeightPx * (exportHeight / PLAYER_EXPORT_BASE_HEIGHT) * mobileVisualScale;
-      const obstacleWidthPx =
-        playerHeightPx * (exportWidth / PLAYER_EXPORT_BASE_HEIGHT) * mobileVisualScale;
-      obs.style.height = `${obstacleHeightPx}px`;
-      obs.style.width = `${obstacleWidthPx}px`;
-      setEntityLayoutMetrics(obs, {
-        widthPx: obstacleWidthPx,
-        heightPx: obstacleHeightPx,
-        bottomPx: 0,
+  const spawnObstacle = useCallback(
+    ({ isBossMode = false, allowedIconIndices }: SpawnObstacleOptions = {}) => {
+      const isMobileViewport = isMobile();
+      const obs = document.createElement('img');
+      const candidateIndices =
+        allowedIconIndices && allowedIconIndices.length > 0
+          ? allowedIconIndices
+          : getAllObstacleIndices();
+      const spawnableIndices = getSpawnableObstacleIndices({
+        candidateIndices,
+        isBossMode,
       });
-    };
-    obs.className = 'select-none pointer-events-none';
-    obs.src = OBSTACLE_ICON_SOURCES[iconIndex];
-    obs.dataset.gameOverIcon = OBSTACLE_GAME_OVER_ICON_SOURCES[iconIndex];
-    applyObstacleHitboxScale(obs, iconIndex);
-    obs.alt = '';
-    obs.draggable = false;
-    obs.setAttribute('aria-hidden', 'true');
-    obs.style.position = 'absolute';
-    obs.style.bottom = '0px';
-    initializeMovingEntityMotion(obs, getSpawnLeft());
-    applyObstacleSize(iconFallbackSize.width, iconFallbackSize.height);
-    obs.style.objectFit = 'contain';
-    obs.style.objectPosition = 'bottom';
-    gameRef.current?.appendChild(obs);
-    obstaclesRef.current.push(obs);
-  };
+      if (spawnableIndices.length === 0) return;
+      const isPreviousObstacleHigh =
+        lastSpawnedObstacleIndexRef.current !== null &&
+        isHighObstacleIconIndex(lastSpawnedObstacleIndexRef.current);
+      const nonHighSpawnableIndices = spawnableIndices.filter(
+        (index) => !isHighObstacleIconIndex(index),
+      );
+      const iconIndex =
+        isMobileViewport && isPreviousObstacleHigh && nonHighSpawnableIndices.length > 0
+          ? pickWeightedObstacleIndex(nonHighSpawnableIndices)
+          : pickWeightedObstacleIndex(spawnableIndices);
+      lastSpawnedObstacleIndexRef.current = iconIndex;
+      const playerHeightPx = getPlayerHeightPx();
+      const iconFallbackSize = OBSTACLE_ICON_FALLBACK_EXPORT_SIZES[iconIndex];
+      const mobileVisualScale = isMobileViewport ? MOBILE_OBSTACLE_VISUAL_SCALE_MULTIPLIER : 1;
+      const applyObstacleSize = (exportWidth: number, exportHeight: number) => {
+        const obstacleHeightPx =
+          playerHeightPx * (exportHeight / PLAYER_EXPORT_BASE_HEIGHT) * mobileVisualScale;
+        const obstacleWidthPx =
+          playerHeightPx * (exportWidth / PLAYER_EXPORT_BASE_HEIGHT) * mobileVisualScale;
+        obs.style.height = `${obstacleHeightPx}px`;
+        obs.style.width = `${obstacleWidthPx}px`;
+        setEntityLayoutMetrics(obs, {
+          widthPx: obstacleWidthPx,
+          heightPx: obstacleHeightPx,
+          bottomPx: 0,
+        });
+      };
+      obs.className = 'select-none pointer-events-none';
+      obs.src = OBSTACLE_ICON_SOURCES[iconIndex];
+      obs.dataset.gameOverIcon = OBSTACLE_GAME_OVER_ICON_SOURCES[iconIndex];
+      applyObstacleHitboxScale(obs, iconIndex);
+      obs.alt = '';
+      obs.draggable = false;
+      obs.setAttribute('aria-hidden', 'true');
+      obs.style.position = 'absolute';
+      obs.style.bottom = '0px';
+      initializeMovingEntityMotion(obs, getSpawnLeft());
+      applyObstacleSize(iconFallbackSize.width, iconFallbackSize.height);
+      obs.style.objectFit = 'contain';
+      obs.style.objectPosition = 'bottom';
+      gameRef.current?.appendChild(obs);
+      obstaclesRef.current.push(obs);
+    },
+    [gameRef, getPlayerHeightPx, getSpawnLeft],
+  );
 
-  const spawnFish = () => {
+  const spawnFish = useCallback(() => {
     const fish = document.createElement('img');
     const minimumFishLane =
       (lastSpawnedObstacleIndexRef.current === null
@@ -231,9 +240,9 @@ export function useObstacles(gameRef: React.RefObject<HTMLDivElement>) {
 
     gameRef.current?.appendChild(fish);
     obstaclesRef.current.push(fish);
-  };
+  }, [gameRef, getGameHeight, getSpawnLeft]);
 
-  const clearObstacles = () => {
+  const clearObstacles = useCallback(() => {
     obstaclesRef.current.forEach((obs) => {
       try {
         obs.remove();
@@ -243,7 +252,7 @@ export function useObstacles(gameRef: React.RefObject<HTMLDivElement>) {
     });
     obstaclesRef.current = [];
     lastSpawnedObstacleIndexRef.current = null;
-  };
+  }, []);
 
   return {
     obstaclesRef,

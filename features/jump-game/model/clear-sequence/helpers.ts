@@ -272,7 +272,7 @@ export const resolveSpecialApproachMoveMs = ({ playerRef, gameRef }: PlayerAndGa
  * @param gameRef - Game viewport reference used to derive horizontal travel distance.
  * @returns Rocket entry movement duration in milliseconds.
  */
-export const resolveSpecialRocketEntryMoveMs = (gameRef: RefObject<HTMLDivElement>) => {
+export const resolveSpecialRocketEntryMoveMs = (gameRef: RefObject<HTMLDivElement | null>) => {
   const isMobileViewport = isMobile();
   const gameRect = gameRef.current?.getBoundingClientRect();
   const obstacleSpeedPxPerSec = resolveObstacleSpeedPxPerSecond(
@@ -327,7 +327,7 @@ export const resolveSpecialTimelineMoments = ({
  * @param gameRef - Game viewport reference used for center point extraction.
  * @returns Viewport coordinates used as flyout origin.
  */
-export const resolveFlyoutOrigin = (gameRef: RefObject<HTMLDivElement>): FlyoutOrigin => {
+export const resolveFlyoutOrigin = (gameRef: RefObject<HTMLDivElement | null>): FlyoutOrigin => {
   const gameRect = gameRef.current?.getBoundingClientRect();
   if (gameRect) {
     return {

@@ -5,10 +5,12 @@ import { useJumpGameScene } from '@/features/jump-game/model/game-scene/useJumpG
 
 const jumpMock = vi.fn();
 const resetJumpStateMock = vi.fn();
+const updateJumpFrameMock = vi.fn();
 const spawnObstacleMock = vi.fn();
 const spawnFishMock = vi.fn();
 const clearObstaclesMock = vi.fn();
 const resetPlayerSpriteStateMock = vi.fn();
+const updatePlayerSpriteFrameMock = vi.fn();
 const resetJumpInputMock = vi.fn();
 const resetBossClearSequenceMock = vi.fn();
 let latestGameLoopParams: Record<string, unknown> | null = null;
@@ -42,9 +44,15 @@ class MockAudio {
   play = vi.fn().mockResolvedValue(undefined);
   pause = vi.fn();
 
-  constructor(src: string) {
+  constructor(src = '') {
     this.src = src;
-    audioInstances.push(this);
+    if (src.length > 0) {
+      audioInstances.push(this);
+    }
+  }
+
+  canPlayType() {
+    return '';
   }
 }
 
@@ -57,6 +65,7 @@ vi.mock('@/features/jump-game/model/useJump', () => ({
     jump: jumpMock,
     isOnGroundRef: { current: true },
     resetJumpState: resetJumpStateMock,
+    updateJumpFrame: updateJumpFrameMock,
   }),
 }));
 
@@ -72,6 +81,7 @@ vi.mock('@/features/jump-game/model/useObstacles', () => ({
 vi.mock('@/features/jump-game/model/usePlayerSpriteAnimator', () => ({
   usePlayerSpriteAnimator: () => ({
     resetPlayerSpriteState: resetPlayerSpriteStateMock,
+    updatePlayerSpriteFrame: updatePlayerSpriteFrameMock,
   }),
 }));
 
@@ -134,7 +144,7 @@ describe('useJumpGameScene sound effects', () => {
     });
 
     expect(audioInstances).toHaveLength(1);
-    const fishSound = audioInstances.find((audio) => audio.src.endsWith('/fish.wav'));
+    const fishSound = audioInstances.find((audio) => audio.src.endsWith('/fish.ogg'));
     expect(fishSound?.play).toHaveBeenCalledTimes(1);
   });
 
@@ -156,7 +166,7 @@ describe('useJumpGameScene sound effects', () => {
 
     rerender();
 
-    const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.wav'));
+    const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.ogg'));
     expect(endSound).toBeDefined();
     expect(endSound?.play).toHaveBeenCalledTimes(1);
 
@@ -190,7 +200,7 @@ describe('useJumpGameScene sound effects', () => {
 
     rerender();
 
-    const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.wav'));
+    const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.ogg'));
     expect(endSound).toBeUndefined();
   });
 });

@@ -15,7 +15,7 @@ import { usePlayerSpriteAnimator } from '../usePlayerSpriteAnimator';
 import { useJumpInputControls } from '../useJumpInputControls';
 import { useBossClearSequence } from '../useBossClearSequence';
 import { BOSS_CLEAR_ICON, FISH_COUNTER_ICON, SCENE_PRELOAD_SPRITES } from '../config/assets';
-import { getFishCollectSoundEffect, getPlayerFaultSoundEffect } from '../audio';
+import { playFishCollectSoundEffect, playPlayerFaultSoundEffect } from '../audio';
 import { FISH_MAX_TOTAL_SPAWN, FISH_MIN_TOTAL_SPAWN } from '../config/scene-spawn';
 import {
   createBossArmStyle,
@@ -47,12 +47,12 @@ export function useJumpGameScene({
 }: JumpGameBindings): JumpGameSceneView {
   const isMobileViewport = isMobile();
   const isHappyClearPhase = oneOfValues('happy');
-  const playerRef = useRef<HTMLDivElement>(null);
-  const playerSpriteRef = useRef<HTMLImageElement>(null);
-  const gameRef = useRef<HTMLDivElement>(null);
-  const bossRef = useRef<HTMLDivElement>(null);
-  const bossSpriteRef = useRef<HTMLImageElement>(null);
-  const bossArmRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<HTMLDivElement | null>(null);
+  const playerSpriteRef = useRef<HTMLImageElement | null>(null);
+  const gameRef = useRef<HTMLDivElement | null>(null);
+  const bossRef = useRef<HTMLDivElement | null>(null);
+  const bossSpriteRef = useRef<HTMLImageElement | null>(null);
+  const bossArmRef = useRef<HTMLDivElement | null>(null);
 
   const [gameOver, setGameOver] = useState(false);
   const [showBoss, setShowBoss] = useState(false);
@@ -69,27 +69,15 @@ export function useJumpGameScene({
   const lastFishSpawnAtMsRef = useRef(0);
   const hasPlayedFaultSoundRef = useRef(false);
 
-  const playSoundEffect = (soundEffect: HTMLAudioElement | null) => {
-    if (!soundEffect) return;
-
-    soundEffect.currentTime = 0;
-    const playbackAttempt = soundEffect.play();
-    if (!playbackAttempt) return;
-
-    void playbackAttempt.catch(() => {
-      // Ignore autoplay-blocked or interrupted playback. Gameplay state should continue unchanged.
-    });
-  };
-
   const obstacleSpawnInterval = isMobileViewport
     ? MOBILE_OBSTACLE_SPAWN_INTERVAL
     : PC_OBSTACLE_SPAWN_INTERVAL;
 
-  const { jump, isOnGroundRef, resetJumpState } = useJump(playerRef);
+  const { jump, isOnGroundRef, resetJumpState, updateJumpFrame } = useJump(playerRef);
 
   const { obstaclesRef, spawnObstacle, spawnFish, clearObstacles } = useObstacles(gameRef);
 
-  const { resetPlayerSpriteState } = usePlayerSpriteAnimator({
+  const { resetPlayerSpriteState, updatePlayerSpriteFrame } = usePlayerSpriteAnimator({
     playerSpriteRef,
     gameOver,
     isOnGroundRef,
@@ -101,7 +89,7 @@ export function useJumpGameScene({
   });
 
   const handleFishCollected = useCallback(() => {
-    playSoundEffect(getFishCollectSoundEffect());
+    playFishCollectSoundEffect();
     setFishCount((prev) => prev + 1);
   }, []);
 
@@ -131,6 +119,8 @@ export function useJumpGameScene({
     setTitle: (value: string) => setTitle(value),
     setShowBoss,
     setGameOverIcon,
+    updateJumpFrame,
+    updatePlayerSpriteFrame,
   });
 
   const bossClearSequence = useBossClearSequence({
@@ -194,7 +184,7 @@ export function useJumpGameScene({
     if (gameOverIcon === BOSS_CLEAR_ICON || hasPlayedFaultSoundRef.current) return;
 
     hasPlayedFaultSoundRef.current = true;
-    playSoundEffect(getPlayerFaultSoundEffect());
+    playPlayerFaultSoundEffect();
   }, [gameOver, gameOverIcon]);
 
   useEffect(() => {
