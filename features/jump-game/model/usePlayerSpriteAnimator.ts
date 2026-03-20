@@ -75,6 +75,14 @@ type UsePlayerSpriteAnimatorOptions = {
 };
 
 /**
+ * Per-frame player sprite update inputs.
+ */
+type UpdatePlayerSpriteFrameParams = {
+  /** Current high-resolution frame timestamp from the shared game loop. */
+  nowMs: number;
+};
+
+/**
  * Controls frame-based player sprite changes for running, jumping and landing hold.
  *
  * @param options - Sprite animation inputs derived from scene and jump state.
@@ -93,6 +101,7 @@ export function usePlayerSpriteAnimator({
   const currentPlayerSpriteRef = useRef<string>(PLAYER_RUN_SPRITES[0]);
   const requestedPlayerSpriteRef = useRef<string>(PLAYER_RUN_SPRITES[0]);
   const landingHoldUntilRef = useRef(0);
+  const lastRunFrameSwapAtMsRef = useRef(0);
 
   const setPlayerSprite = useCallback(
     (spritePath: string) => {
@@ -125,8 +134,52 @@ export function usePlayerSpriteAnimator({
     currentPlayerSpriteRef.current = PLAYER_RUN_SPRITES[0];
     requestedPlayerSpriteRef.current = PLAYER_RUN_SPRITES[0];
     landingHoldUntilRef.current = 0;
+    lastRunFrameSwapAtMsRef.current = 0;
     setPlayerSprite(PLAYER_RUN_SPRITES[0]);
   }, [setPlayerSprite]);
+
+  const updatePlayerSpriteFrame = useCallback(
+    ({ nowMs }: UpdatePlayerSpriteFrameParams) => {
+      if (gameOver) return;
+
+      const isOnGround = isOnGroundRef.current;
+      if (!isOnGround) {
+        wasOnGroundRef.current = false;
+        lastRunFrameSwapAtMsRef.current = 0;
+        setPlayerSprite(PLAYER_JUMP_SPRITE);
+        return;
+      }
+
+      if (!wasOnGroundRef.current) {
+        wasOnGroundRef.current = true;
+        runFrameIndexRef.current = 0;
+        landingHoldUntilRef.current = nowMs + LANDING_SPRITE_HOLD_MS;
+        lastRunFrameSwapAtMsRef.current = landingHoldUntilRef.current;
+        setPlayerSprite(PLAYER_RUN_SPRITES[0]);
+        return;
+      }
+
+      if (nowMs < landingHoldUntilRef.current) {
+        return;
+      }
+
+      if (lastRunFrameSwapAtMsRef.current === 0) {
+        lastRunFrameSwapAtMsRef.current = nowMs;
+        setPlayerSprite(PLAYER_RUN_SPRITES[runFrameIndexRef.current]);
+        return;
+      }
+
+      const elapsedSinceSwapMs = nowMs - lastRunFrameSwapAtMsRef.current;
+      const frameAdvanceCount = Math.floor(elapsedSinceSwapMs / PLAYER_SPRITE_SWAP_MS);
+      if (frameAdvanceCount <= 0) return;
+
+      runFrameIndexRef.current =
+        (runFrameIndexRef.current + frameAdvanceCount) % PLAYER_RUN_SPRITES.length;
+      lastRunFrameSwapAtMsRef.current += frameAdvanceCount * PLAYER_SPRITE_SWAP_MS;
+      setPlayerSprite(PLAYER_RUN_SPRITES[runFrameIndexRef.current]);
+    },
+    [gameOver, isOnGroundRef, setPlayerSprite],
+  );
 
   useEffect(() => {
     void Promise.all(
@@ -136,37 +189,10 @@ export function usePlayerSpriteAnimator({
     );
     setPlayerSprite(PLAYER_RUN_SPRITES[runFrameIndexRef.current]);
     wasOnGroundRef.current = isOnGroundRef.current;
-
-    if (gameOver) return;
-
-    const spriteIntervalId = window.setInterval(() => {
-      const isOnGround = isOnGroundRef.current;
-      if (!isOnGround) {
-        wasOnGroundRef.current = false;
-        setPlayerSprite(PLAYER_JUMP_SPRITE);
-        return;
-      }
-
-      if (!wasOnGroundRef.current) {
-        wasOnGroundRef.current = true;
-        runFrameIndexRef.current = 0;
-        landingHoldUntilRef.current = performance.now() + LANDING_SPRITE_HOLD_MS;
-        setPlayerSprite(PLAYER_RUN_SPRITES[0]);
-        return;
-      }
-
-      if (performance.now() < landingHoldUntilRef.current) {
-        return;
-      }
-
-      runFrameIndexRef.current = runFrameIndexRef.current === 0 ? 1 : 0;
-      setPlayerSprite(PLAYER_RUN_SPRITES[runFrameIndexRef.current]);
-    }, PLAYER_SPRITE_SWAP_MS);
-
-    return () => clearInterval(spriteIntervalId);
   }, [gameOver, isOnGroundRef, setPlayerSprite]);
 
   return {
     resetPlayerSpriteState,
+    updatePlayerSpriteFrame,
   };
 }
