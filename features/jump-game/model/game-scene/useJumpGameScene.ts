@@ -14,13 +14,8 @@ import {
 import { usePlayerSpriteAnimator } from '../usePlayerSpriteAnimator';
 import { useJumpInputControls } from '../useJumpInputControls';
 import { useBossClearSequence } from '../useBossClearSequence';
-import {
-  BOSS_CLEAR_ICON,
-  FISH_COLLECT_SOUND_EFFECT,
-  FISH_COUNTER_ICON,
-  PLAYER_FAULT_SOUND_EFFECT,
-  SCENE_PRELOAD_SPRITES,
-} from '../config/assets';
+import { BOSS_CLEAR_ICON, FISH_COUNTER_ICON, SCENE_PRELOAD_SPRITES } from '../config/assets';
+import { getFishCollectSoundEffect, getPlayerFaultSoundEffect } from '../audio';
 import { FISH_MAX_TOTAL_SPAWN, FISH_MIN_TOTAL_SPAWN } from '../config/scene-spawn';
 import {
   createBossArmStyle,
@@ -72,8 +67,6 @@ export function useJumpGameScene({
   const nextFishSpawnAtMsRef = useRef(0);
   const lastObstacleSpawnAtMsRef = useRef(0);
   const lastFishSpawnAtMsRef = useRef(0);
-  const fishCollectSoundRef = useRef<HTMLAudioElement | null>(null);
-  const playerFaultSoundRef = useRef<HTMLAudioElement | null>(null);
   const hasPlayedFaultSoundRef = useRef(false);
 
   const playSoundEffect = (soundEffect: HTMLAudioElement | null) => {
@@ -108,7 +101,7 @@ export function useJumpGameScene({
   });
 
   const handleFishCollected = useCallback(() => {
-    playSoundEffect(fishCollectSoundRef.current);
+    playSoundEffect(getFishCollectSoundEffect());
     setFishCount((prev) => prev + 1);
   }, []);
 
@@ -201,7 +194,7 @@ export function useJumpGameScene({
     if (gameOverIcon === BOSS_CLEAR_ICON || hasPlayedFaultSoundRef.current) return;
 
     hasPlayedFaultSoundRef.current = true;
-    playSoundEffect(playerFaultSoundRef.current);
+    playSoundEffect(getPlayerFaultSoundEffect());
   }, [gameOver, gameOverIcon]);
 
   useEffect(() => {
@@ -225,26 +218,6 @@ export function useJumpGameScene({
   useEffect(() => {
     initializeFishSpawnPlan();
   }, [initializeFishSpawnPlan]);
-
-  useEffect(() => {
-    if (typeof Audio === 'undefined') return;
-
-    const fishCollectSound = new Audio(FISH_COLLECT_SOUND_EFFECT);
-    const playerFaultSound = new Audio(PLAYER_FAULT_SOUND_EFFECT);
-    fishCollectSound.preload = 'auto';
-    playerFaultSound.preload = 'auto';
-    fishCollectSoundRef.current = fishCollectSound;
-    playerFaultSoundRef.current = playerFaultSound;
-
-    return () => {
-      fishCollectSound.pause();
-      fishCollectSound.src = '';
-      playerFaultSound.pause();
-      playerFaultSound.src = '';
-      fishCollectSoundRef.current = null;
-      playerFaultSoundRef.current = null;
-    };
-  }, []);
 
   const normalSpawnRate = isMobileViewport
     ? MOBILE_MODE_OBSTACLE_SPAWN_RATE

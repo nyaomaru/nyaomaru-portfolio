@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
+import { resetJumpGameAudioForTesting } from '@/features/jump-game/model/audio';
 import { BOSS_CLEAR_ICON } from '@/features/jump-game/model/config/assets';
 import { useJumpGameScene } from '@/features/jump-game/model/game-scene/useJumpGameScene';
 
@@ -113,6 +114,7 @@ describe('useJumpGameScene sound effects', () => {
     latestGameLoopParams = null;
     audioInstances.length = 0;
     globalThis.Audio = MockAudio as unknown as typeof Audio;
+    resetJumpGameAudioForTesting();
   });
 
   afterEach(() => {
@@ -124,13 +126,14 @@ describe('useJumpGameScene sound effects', () => {
     renderHook(() => useJumpGameScene({}));
 
     expect(latestGameLoopParams).not.toBeNull();
-    expect(audioInstances).toHaveLength(2);
+    expect(audioInstances).toHaveLength(0);
 
     act(() => {
       const onFishCollected = latestGameLoopParams?.onFishCollected as (() => void) | undefined;
       onFishCollected?.();
     });
 
+    expect(audioInstances).toHaveLength(1);
     const fishSound = audioInstances.find((audio) => audio.src.endsWith('/fish.wav'));
     expect(fishSound?.play).toHaveBeenCalledTimes(1);
   });
@@ -154,6 +157,7 @@ describe('useJumpGameScene sound effects', () => {
     rerender();
 
     const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.wav'));
+    expect(endSound).toBeDefined();
     expect(endSound?.play).toHaveBeenCalledTimes(1);
 
     act(() => {
@@ -187,6 +191,6 @@ describe('useJumpGameScene sound effects', () => {
     rerender();
 
     const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.wav'));
-    expect(endSound?.play).not.toHaveBeenCalled();
+    expect(endSound).toBeUndefined();
   });
 });

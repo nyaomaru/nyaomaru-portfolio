@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { isMobile } from '@/shared/lib/window';
-import { PLAYER_JUMP_SOUND_EFFECT } from './config/assets';
 import {
   BASELINE_JUMP_DELTA,
   BASELINE_JUMP_MAX_HEIGHT,
@@ -9,6 +8,7 @@ import {
   JUMP_APEX_HOLD_MS,
   MOBILE_FALL_SPEED_MULTIPLIER,
 } from './config/jump';
+import { getJumpSoundEffect } from './audio';
 import { BASELINE_GAME_HEIGHT, FALLBACK_GAME_HEIGHT } from './config/metrics';
 import {
   MAX_JUMP_COUNT,
@@ -45,7 +45,6 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
   const risingRef = useRef(false);
   const onGroundRef = useRef(true);
   const jumpLockRef = useRef(false);
-  const jumpSoundRef = useRef<HTMLAudioElement | null>(null);
   const currentAnimRef = useRef<JumpAnimationHandles>({});
   const posRef = useRef(0);
   const jumpLockTimeoutRef = useRef<number | undefined>(undefined);
@@ -167,7 +166,7 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
   };
 
   const playJumpSoundEffect = () => {
-    const jumpSound = jumpSoundRef.current;
+    const jumpSound = getJumpSoundEffect();
     if (!jumpSound) return;
 
     jumpSound.currentTime = 0;
@@ -190,20 +189,6 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement>) {
     onGroundRef.current = true;
     jumpLockRef.current = false;
     posRef.current = 0;
-  }, []);
-
-  useEffect(() => {
-    if (typeof Audio === 'undefined') return;
-
-    const jumpSound = new Audio(PLAYER_JUMP_SOUND_EFFECT);
-    jumpSound.preload = 'auto';
-    jumpSoundRef.current = jumpSound;
-
-    return () => {
-      jumpSound.pause();
-      jumpSound.src = '';
-      jumpSoundRef.current = null;
-    };
   }, []);
 
   useEffect(
