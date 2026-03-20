@@ -60,7 +60,7 @@ describe('jump-game audio state', () => {
     await unlockJumpGameAudio({ includeNonJumpEffects: false });
 
     expect(audioInstances).toHaveLength(1);
-    expect(audioInstances[0]?.src.endsWith('/jump.wav')).toBe(true);
+    expect(audioInstances[0]?.src.endsWith('/jump.ogg')).toBe(true);
     expect(audioInstances[0]?.play).toHaveBeenCalledTimes(1);
   });
 

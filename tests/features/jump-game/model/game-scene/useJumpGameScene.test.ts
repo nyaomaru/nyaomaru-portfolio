@@ -158,7 +158,7 @@ describe('useJumpGameScene sound effects', () => {
 
     rerender();
 
-    const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.wav'));
+    const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.ogg'));
     expect(endSound).toBeDefined();
     expect(endSound?.play).toHaveBeenCalledTimes(1);
 
@@ -192,7 +192,7 @@ describe('useJumpGameScene sound effects', () => {
 
     rerender();
 
-    const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.wav'));
+    const endSound = audioInstances.find((audio) => audio.src.endsWith('/end.ogg'));
     expect(endSound).toBeUndefined();
   });
 });
