@@ -6,7 +6,7 @@ import {
 
 const createSoundEffectSourceCandidates = (preferredSource: string) =>
   preferredSource.endsWith('.ogg')
-    ? ([preferredSource, preferredSource.replace(/\.ogg$/, '.wav')] as const)
+    ? ([preferredSource, preferredSource.replace(/\.ogg$/, '.mp3')] as const)
     : ([preferredSource] as const);
 
 const SOUND_EFFECT_SOURCES = {
@@ -112,7 +112,7 @@ const getFallbackSoundEffect = (name: JumpGameSoundName) => {
 
 const getSoundEffectMimeType = (source: string) => {
   if (source.endsWith('.ogg')) return 'audio/ogg; codecs="vorbis"';
-  if (source.endsWith('.wav')) return 'audio/wav; codecs="1"';
+  if (source.endsWith('.mp3')) return 'audio/mpeg';
   return 'audio/*';
 };
 

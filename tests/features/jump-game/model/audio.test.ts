@@ -135,16 +135,16 @@ describe('jump-game audio state', () => {
     expect(bufferSource.start).not.toHaveBeenCalled();
   });
 
-  it('selects wav fallback sources when ogg playback is unsupported', async () => {
+  it('selects mp3 fallback sources when ogg playback is unsupported', async () => {
     vi.spyOn(MockAudio.prototype, 'canPlayType').mockImplementation((...args: string[]) => {
       const mimeType = args[0];
-      return mimeType?.includes('audio/wav') ? 'probably' : '';
+      return mimeType?.includes('audio/mpeg') ? 'probably' : '';
     });
 
     await unlockJumpGameAudio();
 
-    expect(audioInstances.some((audio) => audio.src.endsWith('/jump.wav'))).toBe(true);
-    expect(audioInstances.some((audio) => audio.src.endsWith('/fish.wav'))).toBe(true);
-    expect(audioInstances.some((audio) => audio.src.endsWith('/end.wav'))).toBe(true);
+    expect(audioInstances.some((audio) => audio.src.endsWith('/jump.mp3'))).toBe(true);
+    expect(audioInstances.some((audio) => audio.src.endsWith('/fish.mp3'))).toBe(true);
+    expect(audioInstances.some((audio) => audio.src.endsWith('/end.mp3'))).toBe(true);
   });
 });
