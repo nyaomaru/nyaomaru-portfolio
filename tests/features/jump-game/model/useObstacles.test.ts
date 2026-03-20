@@ -115,6 +115,19 @@ describe('useObstacles', () => {
     });
   });
 
+  it('keeps spawn helpers stable across rerenders', () => {
+    const { result, rerender } = renderHook(() => useObstacles(gameRef));
+    const initialSpawnObstacle = result.current.spawnObstacle;
+    const initialSpawnFish = result.current.spawnFish;
+    const initialClearObstacles = result.current.clearObstacles;
+
+    rerender();
+
+    expect(result.current.spawnObstacle).toBe(initialSpawnObstacle);
+    expect(result.current.spawnFish).toBe(initialSpawnFish);
+    expect(result.current.clearObstacles).toBe(initialClearObstacles);
+  });
+
   describe('spawnFish', () => {
     it('creates a fish collectible element', () => {
       const randomSpy = vi.spyOn(Math, 'random').mockReturnValue(0);
