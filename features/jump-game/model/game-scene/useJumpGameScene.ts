@@ -77,7 +77,7 @@ export function useJumpGameScene({
 
   const { obstaclesRef, spawnObstacle, spawnFish, clearObstacles } = useObstacles(gameRef);
 
-  const { resetPlayerSpriteState } = usePlayerSpriteAnimator({
+  const { resetPlayerSpriteState, updatePlayerSpriteFrame } = usePlayerSpriteAnimator({
     playerSpriteRef,
     gameOver,
     isOnGroundRef,
@@ -120,6 +120,7 @@ export function useJumpGameScene({
     setShowBoss,
     setGameOverIcon,
     updateJumpFrame,
+    updatePlayerSpriteFrame,
   });
 
   const bossClearSequence = useBossClearSequence({

@@ -82,6 +82,38 @@ describe('useJump', () => {
       expect(audioPlayMock).toHaveBeenCalledTimes(1);
     });
 
+    it('uses cached jump metrics instead of reading layout on jump input', () => {
+      let gameHeightReadCount = 0;
+      let playerHeightReadCount = 0;
+      playerRef = {
+        current: {
+          style: { bottom: '0px' },
+          get clientHeight() {
+            playerHeightReadCount += 1;
+            return FALLBACK_PLAYER_HEIGHT;
+          },
+          parentElement: {
+            get clientHeight() {
+              gameHeightReadCount += 1;
+              return BASELINE_GAME_HEIGHT;
+            },
+          },
+        } as HTMLDivElement,
+      };
+
+      const { result } = renderHook(() => useJump(playerRef));
+
+      gameHeightReadCount = 0;
+      playerHeightReadCount = 0;
+
+      act(() => {
+        result.current.jump();
+      });
+
+      expect(gameHeightReadCount).toBe(0);
+      expect(playerHeightReadCount).toBe(0);
+    });
+
     it('prevents jumping when locked', () => {
       const { result } = renderHook(() => useJump(playerRef));
 

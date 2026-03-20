@@ -10,6 +10,7 @@ const spawnObstacleMock = vi.fn();
 const spawnFishMock = vi.fn();
 const clearObstaclesMock = vi.fn();
 const resetPlayerSpriteStateMock = vi.fn();
+const updatePlayerSpriteFrameMock = vi.fn();
 const resetJumpInputMock = vi.fn();
 const resetBossClearSequenceMock = vi.fn();
 let latestGameLoopParams: Record<string, unknown> | null = null;
@@ -74,6 +75,7 @@ vi.mock('@/features/jump-game/model/useObstacles', () => ({
 vi.mock('@/features/jump-game/model/usePlayerSpriteAnimator', () => ({
   usePlayerSpriteAnimator: () => ({
     resetPlayerSpriteState: resetPlayerSpriteStateMock,
+    updatePlayerSpriteFrame: updatePlayerSpriteFrameMock,
   }),
 }));
 

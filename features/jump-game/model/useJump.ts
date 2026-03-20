@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { isMobile } from '@/shared/lib/window';
 import {
   BASELINE_JUMP_DELTA,
@@ -16,6 +16,9 @@ import {
   JUMP_UP_INTERVAL,
   JUMP_DOWN_INTERVAL,
   JUMP_LOCK_INTERVAL,
+  PLAYER_BASE_HEIGHT_RATIO,
+  PLAYER_MAX_HEIGHT_PX,
+  PLAYER_MIN_HEIGHT_PX,
 } from './config/gameplay';
 
 // Baseline dimensions used to scale jump behavior with current game height.
@@ -54,6 +57,40 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement | null>) {
   const jumpMaxHeightRef = useRef(0);
   const jumpApexHoldUntilMsRef = useRef(0);
   const descentVelocityPxPerMsRef = useRef(0);
+  const gameHeightPxRef = useRef(FALLBACK_GAME_HEIGHT);
+  const playerHeightPxRef = useRef(FALLBACK_PLAYER_HEIGHT);
+
+  const updateJumpMetrics = useCallback(() => {
+    const gameElement = playerRef.current?.parentElement as HTMLDivElement | null;
+    const gameHeight = gameElement?.clientHeight || FALLBACK_GAME_HEIGHT;
+    const rawPlayerHeight = gameHeight * PLAYER_BASE_HEIGHT_RATIO;
+    gameHeightPxRef.current = gameHeight;
+    playerHeightPxRef.current = Math.min(
+      PLAYER_MAX_HEIGHT_PX,
+      Math.max(PLAYER_MIN_HEIGHT_PX, rawPlayerHeight),
+    );
+  }, [playerRef]);
+
+  useEffect(() => {
+    updateJumpMetrics();
+
+    const gameElement = playerRef.current?.parentElement as HTMLDivElement | null;
+    const resizeObserver =
+      typeof ResizeObserver === 'undefined'
+        ? null
+        : new ResizeObserver(() => {
+            updateJumpMetrics();
+          });
+    if (gameElement) {
+      resizeObserver?.observe(gameElement);
+    }
+
+    window.addEventListener('resize', updateJumpMetrics);
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', updateJumpMetrics);
+    };
+  }, [playerRef, updateJumpMetrics]);
 
   const jump = () => {
     const nowMs = performance.now();
@@ -79,9 +116,8 @@ export function useJump(playerRef: React.RefObject<HTMLDivElement | null>) {
   };
 
   const prepareJump = (nowMs: number) => {
-    const gameElement = playerRef.current?.parentElement as HTMLDivElement | null;
-    const gameHeight = gameElement?.clientHeight || FALLBACK_GAME_HEIGHT;
-    const playerHeight = playerRef.current?.clientHeight || FALLBACK_PLAYER_HEIGHT;
+    const gameHeight = gameHeightPxRef.current;
+    const playerHeight = playerHeightPxRef.current;
     const scale = gameHeight / BASELINE_GAME_HEIGHT;
     const jumpDelta = BASELINE_JUMP_DELTA * scale;
     const jumpCeiling = BASELINE_JUMP_MAX_HEIGHT * scale;

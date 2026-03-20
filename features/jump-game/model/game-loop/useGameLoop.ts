@@ -83,6 +83,8 @@ type UseGameLoopParams = {
   setGameOverIcon: (value: string | null) => void;
   /** Advances jump motion using the same animation-frame timing as the rest of the scene. */
   updateJumpFrame?: (params: { nowMs: number; deltaTimeMs: number }) => void;
+  /** Advances player sprite animation using the same animation-frame timing as the rest of the scene. */
+  updatePlayerSpriteFrame?: (params: { nowMs: number }) => void;
 };
 
 /**
@@ -105,6 +107,7 @@ type UseGameLoopParams = {
  * @param params.setShowBoss - Setter for boss visibility state.
  * @param params.setGameOverIcon - Setter for game-over icon source.
  * @param params.updateJumpFrame - Optional per-frame jump updater driven by the shared loop.
+ * @param params.updatePlayerSpriteFrame - Optional per-frame sprite updater driven by the shared loop.
  * @returns Nothing. Runs simulation as side-effect via animation frame and timers.
  */
 export function useGameLoop({
@@ -124,6 +127,7 @@ export function useGameLoop({
   setShowBoss,
   setGameOverIcon,
   updateJumpFrame,
+  updatePlayerSpriteFrame,
 }: UseGameLoopParams) {
   const isArmAttackCollisionPhase = oneOfValues(ARM_PHASE.EXTENDING, ARM_PHASE.HOLD);
   const isIdleArmPhase = oneOfValues(ARM_PHASE.IDLE);
@@ -355,6 +359,7 @@ export function useGameLoop({
       const timing = getFrameTiming(nowMs, lastFrameAtMsRef.current);
       lastFrameAtMsRef.current = timing.nowMs;
       updateJumpFrame?.({ nowMs: timing.nowMs, deltaTimeMs: timing.deltaTimeMs });
+      updatePlayerSpriteFrame?.({ nowMs: timing.nowMs });
 
       const elapsedTime = getElapsedTime(startTimeRef.current, Date.now());
       startTimeRef.current = elapsedTime.startTimeMs;
@@ -376,17 +381,15 @@ export function useGameLoop({
             gameWidthPx: getGameWidth(),
           });
       const obstacleSpeedPxPerSec = getObstacleSpeedPxPerSec(isMobileViewport, desktopPaceScale);
-      const playerRect = playerRef.current?.getBoundingClientRect() ?? null;
-      const gameRect = gameRef.current?.getBoundingClientRect() ?? null;
       const fatalCollisionIcon = updateObstaclesFrame({
         clearRequested: clearRequestedRef.current,
         obstacleSpeedPxPerSec,
         deltaTimeMs: timing.deltaTimeMs,
         obstaclesRef,
         playerRef,
-        playerRect,
         getGameWidth,
-        getGameRect: () => gameRect,
+        getPlayerRect: () => playerRef.current?.getBoundingClientRect() ?? null,
+        getGameRect: () => gameRef.current?.getBoundingClientRect() ?? null,
         isBossVisible: showBossRef.current,
         onFishCollected,
       });
