@@ -3,22 +3,20 @@ import {
   useSpecialRocketIconTransition,
   type JumpGameBindings,
 } from '../model/game-scene';
-import { PLAYER_RUN_SPRITES } from '../model/config/assets';
 import {
   BossLayer,
   FishCounterOverlay,
   GameOverOverlay,
+  PlayerLayer,
   SpecialClearOverlay,
   SpecialFinOverlay,
   SpecialFlyoutOverlay,
 } from './JumpGameLayers';
-import styles from './JumpGame.module.css';
 
 const FISH_COUNTER_BONE_ICON = '/assets/icons/nyaomaru_web_icon_sakana_bone.svg';
 const GAME_AREA_CLASS_NAME =
   'relative w-full h-[min(24rem,62vh)] sm:h-auto sm:aspect-[67/20] overflow-hidden';
 const ROOT_CLASS_NAME = 'relative';
-const PLAYER_WRAP_CLASS_NAME = `absolute bottom-0 aspect-square ${styles.player}`;
 
 /**
  * Primary jump-game scene component that binds model hooks to layered UI rendering.
@@ -98,21 +96,11 @@ export default function JumpGame({
 
         <SpecialFinOverlay showSpecialFin={showSpecialFin} specialFinIconSrc={specialFinIconSrc} />
 
-        <div
-          ref={refs.playerRef}
-          className={PLAYER_WRAP_CLASS_NAME}
-          style={playerStyle}
-          aria-hidden
-        >
-          <img
-            ref={refs.playerSpriteRef}
-            src={PLAYER_RUN_SPRITES[0]}
-            alt=''
-            className={styles.playerSprite}
-            draggable={false}
-            aria-hidden
-          />
-        </div>
+        <PlayerLayer
+          playerRef={refs.playerRef}
+          playerSpriteRef={refs.playerSpriteRef}
+          playerStyle={playerStyle}
+        />
 
         <BossLayer
           shouldRenderBoss={shouldRenderBoss}
