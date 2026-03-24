@@ -3,6 +3,7 @@ import type { CSSProperties, RefObject } from 'react';
 import {
   BOSS_BASE_SPRITES,
   OBSTACLE_GAME_OVER_ICON_SOURCES,
+  PLAYER_RUN_SPRITES,
   SPECIAL_BYE_BYE_1,
   SPECIAL_ROCKET_ICON_1,
   SPECIAL_ROCKET_ICON_2,
@@ -30,6 +31,7 @@ import styles from './JumpGame.module.css';
 
 const SPECIAL_BYE_IMAGE_CLASS_NAME = `absolute left-1/2 top-1/2 object-contain ${styles.rocketScaleUpByeBye1} ${styles.byeByeOverlayIcon}`;
 const SPECIAL_FLYOUT_ITEM_CLASS_NAME = `${SPECIAL_FLYOUT_ITEM_BASE_CLASS_NAME} ${styles.flyoutMotion}`;
+const PLAYER_WRAP_CLASS_NAME = `absolute bottom-0 aspect-square ${styles.player}`;
 
 const isRocketIcon1 = equals(SPECIAL_ROCKET_ICON_1);
 const isRocketIcon2 = equals(SPECIAL_ROCKET_ICON_2);
@@ -122,6 +124,15 @@ type BossLayerProps = {
   bossStyle: CSSProperties;
   /** Static baseline style for boss arm element. */
   bossArmStyle: CSSProperties;
+};
+
+type PlayerLayerProps = {
+  /** Player container reference driven by jump/game-loop transforms. */
+  playerRef: RefObject<HTMLDivElement | null>;
+  /** Player sprite image reference whose `src` is swapped during animation. */
+  playerSpriteRef: RefObject<HTMLImageElement | null>;
+  /** Static baseline style for player container sizing/placement. */
+  playerStyle: CSSProperties;
 };
 
 const getSpecialRocketClassName = (
@@ -285,6 +296,19 @@ export const SpecialFinOverlay = ({
     </div>
   );
 };
+
+export const PlayerLayer = ({ playerRef, playerSpriteRef, playerStyle }: PlayerLayerProps) => (
+  <div ref={playerRef} className={PLAYER_WRAP_CLASS_NAME} style={playerStyle} aria-hidden>
+    <img
+      ref={playerSpriteRef}
+      src={PLAYER_RUN_SPRITES[0]}
+      alt=''
+      className={styles.playerSprite}
+      draggable={false}
+      aria-hidden
+    />
+  </div>
+);
 
 export const BossLayer = ({
   shouldRenderBoss,
