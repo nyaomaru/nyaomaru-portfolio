@@ -3,16 +3,18 @@ import { Link, useLocation, useSearchParams } from '@remix-run/react';
 import { equals } from 'is-kit';
 import { Button } from '@/shared/ui';
 import { GitHubLink } from './GitHubLink';
+import { LinkedInLink } from './LinkedInLink';
 import { MailTo } from './MailTo';
 import { NavigationLinks } from './NavigationLinks';
+import { XLink } from './XLink';
 
 const HEADER_ROOT_CLASS_NAME =
   'fixed top-0 left-0 right-0 bg-transparent backdrop-blur-sm shadow-sm z-50 px-4 sm:px-6 lg:px-8';
-const HEADER_ROW_CLASS_NAME = 'flex items-center justify-between h-16';
+const HEADER_ROW_CLASS_NAME = 'flex items-center justify-between h-16 mt-4';
 const HEADER_LEFT_GROUP_CLASS_NAME = 'flex items-center space-x-8';
 const LOGO_LINK_CLASS_NAME = 'flex items-center group space-x-2';
-const LOGO_BOX_CLASS_NAME = 'relative w-[10rem] h-10';
-const LOGO_IMAGE_CLASS_NAME = 'absolute top-0 left-0 w-[10rem] h-10 block object-contain';
+const LOGO_BOX_CLASS_NAME = 'relative w-[9rem] h-10';
+const LOGO_IMAGE_CLASS_NAME = 'absolute top-0 left-0 w-[9rem] h-9 block object-contain';
 const MOBILE_MENU_BUTTON_CLASS_NAME =
   'text-main hover:text-main active:text-main focus-visible:text-main shadow-none [background-image:none] hover:[background-image:none] [&_svg]:!h-6 [&_svg]:!w-6';
 const MOBILE_MENU_CONTAINER_CLASS_NAME =
@@ -108,6 +110,8 @@ const Header = () => {
           <div className='hidden sm:flex items-center gap-1'>
             <MailTo />
             <GitHubLink />
+            <LinkedInLink />
+            <XLink />
           </div>
         </div>
       </div>
@@ -172,6 +176,12 @@ const Header = () => {
             </div>
             <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
               <MailTo iconSrc='/assets/icons/nyaomaru_web_icon_mail_mobile.svg' />
+            </div>
+            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
+              <LinkedInLink />
+            </div>
+            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
+              <XLink />
             </div>
           </div>
         </div>
