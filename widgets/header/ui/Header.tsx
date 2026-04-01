@@ -24,12 +24,12 @@ const MOBILE_MENU_CLOSED_CLASS_NAME = 'translate-x-[110%] opacity-0';
 const MOBILE_MENU_BACKGROUND_IMAGE_CLASS_NAME =
   'absolute left-1/2 top-1/2 w-screen h-auto -translate-x-1/2 -translate-y-1/2 max-h-none object-contain';
 const MOBILE_MENU_LINKS_GROUP_CLASS_NAME =
-  'absolute left-1/2 top-[43%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-6 pointer-events-auto';
+  'absolute left-1/2 top-[49%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-6 pointer-events-auto';
 const MOBILE_MENU_LINK_CLASS_NAME = 'relative inline-flex items-center pb-1';
 const MOBILE_MENU_LINK_ICON_CLASS_NAME = 'h-4 w-auto';
 const MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME = 'absolute -bottom-1 left-0 h-0.5 w-full bg-main';
 const MOBILE_MENU_SOCIALS_CLASS_NAME =
-  'absolute left-1/2 top-[42%] translate-y-28 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-auto';
+  'absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 flex items-center pointer-events-auto';
 const MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME = 'scale-110';
 const HAMBURGER_ICON_SIZE = 24;
 const HAMBURGER_ICON_STROKE_WIDTH = 2;
@@ -131,6 +131,21 @@ const Header = () => {
         </div>
 
         <div className='relative h-full w-full pointer-events-none'>
+          <div className={MOBILE_MENU_SOCIALS_CLASS_NAME}>
+            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
+              <MailTo iconSrc='/assets/icons/nyaomaru_web_icon_mail_mobile.svg' />
+            </div>
+            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
+              <GitHubLink iconSrc='/assets/icons/nyaomaru_web_icon_github_mobile.svg' />
+            </div>
+            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
+              <LinkedInLink iconSrc='/assets/icons/nyaomaru_web_icon_linkedin_mobile.svg' />
+            </div>
+            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
+              <XLink iconSrc='/assets/icons/nyaomaru_web_icon_x_mobile.svg' />
+            </div>
+          </div>
+
           <div className={MOBILE_MENU_LINKS_GROUP_CLASS_NAME}>
             <Link
               to='/profile'
@@ -168,21 +183,6 @@ const Header = () => {
               />
               {isGameActive && <span className={MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME} />}
             </Link>
-          </div>
-
-          <div className={MOBILE_MENU_SOCIALS_CLASS_NAME}>
-            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
-              <GitHubLink iconSrc='/assets/icons/nyaomaru_web_icon_github_mobile.svg' />
-            </div>
-            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
-              <MailTo iconSrc='/assets/icons/nyaomaru_web_icon_mail_mobile.svg' />
-            </div>
-            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
-              <LinkedInLink />
-            </div>
-            <div className={MOBILE_MENU_SOCIAL_ICON_SCALE_CLASS_NAME}>
-              <XLink />
-            </div>
           </div>
         </div>
       </div>
