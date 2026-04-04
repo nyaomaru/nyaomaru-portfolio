@@ -6,7 +6,10 @@ import { Toaster } from '@/shared/ui';
 import '@fontsource-variable/source-sans-3';
 import tailwindStyles from './tailwind.css?url';
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: tailwindStyles }];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: tailwindStyles },
+  { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+];
 
 export const meta: MetaFunction = () => {
   const title = 'Nyaomaru Portfolio';
