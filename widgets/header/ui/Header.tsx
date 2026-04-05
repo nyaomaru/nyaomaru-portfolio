@@ -54,25 +54,28 @@ const Header = () => {
         <div className={HEADER_ROW_CLASS_NAME}>
           {/* Left: Logo + Links */}
           <div className={HEADER_LEFT_GROUP_CLASS_NAME}>
-            <Link to='/' className={LOGO_LINK_CLASS_NAME}>
+            <Link to='/' aria-label='Home' className={LOGO_LINK_CLASS_NAME}>
               {/* Logo container */}
               <div className={LOGO_BOX_CLASS_NAME}>
                 {showSvg ? (
                   <img
                     src='/assets/nyaomaru.gif'
-                    alt='Nyaomaru Dance'
+                    alt=''
+                    aria-hidden
                     className={LOGO_IMAGE_CLASS_NAME}
                   />
                 ) : (
                   <>
                     <img
                       src='/assets/nyaomaru_logo2.svg'
-                      alt='Nyaomaru Logo Light'
+                      alt=''
+                      aria-hidden
                       className={`${LOGO_IMAGE_CLASS_NAME} dark:hidden`}
                     />
                     <img
                       src='/assets/nyaomaru_logo2.svg'
-                      alt='Nyaomaru Logo Dark'
+                      alt=''
+                      aria-hidden
                       className={`${LOGO_IMAGE_CLASS_NAME} hidden dark:block`}
                     />
                   </>
@@ -91,7 +94,11 @@ const Header = () => {
               onClick={() => setMenuOpen((v) => !v)}
             >
               {menuOpen ? (
-                <img src='/assets/icons/nyaomaru_web_icon_close.svg' alt='' className='h-6 w-6' />
+                <img
+                  src='/assets/icons/nyaomaru_web_icon_close.svg'
+                  alt='menu close icon'
+                  className='h-6 w-6'
+                />
               ) : (
                 <svg
                   width={HAMBURGER_ICON_SIZE}
@@ -125,7 +132,7 @@ const Header = () => {
         <div className='absolute inset-0'>
           <img
             src='/assets/nyaomaru_icon.svg'
-            alt=''
+            alt='nyaomaru icon background'
             className={MOBILE_MENU_BACKGROUND_IMAGE_CLASS_NAME}
           />
         </div>
@@ -149,36 +156,42 @@ const Header = () => {
           <div className={MOBILE_MENU_LINKS_GROUP_CLASS_NAME}>
             <Link
               to='/profile'
+              aria-label='Profile'
               className={MOBILE_MENU_LINK_CLASS_NAME}
               onClick={() => setMenuOpen(false)}
             >
               <img
                 src='/assets/text/nyaomaru_web_text_profile_mobile.svg'
-                alt='Profile'
+                alt=''
+                aria-hidden
                 className={MOBILE_MENU_LINK_ICON_CLASS_NAME}
               />
               {isProfileActive && <span className={MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME} />}
             </Link>
             <Link
               to='/articles'
+              aria-label='Articles'
               className={MOBILE_MENU_LINK_CLASS_NAME}
               onClick={() => setMenuOpen(false)}
             >
               <img
                 src='/assets/text/nyaomaru_web_text_article_mobile.svg'
-                alt='Articles'
+                alt=''
+                aria-hidden
                 className={MOBILE_MENU_LINK_ICON_CLASS_NAME}
               />
               {isArticlesActive && <span className={MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME} />}
             </Link>
             <Link
               to='/game'
+              aria-label='Game'
               className={MOBILE_MENU_LINK_CLASS_NAME}
               onClick={() => setMenuOpen(false)}
             >
               <img
                 src='/assets/text/nyaomaru_web_icon_text_text_game_mobile.svg'
-                alt='Game'
+                alt=''
+                aria-hidden
                 className={MOBILE_MENU_LINK_ICON_CLASS_NAME}
               />
               {isGameActive && <span className={MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME} />}

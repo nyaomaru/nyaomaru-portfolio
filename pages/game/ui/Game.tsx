@@ -58,7 +58,7 @@ const StartScreen = () => (
     <div className={START_SCREEN_TITLE_LAYER_CLASS_NAME} aria-hidden>
       <img
         src={START_GAME_TITLE_ICON}
-        alt=''
+        alt='start game title'
         className={START_SCREEN_TITLE_IMAGE_CLASS_NAME}
         draggable={false}
       />
@@ -66,7 +66,7 @@ const StartScreen = () => (
     <div className={START_SCREEN_PLAYER_LAYER_CLASS_NAME} style={START_PLAYER_STYLE} aria-hidden>
       <img
         src={START_NYAOMARU_ICON}
-        alt=''
+        alt='start game player'
         className='block w-full h-full object-contain object-center'
         draggable={false}
       />
@@ -192,7 +192,7 @@ const Game = () => {
             >
               <img
                 src={isSoundEnabled ? SOUND_ON_ICON : SOUND_OFF_ICON}
-                alt=''
+                alt={isSoundEnabled ? 'Sound on' : 'Sound off'}
                 aria-hidden
                 className={SOUND_TOGGLE_ICON_CLASS_NAME}
                 draggable={false}

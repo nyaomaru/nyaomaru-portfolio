@@ -23,7 +23,7 @@ const TerminalHeader = ({ onRedButtonClick, onGreenButtonClick }: TerminalHeader
         title='Show ASCII art'
         aria-label='Show ASCII art'
       >
-        <img src='/assets/nyaomaru_icon.svg' alt='' className='h-5 w-5' />
+        <img src='/assets/nyaomaru_icon.svg' alt='secret nyaomaru icon' className='h-5 w-5' />
       </button>
       <button
         type='button'
@@ -32,7 +32,11 @@ const TerminalHeader = ({ onRedButtonClick, onGreenButtonClick }: TerminalHeader
         title='Reset terminal'
         aria-label='Reset terminal'
       >
-        <img src='/assets/icons/nyaomaru_web_icon_reload.svg' alt='' className='h-5 w-5' />
+        <img
+          src='/assets/icons/nyaomaru_web_icon_reload.svg'
+          alt='reload icon'
+          className='h-5 w-5'
+        />
       </button>
     </div>
   </div>
