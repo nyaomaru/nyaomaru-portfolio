@@ -131,7 +131,7 @@ export const CursorNyaomaru = () => {
     <img
       ref={iconRef}
       src='/assets/nyaomaru_icon.svg'
-      alt=''
+      alt='nyaomaru cursor'
       className='pointer-events-none fixed left-0 top-0 z-[70] opacity-0 transition-[opacity,transform] duration-200 ease-out will-change-transform'
       style={{
         width: '14rem',

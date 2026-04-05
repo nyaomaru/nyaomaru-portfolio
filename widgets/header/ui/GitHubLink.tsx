@@ -12,6 +12,6 @@ export const GitHubLink = ({
     className='text-foreground hover:text-primary/80 transition-colors w-10 h-10 text-center justify-center items-center flex'
     aria-label='GitHub'
   >
-    <img src={iconSrc} alt='' className='h-7 w-7' />
+    <img src={iconSrc} alt='Github icon' className='h-7 w-7' />
   </a>
 );

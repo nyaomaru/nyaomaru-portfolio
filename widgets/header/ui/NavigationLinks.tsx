@@ -45,14 +45,14 @@ const NavigationLinks = ({ onNavigate, className = '' }: NavigationLinksProps) =
               <>
                 <img
                   src='/assets/text/nyaomaru_web_text_profile.svg'
-                  alt=''
+                  alt='profile text icon'
                   className={`hidden h-3 w-auto transition sm:block ${
                     isActive ? 'brightness-75' : ''
                   }`}
                 />
                 <img
                   src='/assets/text/nyaomaru_web_text_profile_mobile.svg'
-                  alt=''
+                  alt='profile text icon for mobile'
                   className={`h-3 w-auto transition sm:hidden ${isActive ? 'brightness-75' : ''}`}
                 />
                 <span className='sr-only'>Profile</span>
@@ -61,14 +61,14 @@ const NavigationLinks = ({ onNavigate, className = '' }: NavigationLinksProps) =
               <>
                 <img
                   src='/assets/text/nyaomaru_web_text_article.svg'
-                  alt=''
+                  alt='article text icon'
                   className={`hidden h-3 w-auto transition sm:block ${
                     isActive ? 'brightness-75' : ''
                   }`}
                 />
                 <img
                   src='/assets/text/nyaomaru_web_text_article_mobile.svg'
-                  alt=''
+                  alt='article text icon for mobile'
                   className={`h-3 w-auto transition sm:hidden ${isActive ? 'brightness-75' : ''}`}
                 />
                 <span className='sr-only'>Articles</span>
@@ -77,7 +77,7 @@ const NavigationLinks = ({ onNavigate, className = '' }: NavigationLinksProps) =
               <>
                 <img
                   src='/assets/text/nyaomaru_web_icon_text_text_game.svg'
-                  alt=''
+                  alt='game text icon'
                   className={`h-3 w-auto transition ${isActive ? 'brightness-75' : ''}`}
                 />
                 <span className='sr-only'>Game</span>

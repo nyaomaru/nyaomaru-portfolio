@@ -91,7 +91,11 @@ const Header = () => {
               onClick={() => setMenuOpen((v) => !v)}
             >
               {menuOpen ? (
-                <img src='/assets/icons/nyaomaru_web_icon_close.svg' alt='' className='h-6 w-6' />
+                <img
+                  src='/assets/icons/nyaomaru_web_icon_close.svg'
+                  alt='menu close icon'
+                  className='h-6 w-6'
+                />
               ) : (
                 <svg
                   width={HAMBURGER_ICON_SIZE}
@@ -125,7 +129,7 @@ const Header = () => {
         <div className='absolute inset-0'>
           <img
             src='/assets/nyaomaru_icon.svg'
-            alt=''
+            alt='nyaomaru icon background'
             className={MOBILE_MENU_BACKGROUND_IMAGE_CLASS_NAME}
           />
         </div>

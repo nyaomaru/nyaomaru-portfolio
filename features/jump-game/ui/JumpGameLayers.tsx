@@ -184,7 +184,12 @@ export const GameOverOverlay = ({
 
   return (
     <div className={GAME_OVER_OVERLAY_CLASS_NAME}>
-      <img src={gameOverDisplayIcon} alt='' className={gameOverIconClassName} aria-hidden />
+      <img
+        src={gameOverDisplayIcon}
+        alt='game over'
+        className={gameOverIconClassName}
+        aria-hidden
+      />
     </div>
   );
 };
@@ -222,7 +227,7 @@ export const SpecialClearOverlay = ({
       {fadingSpecialRocketIconSrc && (
         <img
           src={fadingSpecialRocketIconSrc}
-          alt=''
+          alt='fading rocket'
           className={fadingRocketClassName}
           aria-hidden
         />
@@ -230,7 +235,7 @@ export const SpecialClearOverlay = ({
       {displayedSpecialRocketIconSrc && (
         <img
           src={displayedSpecialRocketIconSrc}
-          alt=''
+          alt='displayed rocket'
           className={displayedRocketClassName}
           aria-hidden
         />
@@ -238,7 +243,7 @@ export const SpecialClearOverlay = ({
       {shouldShowByeByeIcon && (
         <img
           src={specialByeByeIconSrc}
-          alt=''
+          alt='bye bye'
           className={SPECIAL_BYE_IMAGE_CLASS_NAME}
           aria-hidden
         />
@@ -272,7 +277,7 @@ export const SpecialFlyoutOverlay = ({
         <div className={styles.flyoutOrient}>
           <img
             src={specialFlyoutIconSrc}
-            alt=''
+            alt='special flyout'
             className='w-full h-auto object-contain'
             aria-hidden
           />
@@ -292,7 +297,12 @@ export const SpecialFinOverlay = ({
 
   return (
     <div className={SPECIAL_FIN_OVERLAY_CLASS_NAME}>
-      <img src={specialFinIconSrc} alt='' className={SPECIAL_FIN_IMAGE_CLASS_NAME} aria-hidden />
+      <img
+        src={specialFinIconSrc}
+        alt='special fin'
+        className={SPECIAL_FIN_IMAGE_CLASS_NAME}
+        aria-hidden
+      />
     </div>
   );
 };
@@ -302,7 +312,7 @@ export const PlayerLayer = ({ playerRef, playerSpriteRef, playerStyle }: PlayerL
     <img
       ref={playerSpriteRef}
       src={PLAYER_RUN_SPRITES[0]}
-      alt=''
+      alt='player'
       className={styles.playerSprite}
       draggable={false}
       aria-hidden
@@ -328,7 +338,7 @@ export const BossLayer = ({
         <img
           ref={bossSpriteRef}
           src={BOSS_BASE_SPRITES[0]}
-          alt=''
+          alt='boss'
           className={styles.bossSprite}
           draggable={false}
           aria-hidden
