@@ -54,25 +54,28 @@ const Header = () => {
         <div className={HEADER_ROW_CLASS_NAME}>
           {/* Left: Logo + Links */}
           <div className={HEADER_LEFT_GROUP_CLASS_NAME}>
-            <Link to='/' className={LOGO_LINK_CLASS_NAME}>
+            <Link to='/' aria-label='Home' className={LOGO_LINK_CLASS_NAME}>
               {/* Logo container */}
               <div className={LOGO_BOX_CLASS_NAME}>
                 {showSvg ? (
                   <img
                     src='/assets/nyaomaru.gif'
-                    alt='Nyaomaru Dance'
+                    alt=''
+                    aria-hidden
                     className={LOGO_IMAGE_CLASS_NAME}
                   />
                 ) : (
                   <>
                     <img
                       src='/assets/nyaomaru_logo2.svg'
-                      alt='Nyaomaru Logo Light'
+                      alt=''
+                      aria-hidden
                       className={`${LOGO_IMAGE_CLASS_NAME} dark:hidden`}
                     />
                     <img
                       src='/assets/nyaomaru_logo2.svg'
-                      alt='Nyaomaru Logo Dark'
+                      alt=''
+                      aria-hidden
                       className={`${LOGO_IMAGE_CLASS_NAME} hidden dark:block`}
                     />
                   </>
