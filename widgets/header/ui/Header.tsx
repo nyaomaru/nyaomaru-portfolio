@@ -153,36 +153,42 @@ const Header = () => {
           <div className={MOBILE_MENU_LINKS_GROUP_CLASS_NAME}>
             <Link
               to='/profile'
+              aria-label='Profile'
               className={MOBILE_MENU_LINK_CLASS_NAME}
               onClick={() => setMenuOpen(false)}
             >
               <img
                 src='/assets/text/nyaomaru_web_text_profile_mobile.svg'
-                alt='Profile'
+                alt=''
+                aria-hidden
                 className={MOBILE_MENU_LINK_ICON_CLASS_NAME}
               />
               {isProfileActive && <span className={MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME} />}
             </Link>
             <Link
               to='/articles'
+              aria-label='Articles'
               className={MOBILE_MENU_LINK_CLASS_NAME}
               onClick={() => setMenuOpen(false)}
             >
               <img
                 src='/assets/text/nyaomaru_web_text_article_mobile.svg'
-                alt='Articles'
+                alt=''
+                aria-hidden
                 className={MOBILE_MENU_LINK_ICON_CLASS_NAME}
               />
               {isArticlesActive && <span className={MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME} />}
             </Link>
             <Link
               to='/game'
+              aria-label='Game'
               className={MOBILE_MENU_LINK_CLASS_NAME}
               onClick={() => setMenuOpen(false)}
             >
               <img
                 src='/assets/text/nyaomaru_web_icon_text_text_game_mobile.svg'
-                alt='Game'
+                alt=''
+                aria-hidden
                 className={MOBILE_MENU_LINK_ICON_CLASS_NAME}
               />
               {isGameActive && <span className={MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME} />}
