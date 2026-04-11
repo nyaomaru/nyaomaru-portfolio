@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'Building a Browser Game with React: What Doesn’t work well (Run Away From Work)',
+    summary:
+      'I built a browser game called “Run Away From Work” using React. In this article, I share the challenges I faced and what did not work well during the development process.',
+    url: 'https://dev.to/nyaomaru/building-a-browser-game-with-react-what-doesnt-work-well-run-away-from-work-1khf',
+  },
+  {
     title: 'Run Away From Work — Stopped Using React for the Game Loop',
     summary:
       'Run Away From Work is a browser game built with React. This article shares the journey of optimizing the game loop by moving away from React, and the lessons learned along the way.',
