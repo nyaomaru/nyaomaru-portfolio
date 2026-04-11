@@ -102,8 +102,6 @@ body {
     --button-step-1: var(--button-tile-pixel);
     --button-step-2: calc(var(--button-step-1) * 2);
     --button-step-3: calc(var(--button-step-1) * 3);
-    --button-step-4: calc(var(--button-step-1) * 4);
-    --button-step-6: calc(var(--button-step-1) * 6);
     --button-color: rgb(var(--main));
     --button-fill: rgb(var(--surface));
     --button-shell-shape: polygon(
