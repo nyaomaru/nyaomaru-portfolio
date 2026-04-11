@@ -5,16 +5,18 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from 'shared/lib/css';
 
 const buttonVariants = cva(
-  'frame text-card-foreground shadow-sm inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors hover:[--frame-fill:var(--frame-color)] hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  'button-frame text-card-foreground shadow-sm inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-[color,filter] hover:[--button-fill:var(--button-color)] hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
         default: '',
-        destructive: 'text-destructive',
+        destructive:
+          '[--button-color:rgb(var(--destructive))] text-destructive hover:text-destructive-foreground',
         outline: '',
         secondary: '',
-        ghost: '',
-        link: 'text-primary underline-offset-4 hover:underline',
+        ghost:
+          'shadow-none before:hidden after:hidden hover:[--button-fill:rgb(var(--surface))] hover:text-card-foreground',
+        link: 'shadow-none before:hidden after:hidden text-primary underline-offset-4 hover:underline',
         profile: 'px-4 py-2',
       },
       size: {
