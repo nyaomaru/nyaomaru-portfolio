@@ -153,7 +153,7 @@ const getSpecialRocketClassName = (
     shouldGroundRocketIcon
       ? styles.rocketGrounded
       : isByeBye1
-        ? styles.rocketGroundedMobileOnly
+        ? styles.rocketGroundedByeBye1
         : styles.rocketCentered,
     transitionClass,
     motionClass,
