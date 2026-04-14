@@ -18,15 +18,12 @@
   --jump-rocket-fade-duration: 180ms;
   --jump-rocket-entry-duration: 3000ms;
   --jump-bye-overlay-float-duration: 900ms;
-  --jump-rocket-scale-down-width: 24%;
-  --jump-rocket-scale-down-min-width: 12rem;
-  --jump-rocket-scale-down-max-width: 24rem;
+  --jump-rocket-base-width: 24%;
+  --jump-rocket-base-min-width: 12rem;
+  --jump-rocket-base-max-width: 24rem;
   --jump-rocket-scale-up-bye-width: 16%;
   --jump-rocket-scale-up-bye-min-width: 8rem;
   --jump-rocket-scale-up-bye-max-width: 16rem;
-  --jump-rocket-default-width: 24%;
-  --jump-rocket-default-min-width: 12rem;
-  --jump-rocket-default-max-width: 24rem;
   --jump-player-left-default: max(2.5rem, 8%);
   --jump-player-left-mobile: max(0.5rem, calc(8% - 1.75rem));
   --jump-mobile-rocket-scale-down-width: 36%;
@@ -121,9 +118,9 @@
 }
 
 .rocketScaleDown {
-  width: var(--jump-rocket-scale-down-width);
-  min-width: var(--jump-rocket-scale-down-min-width);
-  max-width: var(--jump-rocket-scale-down-max-width);
+  width: var(--jump-rocket-base-width);
+  min-width: var(--jump-rocket-base-min-width);
+  max-width: var(--jump-rocket-base-max-width);
 }
 
 .rocketScaleUpByeBye1 {
@@ -133,15 +130,15 @@
 }
 
 .rocketScaleByeBye1Main {
-  width: var(--jump-rocket-scale-down-width);
-  min-width: var(--jump-rocket-scale-down-min-width);
-  max-width: var(--jump-rocket-scale-down-max-width);
+  width: var(--jump-rocket-base-width);
+  min-width: var(--jump-rocket-base-min-width);
+  max-width: var(--jump-rocket-base-max-width);
 }
 
 .rocketDefaultScale {
-  width: var(--jump-rocket-default-width);
-  min-width: var(--jump-rocket-default-min-width);
-  max-width: var(--jump-rocket-default-max-width);
+  width: var(--jump-rocket-base-width);
+  min-width: var(--jump-rocket-base-min-width);
+  max-width: var(--jump-rocket-base-max-width);
 }
 
 .rocketGrounded {
@@ -152,11 +149,6 @@
 .rocketCentered {
   top: 50%;
   transform: translate(-50%, -50%);
-}
-
-.rocketGroundedByeBye1 {
-  bottom: 0;
-  transform: translateX(-50%);
 }
 
 .rocketFadeIn {
@@ -233,10 +225,5 @@
     width: var(--jump-mobile-rocket-scale-down-width);
     min-width: var(--jump-mobile-rocket-scale-down-min-width);
     max-width: var(--jump-mobile-rocket-scale-down-max-width);
-  }
-
-  .rocketGroundedByeBye1 {
-    bottom: 0;
-    transform: translateX(-50%);
   }
 }
