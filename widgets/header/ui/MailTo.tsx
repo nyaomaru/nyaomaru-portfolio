@@ -38,7 +38,7 @@ const MailTo = ({ iconSrc = '/assets/icons/nyaomaru_web_icon_mail.svg' }: MailTo
         </span>
       </DialogTrigger>
       <DialogContent className='text-center space-y-2 sm:max-w-md'>
-        <DialogHeader>
+        <DialogHeader className='text-left'>
           <DialogTitle>Contact via Email</DialogTitle>
           <DialogDescription className='text-sm text-sub'>
             Please copy the email address below
