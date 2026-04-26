@@ -16,14 +16,14 @@ args = [
 
 [mcp_servers.chrome_devtools]
 command = "npx"
-args = ["-y", "chrome-devtools-mcp@latest", "--no-usage-statistics"]
+args = ["-y", "chrome-devtools-mcp@0.6.0", "--no-usage-statistics"]
 startup_timeout_sec = 20
 tool_timeout_sec = 120
 required = false
 
 [mcp_servers.playwright]
 command = "npx"
-args = ["-y", "@playwright/mcp@latest"]
+args = ["-y", "@playwright/mcp@0.0.20"]
 startup_timeout_sec = 20
 tool_timeout_sec = 120
 required = false
