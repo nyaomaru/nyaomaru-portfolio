@@ -24,7 +24,7 @@ const MOBILE_MENU_CLOSED_CLASS_NAME = 'translate-x-[110%] opacity-0';
 const MOBILE_MENU_BACKGROUND_IMAGE_CLASS_NAME =
   'absolute left-1/2 top-1/2 w-screen h-auto -translate-x-1/2 -translate-y-1/2 max-h-none object-contain';
 const MOBILE_MENU_LINKS_GROUP_CLASS_NAME =
-  'absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-6 pointer-events-auto';
+  'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-6 pointer-events-auto';
 const MOBILE_MENU_LINK_CLASS_NAME = 'relative inline-flex items-center pb-1';
 const MOBILE_MENU_LINK_ICON_CLASS_NAME = 'h-4 w-auto';
 const MOBILE_MENU_LINK_ACTIVE_LINE_CLASS_NAME = 'absolute -bottom-1 left-0 h-0.5 w-full bg-main';
