@@ -13,3 +13,27 @@ args = [
   "--context",
   "codex",
 ]
+
+[mcp_servers.chrome_devtools]
+command = "npx"
+args = ["-y", "chrome-devtools-mcp@latest", "--no-usage-statistics"]
+startup_timeout_sec = 20
+tool_timeout_sec = 120
+required = false
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+startup_timeout_sec = 20
+tool_timeout_sec = 120
+required = false
+
+[mcp_servers.playwright.tools.browser_navigate]
+approval_mode = "approve"
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+env_http_headers = { "CONTEXT7_API_KEY" = "CONTEXT7_API_KEY" }
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+required = false
