@@ -1,5 +1,17 @@
 export const articles = [
   {
+    title: "Handling `unknown` in TypeScript… isn't it painful?",
+    summary:
+      'Handling the `unknown` type in TypeScript can be challenging. This article explores the difficulties and provides insights on how to effectively work with `unknown` using is-kit.',
+    url: 'https://dev.to/nyaomaru/handling-unknown-in-typescript-isnt-it-painful-4dec',
+  },
+  {
+    title: 'is-kit vs Zod: A Practical Comparison from 3 Perspectives',
+    summary:
+      'A practical comparison of is-kit and Zod from three different perspectives, highlighting their strengths and weaknesses. Where do you enforce type safety in your design?',
+    url: 'https://dev.to/nyaomaru/is-kit-vs-zod-a-practical-comparison-from-3-perspectives-21eh',
+  },
+  {
     title: 'Building a Browser Game with React: What Doesn’t work well (Run Away From Work)',
     summary:
       'I built a browser game called “Run Away From Work” using React. In this article, I share the challenges I faced and what did not work well during the development process.',
