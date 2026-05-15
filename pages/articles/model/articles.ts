@@ -1,5 +1,12 @@
 export const articles = [
   {
+    title:
+      'Why I Didn’t Let AI Handle My Scroll Animation: Astro, React, and TypeScript Architecture',
+    summary:
+      'A deep dive into the architectural decisions behind Necoz B.V. official website, exploring the use of Astro, React, and TypeScript.',
+    url: 'https://dev.to/nyaomaru/why-i-didnt-let-ai-handle-my-scroll-animation-astro-react-and-typescript-architecture-4h8l',
+  },
+  {
     title: "Handling `unknown` in TypeScript… isn't it painful?",
     summary:
       'Handling the `unknown` type in TypeScript can be challenging. This article explores the difficulties and provides insights on how to effectively work with `unknown` using is-kit.',
