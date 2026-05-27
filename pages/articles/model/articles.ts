@@ -1,10 +1,17 @@
 export const articles = [
   {
     title:
+      'Which OpenAPI Codegen Should You Choose? openapi-typescript vs hey-api vs Orval vs Kubb',
+    summary:
+      'The difference is not huge enough to justify migration by itself. I would consider switching only when you start feeling pain around SDK functions, interceptors, result handling, mocks, generated hooks, or schema-driven tooling.',
+    url: 'https://dev.to/nyaomaru/which-openapi-codegen-should-you-choose-openapi-typescript-vs-hey-api-vs-orval-vs-kubb-100p',
+  },
+  {
+    title:
       'Why I Didn’t Let AI Handle My Scroll Animation: Astro, React, and TypeScript Architecture',
     summary:
       'A deep dive into the architectural decisions behind Necoz B.V. official website, exploring the use of Astro, React, and TypeScript.',
-    url: 'https://dev.to/nyaomaru/why-i-didnt-let-ai-handle-my-scroll-animation-astro-react-and-typescript-architecture-4h8l',
+    url: 'https://dev.to/nyaomaru/why-i-didnt-let-ai-handle-my-scroll-animation-astro-react-and-typescript-architecture-37k2',
   },
   {
     title: "Handling `unknown` in TypeScript… isn't it painful?",
