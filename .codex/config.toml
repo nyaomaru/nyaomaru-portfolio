@@ -31,6 +31,9 @@ required = false
 [mcp_servers.playwright.tools.browser_navigate]
 approval_mode = "approve"
 
+[mcp_servers.playwright.tools.browser_console_messages]
+approval_mode = "approve"
+
 [mcp_servers.context7]
 url = "https://mcp.context7.com/mcp"
 env_http_headers = { "CONTEXT7_API_KEY" = "CONTEXT7_API_KEY" }

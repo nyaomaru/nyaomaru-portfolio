@@ -64,22 +64,25 @@ export default [
       },
     },
     rules: {
-      'boundaries/element-types': [
+      'boundaries/dependencies': [
         'error',
         {
           default: 'disallow',
           rules: [
-            { from: 'shared', allow: ['shared'] },
-            { from: 'entities', allow: ['shared'] },
-            { from: 'features', allow: ['entities', 'shared'] },
-            { from: 'widgets', allow: ['features', 'entities', 'shared'] },
+            { from: { type: 'shared' }, allow: { to: { type: 'shared' } } },
+            { from: { type: 'entities' }, allow: { to: { type: 'shared' } } },
+            { from: { type: 'features' }, allow: { to: { type: ['entities', 'shared'] } } },
             {
-              from: 'pages',
-              allow: ['widgets', 'features', 'entities', 'shared'],
+              from: { type: 'widgets' },
+              allow: { to: { type: ['features', 'entities', 'shared'] } },
             },
             {
-              from: 'app',
-              allow: ['pages', 'widgets', 'features', 'entities', 'shared'],
+              from: { type: 'pages' },
+              allow: { to: { type: ['widgets', 'features', 'entities', 'shared'] } },
+            },
+            {
+              from: { type: 'app' },
+              allow: { to: { type: ['pages', 'widgets', 'features', 'entities', 'shared'] } },
             },
           ],
         },
@@ -90,7 +93,7 @@ export default [
   {
     files: ['tests/**'],
     rules: {
-      'boundaries/element-types': 'off',
+      'boundaries/dependencies': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
