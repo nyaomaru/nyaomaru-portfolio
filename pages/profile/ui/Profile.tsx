@@ -37,7 +37,7 @@ const Profile = () => {
   return (
     <div className={PROFILE_PAGE_CLASS_NAME}>
       <div className={PROFILE_CONTAINER_CLASS_NAME}>
-        <AnimatePresence mode='wait'>
+        <AnimatePresence mode='wait' initial={false}>
           <motion.div
             key={currentIndex}
             initial={{ opacity: 0, x: PROFILE_SLIDE_OFFSET_X }}

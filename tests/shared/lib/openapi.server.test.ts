@@ -2,14 +2,18 @@ import { describe, expect, it, vi, beforeEach } from 'vitest';
 
 vi.mock('@langchain/openai', () => {
   return {
-    ChatOpenAI: vi.fn().mockImplementation((opts) => ({
-      modelName: 'mock-chat-model',
-      options: opts,
-    })),
-    OpenAIEmbeddings: vi.fn().mockImplementation((opts) => ({
-      modelName: 'mock-embedding-model',
-      options: opts,
-    })),
+    ChatOpenAI: vi.fn().mockImplementation(function ChatOpenAI(opts) {
+      return {
+        modelName: 'mock-chat-model',
+        options: opts,
+      };
+    }),
+    OpenAIEmbeddings: vi.fn().mockImplementation(function OpenAIEmbeddings(opts) {
+      return {
+        modelName: 'mock-embedding-model',
+        options: opts,
+      };
+    }),
   };
 });
 

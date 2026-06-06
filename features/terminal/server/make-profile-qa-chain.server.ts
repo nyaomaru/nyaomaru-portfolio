@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { Document } from 'langchain/document';
-import { MemoryVectorStore } from 'langchain/vectorstores/memory';
+import { Document } from '@langchain/core/documents';
+import { MemoryVectorStore } from '@langchain/classic/vectorstores/memory';
 import { RunnableSequence } from '@langchain/core/runnables';
 import { getEmbeddings, getChatModel } from '@/shared/lib/openapi/server';
 import { profileQAPrompt } from './profile-qa';
@@ -87,7 +87,7 @@ export async function makeProfileQAChain(
 
   const keywordMatches = getRelatedProfileChunks(question, docs);
   const combinedContext = [
-    ...embeddingMatches.map((document) => document.pageContent),
+    ...embeddingMatches.map((document: Document) => document.pageContent),
     ...keywordMatches,
   ];
 

@@ -1,0 +1,27 @@
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  unrs-resolver: true
+peerDependencyRules:
+  allowedVersions:
+    react: '19'
+    react-dom: '19'
+    tailwindcss: '4'
+    typescript: '6'
+    vite: '8'
+overrides:
+  brace-expansion: ^2.0.2
+  glob: ^10.5.0
+  js-yaml: ^4.1.1
+  estree-util-value-to-estree: ^3.3.3
+  esbuild: ^0.28.0
+  langsmith: ^0.6.0
+  minimatch: ^9.0.7
+  on-headers: ^1.1.0
+  qs: ^6.14.2
+  tar: ^7.5.11
+  undici: ^7.27.1
+  vite: ^8.0.16
+auditConfig:
+  ignoreGhsas:
+    - GHSA-rxv8-25v2-qmq8

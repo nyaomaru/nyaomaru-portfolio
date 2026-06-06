@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 globalThis.IntersectionObserver = class IntersectionObserver {
   root: Element | null = null;
   rootMargin: string = '0px';
+  scrollMargin: string = '0px';
   thresholds: ReadonlyArray<number> = [];
 
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {}

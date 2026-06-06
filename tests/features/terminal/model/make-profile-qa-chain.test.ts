@@ -23,7 +23,7 @@ const mockVectorStore = {
   asRetriever: () => mockRetriever,
 };
 
-vi.mock('langchain/vectorstores/memory', () => ({
+vi.mock('@langchain/classic/vectorstores/memory', () => ({
   MemoryVectorStore: {
     fromDocuments: vi.fn().mockResolvedValue(mockVectorStore),
   },
