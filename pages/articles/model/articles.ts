@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'CHANGELOG.md is for Both Humans and AI Now, So Lets Automate It',
+    summary:
+      'I wrote about why CHANGELOG.md still matters in the AI era, and how changelog-bot helps automate it. It supports Git history, PRs, GitHub Release Notes, OpenAI, Anthropic, Gemini, and fallback generation without AI.',
+    url: 'https://dev.to/nyaomaru/changelogmd-is-for-both-humans-and-ai-now-so-lets-automate-it-18dp',
+  },
+  {
     title:
       'Which OpenAPI Codegen Should You Choose? openapi-typescript vs hey-api vs Orval vs Kubb',
     summary:
