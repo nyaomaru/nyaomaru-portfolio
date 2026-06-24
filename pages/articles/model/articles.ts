@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'The Difference Between satisfies, as, and Generics in TypeScript',
+    summary:
+      'Type responsibility lives that `as` asks TypeScript to trust the developer 🙏 / `satisfies` asks TypeScript to check a value 🔍 / `generics` let API designers encapsulate that check inside an API 🎁',
+    url: 'https://dev.to/nyaomaru/the-difference-between-satisfies-as-and-generics-in-typescript-5f9f',
+  },
+  {
     title: 'CHANGELOG.md is for Both Humans and AI Now, So Lets Automate It',
     summary:
       'I wrote about why CHANGELOG.md still matters in the AI era, and how changelog-bot helps automate it. It supports Git history, PRs, GitHub Release Notes, OpenAI, Anthropic, Gemini, and fallback generation without AI.',
