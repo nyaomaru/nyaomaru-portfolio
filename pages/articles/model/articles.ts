@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'Trying Declarative Partial Updates: A Future API for Replacing HTML Later',
+    summary:
+      'Declarative Partial Updates (DPU) is an experimental Chrome API for replacing parts of HTML later via streamed HTML. I tried <?start>, <?marker>, streamHTMLUnsafe(), and explored how this could open up new hybrid patterns for SPA-like apps.',
+    url: 'https://dev.to/nyaomaru/trying-declarative-partial-updates-a-future-api-for-replacing-html-later-2g43',
+  },
+  {
     title: 'The Difference Between satisfies, as, and Generics in TypeScript',
     summary:
       'Type responsibility lives that `as` asks TypeScript to trust the developer 🙏 / `satisfies` asks TypeScript to check a value 🔍 / `generics` let API designers encapsulate that check inside an API 🎁',
