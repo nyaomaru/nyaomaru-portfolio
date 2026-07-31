@@ -39,6 +39,22 @@ export const profileSections: ProfileSection[] = [
     link: 'https://github.com/nyaomaru/is-kit',
   },
   {
+    title: 'DSA View View',
+    titleImage: {
+      type: 'image',
+      src: '/assets/text/nyaomaru_web _icon_text _dsa_view_view.svg',
+      alt: 'DSA View View',
+    },
+    content:
+      'DSA View View turns TypeScript algorithm functions into step-by-step visual stories, showing how arrays, matrices, trees, and return values change. 👀👀',
+    icon: {
+      type: 'image',
+      src: '/assets/icons/nyaomaru_web_icon_dsa_view_view_icon.svg',
+      alt: 'DSA View View Icon',
+    },
+    link: 'https://github.com/nyaomaru/dsa-view-view',
+  },
+  {
     title: 'changelog-bot',
     titleImage: {
       type: 'image',
