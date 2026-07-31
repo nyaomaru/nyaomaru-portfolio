@@ -1,5 +1,17 @@
 export const articles = [
   {
+    title: `How I Made JavaScript Execution Visual and Rewindable (DSA View View)`,
+    summary:
+      'A deep dive into how DSA View View instruments JavaScript with Babel, records execution snapshots, replays them forward and backward, runs user code in a Web Worker, and selects the right visualization for each trace.',
+    url: 'https://dev.to/nyaomaru/how-i-made-javascript-execution-visual-and-rewindable-dsa-view-view--42k4',
+  },
+  {
+    title: `How I Built the Editor and Compile Pipeline for a TypeScript DSA Visualizer (DSA View View)`,
+    summary:
+      'Follow DSA View View’s editor and compile pipeline from Monaco input to a generated verification form, including FSD architecture, is-kit runtime guards, Babel compilation, AST-based signature extraction, and type-aware input generation.',
+    url: 'https://dev.to/nyaomaru/how-i-built-the-editor-and-compile-pipeline-for-a-typescript-dsa-visualizer-dsa-view-view--530f',
+  },
+  {
     title: `I Built a Tool to Visualize DSA. Let’s Learn Together! (DSA View View)`,
     summary:
       'I built DSA View View, a free browser tool that turns TypeScript algorithms into step-by-step visual stories. Follow the runtime timeline and inspect how arrays, matrices, trees, linked lists, variables, and return values change as code executes.',
