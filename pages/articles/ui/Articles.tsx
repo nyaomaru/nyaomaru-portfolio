@@ -20,7 +20,7 @@ const Articles = () => {
             rel='noopener noreferrer'
             className='block transition-transform hover:scale-105'
           >
-            <Card className='h-full p-6'>
+            <Card className='h-full p-8 pt-12'>
               <h2 className='text-xl font-semibold mb-3'>{article.title}</h2>
               <p className='text-sub'>{article.summary}</p>
             </Card>
