@@ -33,7 +33,7 @@ const NavigationLinks = ({ onNavigate, className = '' }: NavigationLinksProps) =
             aria-current={isActive ? 'page' : undefined}
           >
             <span
-              className={`absolute -bottom-1 left-0 h-0.5 w-full origin-left ${underlineColorClass} transition-transform duration-200 ${
+              className={`absolute -bottom-1 left-0 h-px w-full origin-left ${underlineColorClass} transition-transform duration-200 ${
                 disableActiveUnderline
                   ? 'scale-x-0'
                   : isActive
