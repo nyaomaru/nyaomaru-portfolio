@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'Celebrating 10,000 Total Views on DEV! 🥳 Let’s Check the Stats 😸',
+    summary:
+      'A look back at reaching 10,000 total views on DEV, including average stats across 28 posts, rankings for the most-viewed and most-engaged articles, and a few personal recommendations.',
+    url: 'https://dev.to/nyaomaru/celebrating-10000-total-views-on-dev-lets-check-the-stats-224e',
+  },
+  {
     title: `How I Made JavaScript Execution Visual and Rewindable (DSA View View)`,
     summary:
       'A deep dive into how DSA View View instruments JavaScript with Babel, records execution snapshots, replays them forward and backward, runs user code in a Web Worker, and selects the right visualization for each trace.',
