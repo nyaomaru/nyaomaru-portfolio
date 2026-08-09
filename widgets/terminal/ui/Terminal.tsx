@@ -13,7 +13,7 @@ const FALLBACK_ROOT_FONT_SIZE_PX = 16;
 const TERMINAL_MIN_WIDTH_PX = 384;
 
 const TERMINAL_CARD_CLASS_NAME =
-  'w-[60rem] max-w-full aspect-[3/4] sm:aspect-video min-w-0 sm:min-w-[24rem] mx-2 sm:mx-0 flex flex-col shadow-2xl p-2 relative';
+  'w-[60rem] max-w-full aspect-[3/4] sm:aspect-video min-w-0 sm:min-w-[24rem] flex flex-col shadow-2xl p-2 relative';
 const TERMINAL_CONTENT_CLASS_NAME =
   'flex-1 bg-background p-4 text-foreground font-mono flex flex-col min-h-0';
 const RESIZE_HANDLE_CLASS_NAME =

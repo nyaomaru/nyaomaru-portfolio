@@ -3,7 +3,7 @@ import { articles } from '../model';
 
 const Articles = () => {
   return (
-    <div className='min-h-screen w-full bg-background p-8 pt-32'>
+    <div className='min-h-screen w-full bg-background p-4 pt-36 sm:p-8 sm:pt-32'>
       <h1 className='mb-24 flex justify-center'>
         <img
           src='/assets/text/nyaomaru_web_text_article.svg'
