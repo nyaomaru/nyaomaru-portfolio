@@ -39,7 +39,7 @@ const START_PLAYER_STYLE = {
   maxHeight: '64px',
 } as const;
 const PAGE_CONTAINER_CLASS_NAME =
-  'w-full max-w-[1440px] mx-auto min-h-screen justify-center flex flex-col items-center px-4';
+  'w-full max-w-[1440px] mx-auto min-h-[100dvh] justify-center flex flex-col items-center px-4';
 const PAGE_HEADER_CLASS_NAME = 'mb-4 min-h-[2.5rem] flex w-full items-center justify-center';
 const PAGE_HEADER_CONTENT_CLASS_NAME = 'grid w-full grid-cols-[1fr_auto_1fr] items-center';
 const GAME_MESSAGE_HEADING_CLASS_NAME = 'col-start-2 text-2xl font-bold text-center';

@@ -38,17 +38,17 @@ export default function App() {
   const hideCursorNyaomaru = location.pathname.startsWith('/game');
 
   return (
-    <html lang='en' className='dark h-full'>
+    <html lang='en' className='dark'>
       <head>
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <Meta />
         <Links />
       </head>
-      <body className='h-full m-0 p-0'>
+      <body className='min-h-[100dvh] m-0 p-0 overflow-x-clip'>
         {!hideCursorNyaomaru && <CursorNyaomaru />}
         <Header />
-        <main className='h-[calc(100vh-4rem)]'>
+        <main className='min-h-[100dvh]'>
           <Outlet />
         </main>
         <ScrollRestoration />
