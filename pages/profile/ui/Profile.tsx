@@ -4,7 +4,8 @@ import { isString } from 'is-kit';
 import { Button, Card } from '@/shared/ui';
 import { profileSections } from '../model';
 
-const PROFILE_PAGE_CLASS_NAME = 'min-h-screen flex flex-col items-center justify-center p-4';
+const PROFILE_PAGE_CLASS_NAME =
+  'min-h-[100dvh] flex flex-col items-center justify-center p-4 pt-24 sm:pt-4';
 const PROFILE_CONTAINER_CLASS_NAME = 'w-full max-w-2xl';
 const PROFILE_CARD_CLASS_NAME = 'p-8 text-center min-h-[20rem] flex flex-col';
 const PROFILE_ICON_WRAP_CLASS_NAME = 'text-4xl mt-6 h-14 flex items-center justify-center';

@@ -11,9 +11,5 @@ export const meta: MetaFunction = ({ matches }) => {
 };
 
 export default function TopRoute() {
-  return (
-    <div className='h-full flex items-center justify-center'>
-      <Top />
-    </div>
-  );
+  return <Top />;
 }
