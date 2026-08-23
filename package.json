@@ -61,7 +61,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "jsdom": "^29.1.1",
+    "jsdom": "^30.0.1",
     "lefthook": "^2.1.10",
     "oxfmt": "^0.64.0",
     "postcss": "^8.5.26",
