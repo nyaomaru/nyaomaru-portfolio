@@ -1,5 +1,18 @@
 export const articles = [
   {
+    title:
+      "Is Learning DSA Boring? Let's Use DSA View View 👀👀 (Two Sum, Binary Search, and Bubble Sort)",
+    summary:
+      'Learn Two Sum, Binary Search, and Bubble Sort by tracing how their data changes step by step with DSA View View, including each algorithm’s core idea and time and space complexity.',
+    url: 'https://dev.to/nyaomaru/is-learning-dsa-boring-lets-use-dsa-view-view-two-sum-binary-search-and-bubble-sort-374o',
+  },
+  {
+    title: `is-kit Reached 50 Stars ⭐ Here’s How We Use It in Production`,
+    summary:
+      'A real-world look at how is-kit replaced repeated, assertion-heavy checks with composable type guards in a TypeScript application serving more than 100,000 users, improving reuse, consistency, and maintainability.',
+    url: 'https://dev.to/nyaomaru/is-kit-reached-50-stars-heres-how-we-use-it-in-production-2i5b',
+  },
+  {
     title: 'Celebrating 10,000 Total Views on DEV! 🥳 Let’s Check the Stats 😸',
     summary:
       'A look back at reaching 10,000 total views on DEV, including average stats across 28 posts, rankings for the most-viewed and most-engaged articles, and a few personal recommendations.',
