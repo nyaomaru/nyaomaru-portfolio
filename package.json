@@ -29,7 +29,7 @@
     "@tailwindcss/postcss": "^4.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.40.0",
+    "framer-motion": "^13.1.1",
     "is-kit": "^1.12.1",
     "isbot": "^5.2.1",
     "langchain": "^1.5.10",
