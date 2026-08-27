@@ -1,6 +1,13 @@
 export const articles = [
   {
     title:
+      'Learn Valid Parentheses, Reverse Linked List, and Tree Max Depth with Step-by-Step Visualization in DSA View View 👀👀',
+    summary:
+      'Learn Valid Parentheses, Reverse Linked List, and Maximum Depth of Binary Tree by visualizing stacks, pointer manipulation, and recursion step by step with DSA View View, including time and space complexity.',
+    url: 'https://dev.to/nyaomaru/learn-valid-parentheses-reverse-linked-list-and-tree-max-depth-with-step-by-step-visualization-in-3o09',
+  },
+  {
+    title:
       "Is Learning DSA Boring? Let's Use DSA View View 👀👀 (Two Sum, Binary Search, and Bubble Sort)",
     summary:
       'Learn Two Sum, Binary Search, and Bubble Sort by tracing how their data changes step by step with DSA View View, including each algorithm’s core idea and time and space complexity.',
