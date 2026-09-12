@@ -10,7 +10,7 @@ let embeddings: OpenAIEmbeddings | null = null;
  * @returns A configured ChatOpenAI instance with temperature set to 0.3
  */
 const makeChatModel = (apiKey: string) =>
-  new ChatOpenAI({ openAIApiKey: apiKey, temperature: 0.3 });
+  new ChatOpenAI({ model: 'gpt-4o-mini', openAIApiKey: apiKey, temperature: 0.3 });
 
 /**
  * Creates a new OpenAI embeddings instance with the provided API key.
