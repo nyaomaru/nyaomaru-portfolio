@@ -27,12 +27,13 @@ describe('getChatModel', () => {
     getChatModel = module.getChatModel;
   });
 
-  it('should create a new ChatOpenAI instance with the given API key and temperature', () => {
+  it('should create a new gpt-4o-mini ChatOpenAI instance with the given API key and temperature', () => {
     const model = getChatModel(dummyApiKey);
 
     expect(model).toEqual({
       modelName: 'mock-chat-model',
       options: {
+        model: 'gpt-4o-mini',
         openAIApiKey: dummyApiKey,
         temperature: 0.3,
       },

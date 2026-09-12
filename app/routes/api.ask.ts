@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs } from '@remix-run/node';
+import { json, type ActionFunctionArgs } from '@remix-run/node';
 import { define, isError, isString, oneOfValues } from 'is-kit';
 import { makeProfileQAChain } from '@/features/terminal/server';
 import {
@@ -24,7 +24,7 @@ export async function action({ request }: ActionFunctionArgs) {
   try {
     // Validate request method
     if (!validateRequestMethod(request, 'POST')) {
-      return Response.json(createErrorResponse('Method not allowed'), {
+      return json(createErrorResponse('Method not allowed'), {
         status: HTTP_STATUS.METHOD_NOT_ALLOWED,
       });
     }
@@ -40,7 +40,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const result = await makeProfileQAChain(apiKey, question);
     const content = extractContentFromLangChainResponse(result);
 
-    return Response.json(createStandardResponse(content));
+    return json(createStandardResponse(content));
   } catch (error) {
     console.error('API error:', error);
     const errorResponse = createErrorResponse(error);
@@ -56,6 +56,6 @@ export async function action({ request }: ActionFunctionArgs) {
       }
     }
 
-    return Response.json(errorResponse, { status });
+    return json(errorResponse, { status });
   }
 }
