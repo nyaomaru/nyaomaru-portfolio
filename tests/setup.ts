@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 
 // Mock IntersectionObserver
 globalThis.IntersectionObserver = class IntersectionObserver {
