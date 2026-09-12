@@ -35,7 +35,7 @@ describe('api.ask action', () => {
       const data = await response.json();
 
       expect(response.status).toBe(405);
-      expect(data.error).toBe('Method not allowed');
+      expect(data).toMatchObject({ error: 'Method not allowed' });
     });
 
     it('returns 400 when question is missing', async () => {
@@ -48,7 +48,7 @@ describe('api.ask action', () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBe('Question is required');
+      expect(data).toMatchObject({ error: 'Question is required' });
     });
 
     it('returns 400 when question is not a string', async () => {
@@ -61,7 +61,7 @@ describe('api.ask action', () => {
       const data = await response.json();
 
       expect(response.status).toBe(400);
-      expect(data.error).toBe('Question must be a string');
+      expect(data).toMatchObject({ error: 'Question must be a string' });
     });
   });
 
@@ -77,7 +77,7 @@ describe('api.ask action', () => {
       const data = await response.json();
 
       expect(response.status).toBe(500);
-      expect(data.error).toBe('OpenAI API key not configured');
+      expect(data).toMatchObject({ error: 'OpenAI API key not configured' });
     });
   });
 
@@ -98,7 +98,7 @@ describe('api.ask action', () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      expect(data.result.kwargs.content).toBe('Test response content');
+      expect(data).toMatchObject({ result: { kwargs: { content: 'Test response content' } } });
       expect(makeProfileQAChain).toHaveBeenCalledWith('test-api-key', 'test question');
     });
 
@@ -118,7 +118,7 @@ describe('api.ask action', () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      expect(data.result.kwargs.content).toBe('Direct content response');
+      expect(data).toMatchObject({ result: { kwargs: { content: 'Direct content response' } } });
     });
   });
 
@@ -136,7 +136,7 @@ describe('api.ask action', () => {
       const data = await response.json();
 
       expect(response.status).toBe(500);
-      expect(data.error).toBe('API Error');
+      expect(data).toMatchObject({ error: 'API Error' });
     });
   });
 });
