@@ -29,14 +29,14 @@ body {
   :root {
     --main: 124 170 74;
     --sub: 79 91 57;
-    --background: 22 24 22;
+    --background: 23 25 23;
     --foreground: 124 170 74;
     --muted: 30 41 59;
     --muted-foreground: 124 170 74;
-    --popover: 22 24 22;
+    --popover: 23 25 23;
     --popover-foreground: 124 170 74;
-    --card: 22 24 22;
-    --surface: 22 24 22;
+    --card: 23 25 23;
+    --surface: 23 25 23;
     --card-foreground: 124 170 74;
     --primary: var(--main);
     --primary-hover: var(--sub);
@@ -52,7 +52,7 @@ body {
     --ring: 124 170 74;
     --chart-1: 124 170 74;
     --chart-2: 79 91 57;
-    --chart-3: 22 24 22;
+    --chart-3: 23 25 23;
     --chart-4: 255 255 255;
     --chart-5: 30 41 59;
     --radius: 0.5rem;
@@ -62,14 +62,14 @@ body {
   .dark {
     --main: 124 170 74;
     --sub: 79 91 57;
-    --background: 22 24 22;
+    --background: 23 25 23;
     --foreground: 124 170 74;
     --muted: 30 41 59;
     --muted-foreground: 124 170 74;
-    --popover: 22 24 22;
+    --popover: 23 25 23;
     --popover-foreground: 124 170 74;
-    --card: 22 24 22;
-    --surface: 22 24 22;
+    --card: 23 25 23;
+    --surface: 23 25 23;
     --card-foreground: 124 170 74;
     --border: 124 170 74;
     --input: 124 170 74;
@@ -85,7 +85,7 @@ body {
     --ring: 124 170 74;
     --chart-1: 124 170 74;
     --chart-2: 79 91 57;
-    --chart-3: 22 24 22;
+    --chart-3: 23 25 23;
     --chart-4: 255 255 255;
     --chart-5: 30 41 59;
   }
