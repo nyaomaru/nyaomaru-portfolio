@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'Why filter(Boolean) Is Not a Nullish Filter in TypeScript 🔧',
+    summary:
+      'Learn why filter(Boolean) removes all falsy values instead of only null and undefined, how that can silently drop valid data like 0, false, and empty strings, and how explicit type guards such as isNotNil preserve both runtime intent and TypeScript narrowing.',
+    url: 'https://dev.to/nyaomaru/why-filterboolean-is-not-a-nullish-filter-in-typescript-4m82',
+  },
+  {
     title:
       'Learn Trapping Rain Water, Top K Frequent and Selection Sort with Step-by-Step Visualization in DSA View View 👀👀',
     summary:
