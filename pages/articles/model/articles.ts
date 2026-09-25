@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'Your Type Guard Can Silently Drift from Your TypeScript Type 🔧',
+    summary:
+      'Learn why TypeScript trusts user-defined type predicates without verifying their runtime logic, how hand-written guards can silently drift when types change, and how typedStruct keeps existing types and runtime validation aligned by turning forgotten updates into compile-time errors.',
+    url: 'https://dev.to/nyaomaru/your-type-guard-can-silently-drift-from-your-typescript-type-o57',
+  },
+  {
     title: 'Why filter(Boolean) Is Not a Nullish Filter in TypeScript 🔧',
     summary:
       'Learn why filter(Boolean) removes all falsy values instead of only null and undefined, how that can silently drop valid data like 0, false, and empty strings, and how explicit type guards such as isNotNil preserve both runtime intent and TypeScript narrowing.',
