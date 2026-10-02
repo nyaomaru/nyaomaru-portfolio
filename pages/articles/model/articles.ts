@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'TypeScript Compiler API: Preserving Child Node Narrowing in Reusable Type Guards 🔧',
+    summary:
+      'Learn how to preserve both parent AST node narrowing and refined child property types in reusable TypeScript type guards, why this is really a general property refinement problem rather than a Compiler API-specific one, and how refineKey, refineDefinedKey, and refineIndex can keep runtime checks and narrowing aligned.',
+    url: 'https://dev.to/nyaomaru/typescript-compiler-api-preserving-child-node-narrowing-in-reusable-type-guards-4pgh',
+  },
+  {
     title: 'Your Type Guard Can Silently Drift from Your TypeScript Type 🔧',
     summary:
       'Learn why TypeScript trusts user-defined type predicates without verifying their runtime logic, how hand-written guards can silently drift when types change, and how typedStruct keeps existing types and runtime validation aligned by turning forgotten updates into compile-time errors.',
