@@ -19,4 +19,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./', import.meta.url)),
     },
   },
+  ssr: {
+    // Vercel's Node File Trace omits this deep import when the packages are external.
+    noExternal: ['@langchain/openai', 'openai'],
+  },
 });
