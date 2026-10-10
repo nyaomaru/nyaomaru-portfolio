@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'Migrating a Real TypeScript OSS Library from tsup to tsdown 🔧',
+    summary:
+      'A practical migration of the is-kit TypeScript library from tsup to tsdown, focused on preserving its published package contract through stable output filenames, explicit exports, and packed-package consumer tests.',
+    url: 'https://dev.to/nyaomaru/migrating-a-real-typescript-oss-library-from-tsup-to-tsdown-5b80',
+  },
+  {
     title: 'TypeScript Compiler API: Preserving Child Node Narrowing in Reusable Type Guards 🔧',
     summary:
       'Learn how to preserve both parent AST node narrowing and refined child property types in reusable TypeScript type guards, why this is really a general property refinement problem rather than a Compiler API-specific one, and how refineKey, refineDefinedKey, and refineIndex can keep runtime checks and narrowing aligned.',
