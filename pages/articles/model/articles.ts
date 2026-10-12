@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'How Do We Extract the “Why” from a PR into a CHANGELOG with Jev? 🤔',
+    summary:
+      'Explore how changelog-bot finds explicit rationale in pull requests by extracting candidate text, using Jev to verify both its meaning and relevance, and preserving the author’s original words instead of generating a reason.',
+    url: 'https://dev.to/nyaomaru/how-do-we-extract-the-why-from-a-pr-into-a-changelog-with-jev-52pk',
+  },
+  {
     title: 'Migrating a Real TypeScript OSS Library from tsup to tsdown 🔧',
     summary:
       'A practical migration of the is-kit TypeScript library from tsup to tsdown, focused on preserving its published package contract through stable output filenames, explicit exports, and packed-package consumer tests.',
