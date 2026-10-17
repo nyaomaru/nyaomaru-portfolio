@@ -1,4 +1,4 @@
-import type { ActionFunctionArgs, AppLoadContext } from '@remix-run/node';
+import type { ActionFunctionArgs, AppLoadContext } from 'react-router';
 import { action } from '@/app/routes/api.ask';
 
 vi.mock('@/features/terminal/server', () => ({
@@ -8,6 +8,8 @@ vi.mock('@/features/terminal/server', () => ({
 const originalEnv = process.env;
 const createActionArgs = (request: Request): ActionFunctionArgs => ({
   request,
+  url: new URL(request.url),
+  pattern: '/api/ask',
   params: {},
   context: {} as AppLoadContext,
 });

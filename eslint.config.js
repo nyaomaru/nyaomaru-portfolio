@@ -2,24 +2,11 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import react from 'eslint-plugin-react';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
-import boundaries from 'eslint-plugin-boundaries';
 import importPlugin from 'eslint-plugin-import';
-
-const boundarySettings = {
-  'boundaries/elements': [
-    { type: 'shared', pattern: 'shared/*' },
-    { type: 'entities', pattern: 'entities/*' },
-    { type: 'features', pattern: 'features/*' },
-    { type: 'widgets', pattern: 'widgets/*' },
-    { type: 'pages', pattern: 'pages/*' },
-    { type: 'app', pattern: 'app/*' },
-  ],
-  'boundaries/ignore': ['**/@x/**'],
-};
 
 export default [
   {
-    ignores: ['build/**'],
+    ignores: ['build/**', '.react-router/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -41,11 +28,9 @@ export default [
     plugins: {
       react,
       jsxA11y,
-      boundaries,
       import: importPlugin,
     },
     settings: {
-      ...boundarySettings,
       react: {
         version: 'detect',
       },
@@ -64,25 +49,27 @@ export default [
       },
     },
     rules: {
-      'boundaries/dependencies': [
+      'import/no-restricted-paths': [
         'error',
         {
-          default: 'disallow',
-          rules: [
-            { from: { type: 'shared' }, allow: { to: { type: 'shared' } } },
-            { from: { type: 'entities' }, allow: { to: { type: 'shared' } } },
-            { from: { type: 'features' }, allow: { to: { type: ['entities', 'shared'] } } },
+          basePath: '.',
+          zones: [
             {
-              from: { type: 'widgets' },
-              allow: { to: { type: ['features', 'entities', 'shared'] } },
+              target: './shared',
+              from: ['./entities', './features', './widgets', './pages', './app'],
+            },
+            { target: './entities', from: ['./features', './widgets', './pages', './app'] },
+            {
+              target: './features',
+              from: ['./widgets', './pages', './app'],
             },
             {
-              from: { type: 'pages' },
-              allow: { to: { type: ['widgets', 'features', 'entities', 'shared'] } },
+              target: './widgets',
+              from: ['./pages', './app'],
             },
             {
-              from: { type: 'app' },
-              allow: { to: { type: ['pages', 'widgets', 'features', 'entities', 'shared'] } },
+              target: './pages',
+              from: ['./app'],
             },
           ],
         },
@@ -93,7 +80,7 @@ export default [
   {
     files: ['tests/**'],
     rules: {
-      'boundaries/dependencies': 'off',
+      'import/no-restricted-paths': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },

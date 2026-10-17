@@ -3,7 +3,7 @@ import { renderHook, act } from '@testing-library/react';
 import { useTerminal } from '@/widgets/terminal/model/useTerminal';
 
 vi.mock('@/features/terminal/api', () => ({ postAsk: vi.fn() }));
-vi.mock('@remix-run/react', () => ({
+vi.mock('react-router', () => ({
   useSearchParams: () => [new URLSearchParams(), vi.fn()],
 }));
 

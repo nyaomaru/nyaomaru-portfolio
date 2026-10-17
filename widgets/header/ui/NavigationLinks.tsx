@@ -1,4 +1,4 @@
-import { Link, useLocation } from '@remix-run/react';
+import { Link, useLocation } from 'react-router';
 import { equals, oneOfValues } from 'is-kit';
 import { navigationItems } from '../model/navigation';
 

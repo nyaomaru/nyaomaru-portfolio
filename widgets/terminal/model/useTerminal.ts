@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import { equals, isError } from 'is-kit';
 import { postAsk } from '@/features/terminal';
 import { isMobile } from '@/shared/lib/window';
