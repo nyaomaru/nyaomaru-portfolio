@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'How Do You Validate `unknown` in TypeScript Without a Schema Library? 🛡️',
+    summary:
+      'Learn how small, composable type guards can validate unknown values at runtime while preserving TypeScript narrowing, including safe JSON parsing, optional and nullable properties, and exact object shapes with is-kit.',
+    url: 'https://dev.to/nyaomaru/how-do-you-validate-unknown-in-typescript-without-a-schema-library-1a11',
+  },
+  {
     title: 'How Do We Extract the “Why” from a PR into a CHANGELOG with Jev? 🤔',
     summary:
       'Explore how changelog-bot finds explicit rationale in pull requests by extracting candidate text, using Jev to verify both its meaning and relevance, and preserving the author’s original words instead of generating a reason.',
