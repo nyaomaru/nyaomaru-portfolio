@@ -1,11 +1,10 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { Document } from '@langchain/core/documents';
 import { MemoryVectorStore } from '@langchain/classic/vectorstores/memory';
 import { RunnableSequence } from '@langchain/core/runnables';
 import { getEmbeddings, getChatModel } from '@/shared/lib/openapi/server';
 import { profileQAPrompt } from './profile-qa';
 import { AIMessageChunk } from '@langchain/core/messages';
+import profile from '../../../public/profile.json';
 
 /**
  * Filters and retrieves profile document chunks that are related to a given question
@@ -37,22 +36,15 @@ export const getRelatedProfileChunks = (question: string, docs: { pageContent: s
 };
 
 /**
- * Asynchronously reads and parses a profile JSON file from the public directory
- * and converts it into a Document array for use in QA chains.
+ * Converts the profile JSON bundled with the server into a Document array for use in QA chains.
  *
- * @returns A Promise that resolves to an array containing a single Document
- *          with the profile data as stringified JSON content and metadata
- *          indicating the source as 'profile'
- * @throws Will throw an error if the file cannot be read or if the JSON is invalid
+ * @returns An array containing a single Document with the profile data as
+ *          stringified JSON content and metadata indicating the source as 'profile'.
  */
-export const getProfileDocs = async (): Promise<Document[]> => {
-  const filePath = path.join(process.cwd(), 'public/profile.json');
-  const file = await fs.readFile(filePath, 'utf-8');
-  const json = JSON.parse(file);
-
+export const getProfileDocs = (): Document[] => {
   return [
     new Document({
-      pageContent: JSON.stringify(json),
+      pageContent: JSON.stringify(profile),
       metadata: { source: 'profile' },
     }),
   ];
@@ -60,10 +52,10 @@ export const getProfileDocs = async (): Promise<Document[]> => {
 
 /**
  * Constructs and executes a LangChain pipeline that answers a question
- * based on user profile data stored in a local JSON file.
+ * based on bundled user profile data.
  *
  * The process includes:
- * 1. Loading and parsing `profile.json` into documents.
+ * 1. Loading bundled profile data into documents.
  * 2. Creating an in-memory vector store using OpenAI embeddings.
  * 3. Retrieving relevant context from the profile based on the input question.
  * 4. Composing a chat prompt and invoking the OpenAI chat model with that context.
@@ -76,8 +68,8 @@ export async function makeProfileQAChain(
   apiKey: string,
   question: string,
 ): Promise<AIMessageChunk> {
-  // Step 1: Load profile.json
-  const docs = await getProfileDocs();
+  // Step 1: Load bundled profile data
+  const docs = getProfileDocs();
 
   // Step 2: Use both keyword-matching and embedding-based retrieval
   const vectorStore = await MemoryVectorStore.fromDocuments(docs, getEmbeddings(apiKey));
