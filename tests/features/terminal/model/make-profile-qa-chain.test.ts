@@ -1,19 +1,3 @@
-// Mock fs/promises
-vi.mock('fs/promises', () => ({
-  default: {
-    readFile: vi.fn().mockResolvedValue('{"name":"nyaomaru"}'),
-  },
-}));
-
-// Mock path
-vi.mock('path', async () => {
-  const actual = await vi.importActual<typeof import('path')>('path');
-  return {
-    ...actual,
-    join: vi.fn().mockReturnValue('/mock/path/profile.json'),
-  };
-});
-
 // LangChain-related mocks
 const mockRetriever = {
   invoke: vi.fn().mockResolvedValue([{ pageContent: 'embedding match content' }]),
@@ -79,14 +63,14 @@ describe('getRelatedProfileChunks', () => {
 });
 
 describe('getProfileDocs', () => {
-  it('reads profile.json and returns a Document array', async () => {
+  it('returns a Document array from bundled profile data', async () => {
     const { getProfileDocs } =
       await import('@/features/terminal/server/make-profile-qa-chain.server');
 
-    const result = await getProfileDocs();
+    const result = getProfileDocs();
 
     expect(result).toHaveLength(1);
-    expect(result[0].pageContent).toContain('nyaomaru');
+    expect(result[0].pageContent).toContain('"name":"Nyaomaru"');
     expect(result[0].metadata).toEqual({ source: 'profile' });
   });
 });
