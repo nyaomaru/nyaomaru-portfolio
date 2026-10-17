@@ -1,7 +1,7 @@
 # Contributing to Nyaomaru Portfolio
 
 Thanks for your interest in contributing.
-This repository is a Remix + React + TypeScript portfolio organized with FSD layers.
+This repository is a React Router + React + TypeScript portfolio organized with FSD layers.
 
 ## Setup
 

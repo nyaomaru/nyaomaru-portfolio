@@ -1,4 +1,4 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from 'react-router';
 import { hasKey } from 'is-kit';
 import { Articles } from '@/pages/articles';
 

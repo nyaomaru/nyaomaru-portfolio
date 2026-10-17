@@ -1,5 +1,13 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLocation } from '@remix-run/react';
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLocation,
+  type LinksFunction,
+  type MetaFunction,
+} from 'react-router';
 import { CursorNyaomaru } from '@/widgets/cursor-nyaomaru';
 import { Header } from '@/widgets/header';
 import { Toaster } from '@/shared/ui';

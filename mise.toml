@@ -3,7 +3,7 @@ node = "24.14.0"
 pnpm = "9"
 
 [tasks.dev]
-description = "Start the Remix dev server"
+description = "Start the React Router dev server"
 run = "pnpm dev"
 
 [tasks.build]

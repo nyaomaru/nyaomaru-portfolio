@@ -8,7 +8,7 @@
 
 You can play here: https://nyaomaru-portfolio.vercel.app/game
 
-A `Remix` + `React` + `TypeScript` portfolio built with Feature-Sliced Design.
+A `React Router` + `React` + `TypeScript` portfolio built with Feature-Sliced Design.
 
 [![shields-fsd-domain](https://img.shields.io/badge/Feature--Sliced-Design?style=for-the-badge&color=F2F2F2&labelColor=262224&logoWidth=10&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAaCAYAAAC3g3x9AAAACXBIWXMAAALFAAACxQGJ1n/vAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABISURBVHgB7dKxCQAgDETR0w2cws0cys2cwhEUBbsggikCuVekDHwSQFlYo7Q+8KnmtHdFWMdk2cl5wSsbxGSZw8dm8pX9ZHUTMBUgGU2F718AAAAASUVORK5CYII=)](https://feature-sliced.github.io/documentation/)
 
@@ -53,7 +53,7 @@ The terminal is available on the top page and is designed for profile Q&A.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Remix](https://remix.run/) - Full-stack React framework
+- **Framework**: [React Router](https://reactrouter.com/) - Full-stack React framework
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - **UI Components**: [shadcn/ui](https://ui.shadcn.com/) - Beautiful, accessible components
 - **AI Integration**: [LangChain](https://langchain.com/) + OpenAI API (`/api/ask`)
@@ -104,7 +104,7 @@ Default local URL: `http://localhost:5173`
 ## 🏗️ Project Structure
 
 ```text
-app/                Remix app entry/routes
+app/                React Router app entry/routes
 features/           Domain features (including jump-game)
 pages/              Route-level page modules
 widgets/            Composite UI blocks (header, terminal)
@@ -126,7 +126,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [Remix](https://remix.run/) for the amazing framework
+- [React Router](https://reactrouter.com/) for the amazing framework
 - [shadcn/ui](https://ui.shadcn.com/) for beautiful components
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
 - [Feature-Sliced Design](https://feature-sliced.design/) for architecture guidance

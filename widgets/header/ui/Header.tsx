@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useSearchParams } from '@remix-run/react';
+import { Link, useLocation, useSearchParams } from 'react-router';
 import { equals } from 'is-kit';
 import { Button } from '@/shared/ui';
 import { GitHubLink } from './GitHubLink';

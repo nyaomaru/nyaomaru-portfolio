@@ -25,8 +25,8 @@ pnpm dev
 
 ## Main Commands
 
-- `pnpm dev` start Remix dev server
-- `pnpm build` production build (`remix vite:build`)
+- `pnpm dev` start the React Router dev server
+- `pnpm build` production build (`react-router build`)
 - `pnpm start` serve built app
 - `pnpm lint` run ESLint
 - `pnpm typecheck` run TypeScript checks
@@ -45,13 +45,13 @@ pnpm dev
 
 This project follows Feature-Sliced Design (FSD):
 
-- `app/` Remix app shell and routes
+- `app/` React Router app shell and routes
 - `pages/` route-level page modules
 - `widgets/` composed UI blocks
 - `features/` user-facing features (`jump-game`, `terminal`)
 - `shared/` reusable ui/lib/constants/api
 
-Import boundaries are enforced by ESLint (`eslint-plugin-boundaries`).
+Import boundaries are enforced by ESLint (`import/no-restricted-paths`).
 Prefer slice public APIs (`index.ts`) instead of deep imports.
 
 Path alias:
