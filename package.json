@@ -23,7 +23,7 @@
     "@langchain/openai": "1.6.2",
     "@radix-ui/react-dialog": "^1.2.0",
     "@radix-ui/react-slot": "^1.4.0",
-    "@react-router/node": "7.18.4",
+    "@react-router/node": "8.4.0",
     "@react-router/serve": "7.18.4",
     "@tailwindcss/postcss": "^4.3.3",
     "class-variance-authority": "^0.7.1",
