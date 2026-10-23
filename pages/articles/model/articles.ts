@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'is-kit Reached 100 Stars ⭐🎉 Here’s What Changed Since 50',
+    summary:
+      'A look at how is-kit evolved from 50 to 100 GitHub stars: property-refinement and exhaustive union APIs, stricter runtime behavior and package testing, wider OSS adoption, and an Effect type-inference edge case surfaced by real-world use.',
+    url: 'https://dev.to/nyaomaru/is-kit-reached-100-stars-heres-what-changed-since-50-49pf',
+  },
+  {
     title: 'How Do You Validate `unknown` in TypeScript Without a Schema Library? 🛡️',
     summary:
       'Learn how small, composable type guards can validate unknown values at runtime while preserving TypeScript narrowing, including safe JSON parsing, optional and nullable properties, and exact object shapes with is-kit.',
