@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'I Compared 6 TypeScript Validation Libraries. Here’s What Surprised Me 🤔',
+    summary:
+      'A comparison of the same User validation across a handwritten type guard, is-kit, Runtypes, Valibot, Zod, ArkType, and typia, showing that string length, unknown keys, and coercion can describe different runtime contracts even when the TypeScript type looks the same.',
+    url: 'https://dev.to/nyaomaru/i-compared-6-typescript-validation-libraries-heres-what-surprised-me-325g',
+  },
+  {
     title: 'is-kit Reached 100 Stars ⭐🎉 Here’s What Changed Since 50',
     summary:
       'A look at how is-kit evolved from 50 to 100 GitHub stars: property-refinement and exhaustive union APIs, stricter runtime behavior and package testing, wider OSS adoption, and an Effect type-inference edge case surfaced by real-world use.',
