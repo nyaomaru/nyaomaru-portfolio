@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'Meet Necoz! 😸 Small. Simple. Useful.',
+    summary:
+      'Introducing Necoz, a welcoming open-source community building small, simple, and useful tools together, starting with is-kit and changelog-bot.',
+    url: 'https://dev.to/nyaomaru/meet-necoz-small-simple-useful-ppo',
+  },
+  {
     title: 'I Compared 6 TypeScript Validation Libraries. Here’s What Surprised Me 🤔',
     summary:
       'A comparison of the same User validation across a handwritten type guard, is-kit, Runtypes, Valibot, Zod, ArkType, and typia, showing that string length, unknown keys, and coercion can describe different runtime contracts even when the TypeScript type looks the same.',
