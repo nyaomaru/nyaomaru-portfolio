@@ -1,5 +1,11 @@
 export const articles = [
   {
+    title: 'Necoz Has a New Home on DEV! 🐈🎉',
+    summary:
+      'Necoz now has its own organization on DEV, an open invitation to join the community and share what people build and learn, with no requirement to write articles or contribute code.',
+    url: 'https://dev.to/necoz/necoz-has-a-new-home-on-dev-3454',
+  },
+  {
     title: 'Meet Necoz! 😸 Small. Simple. Useful.',
     summary:
       'Introducing Necoz, a welcoming open-source community building small, simple, and useful tools together, starting with is-kit and changelog-bot.',
