@@ -1,5 +1,17 @@
 export const articles = [
   {
+    title: 'Why I Rewrote type-tune from TypeScript to Rust 🦀',
+    summary:
+      'The story of rewriting type-tune from TypeScript to Rust, including the benefits of native binaries and faster execution, the role of AI, and the challenges of learning to maintain Rust code.',
+    url: 'https://dev.to/necoz/why-i-rewrote-type-tune-from-typescript-to-rust-1egg',
+  },
+  {
+    title: 'Meet type-tune! 🦀 Give Your TypeScript Types a Better Home! 😸',
+    summary:
+      'Introducing type-tune, a Rust-powered CLI that finds shared TypeScript types and helps move them to a better home with a reviewable plan, supported import updates, and TypeScript validation.',
+    url: 'https://dev.to/necoz/meet-type-tune-give-your-typescript-types-a-better-home-1p6l',
+  },
+  {
     title: 'Necoz Has a New Home on DEV! 🐈🎉',
     summary:
       'Necoz now has its own organization on DEV, an open invitation to join the community and share what people build and learn, with no requirement to write articles or contribute code.',
